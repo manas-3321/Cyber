@@ -1,0 +1,2 @@
+TimeCreated,Computer,EventID,SubjectUserName,TargetUserName,IpAddress,LogonType,ProcessName,CommandLine,Status,Message
+2026-10-24T02:10:00Z,dc01.corp.local,4624,,j.patel,10.10.2.14,3,,,0x0,Network logon from finance workstation

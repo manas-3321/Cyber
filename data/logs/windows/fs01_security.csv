@@ -1,0 +1,7 @@
+TimeCreated,Computer,EventID,SubjectUserName,TargetUserName,IpAddress,LogonType,ProcessName,CommandLine,Status,Message
+2026-10-21T02:30:00Z,fs01.corp.local,4624,,svc_backup,10.10.0.70,3,,,0x0,Backup service account accessed HR share
+2026-10-23T02:30:00Z,fs01.corp.local,4624,,svc_backup,10.10.0.70,3,,,0x0,Backup service account accessed HR share
+2026-10-24T02:10:00Z,fs01.corp.local,4624,,j.patel,10.10.2.14,3,,,0x0,Network logon from finance workstation
+2026-10-24T02:22:00Z,fs01.corp.local,7045,,SYSTEM,,,WinSecSvc,C:\Windows\Temp\svc.exe,0x0,A service was installed in the system: WinSecSvc
+2026-10-24T02:40:00Z,fs01.corp.local,1102,CORP\j.patel,,,,,,0x0,The audit log was cleared
+2026-10-25T00:52:00Z,fs01.corp.local,4624,,m.singh,10.10.2.7,3,,,0x0,Network logon to HR share

@@ -1,0 +1,418 @@
+[
+  {
+    "rule_id": "DET-010",
+    "rule_name": "Network port scan",
+    "description": "Twenty or more firewall denials from a single source across at least ten distinct destination ports within five minutes indicates service discovery, whether the source is external or an unauthorised internal host.",
+    "type": "threshold",
+    "base_severity": "Medium",
+    "confidence": 0.8,
+    "incident_type": "Reconnaissance",
+    "playbook": "PB-RECON",
+    "mitre": [
+      {
+        "id": "T1046",
+        "tactic": "Discovery",
+        "technique": "Network Service Discovery"
+      }
+    ],
+    "entity": {
+      "source.ip": "10.10.5.20"
+    },
+    "group_key": "10.10.5.20",
+    "first_event_ts": "2026-10-22T02:00:00Z",
+    "last_event_ts": "2026-10-22T02:01:16Z",
+    "detected_at": "2026-10-22T02:01:16Z",
+    "event_count": 20,
+    "event_ids": [
+      "EVT-000668",
+      "EVT-000669",
+      "EVT-000670",
+      "EVT-000671",
+      "EVT-000672",
+      "EVT-000673",
+      "EVT-000674",
+      "EVT-000675",
+      "EVT-000676",
+      "EVT-000677",
+      "EVT-000678",
+      "EVT-000679",
+      "EVT-000680",
+      "EVT-000681",
+      "EVT-000682",
+      "EVT-000683",
+      "EVT-000684",
+      "EVT-000685",
+      "EVT-000686",
+      "EVT-000687"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000668",
+        "ts": "2026-10-22T02:00:00Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:21 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000669",
+        "ts": "2026-10-22T02:00:04Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:22 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000670",
+        "ts": "2026-10-22T02:00:08Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:23 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000671",
+        "ts": "2026-10-22T02:00:12Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:25 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000672",
+        "ts": "2026-10-22T02:00:16Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:53 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000673",
+        "ts": "2026-10-22T02:00:20Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:80 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000674",
+        "ts": "2026-10-22T02:00:24Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:139 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000675",
+        "ts": "2026-10-22T02:00:28Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:443 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000676",
+        "ts": "2026-10-22T02:00:32Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:445 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000677",
+        "ts": "2026-10-22T02:00:36Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.40:1433 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000678",
+        "ts": "2026-10-22T02:00:40Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:21 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000679",
+        "ts": "2026-10-22T02:00:44Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:22 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000680",
+        "ts": "2026-10-22T02:00:48Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:23 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000681",
+        "ts": "2026-10-22T02:00:52Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:25 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000682",
+        "ts": "2026-10-22T02:00:56Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:53 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000683",
+        "ts": "2026-10-22T02:01:00Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:80 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000684",
+        "ts": "2026-10-22T02:01:04Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:139 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000685",
+        "ts": "2026-10-22T02:01:08Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:443 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000686",
+        "ts": "2026-10-22T02:01:12Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:445 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000687",
+        "ts": "2026-10-22T02:01:16Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 10.10.5.20->10.10.0.30:1433 rule=default-deny"
+      }
+    ],
+    "intel": [],
+    "suppressed": true,
+    "suppression": {
+      "id": "AL-001",
+      "reason": "Authorised Nessus / OpenVAS scanner (vuln-scanner-01). Authenticated scans run every Wednesday 02:00-04:00 UTC.",
+      "owner": "secops",
+      "ticket": "CHG-2026-0412",
+      "expires": "2027-01-31"
+    },
+    "false_positive_notes": "Authorised vulnerability scanners are suppressed through detections/allowlists.json.",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.5.20"
+      ],
+      "destination_ips": [
+        "10.10.0.30",
+        "10.10.0.40"
+      ],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "vuln-scanner-01.corp.local"
+      ],
+      "files": []
+    },
+    "distinct_count": 10,
+    "distinct_values": [
+      "139",
+      "1433",
+      "21",
+      "22",
+      "23",
+      "25",
+      "443",
+      "445",
+      "53",
+      "80"
+    ],
+    "summary": "Network port scan: 20 matching event(s) for source.ip=10.10.5.20 between 2026-10-22T02:00:00Z and 2026-10-22T02:01:16Z",
+    "alert_id": "ALT-2026-0006",
+    "risk_score": 50,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 3,
+      "asset": "vuln-scanner-01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 2,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "vuln-scanner-01.corp.local",
+      "ip": "10.10.5.20",
+      "role": "Vulnerability Scanner",
+      "criticality": "Medium",
+      "business_unit": "Security",
+      "environment": "production",
+      "data_classification": "Internal"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-034",
+    "rule_name": "Off-hours access to sensitive file share",
+    "description": "Interactive or network logon to a Confidential/Restricted file server outside business hours.",
+    "type": "match",
+    "base_severity": "Medium",
+    "confidence": 0.7,
+    "incident_type": "Insider Threat",
+    "playbook": "PB-INSIDER",
+    "mitre": [
+      {
+        "id": "T1039",
+        "tactic": "Collection",
+        "technique": "Data from Network Shared Drive"
+      },
+      {
+        "id": "T1078",
+        "tactic": "Defense Evasion",
+        "technique": "Valid Accounts"
+      }
+    ],
+    "entity": {
+      "user.name": "svc_backup"
+    },
+    "group_key": "svc_backup",
+    "first_event_ts": "2026-10-21T02:30:00Z",
+    "last_event_ts": "2026-10-23T02:30:00Z",
+    "detected_at": "2026-10-23T02:30:00Z",
+    "event_count": 2,
+    "event_ids": [
+      "EVT-000606",
+      "EVT-000795"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000606",
+        "ts": "2026-10-21T02:30:00Z",
+        "action": "windows_logon_success",
+        "message": "Backup service account accessed HR share"
+      },
+      {
+        "event_id": "EVT-000795",
+        "ts": "2026-10-23T02:30:00Z",
+        "action": "windows_logon_success",
+        "message": "Backup service account accessed HR share"
+      }
+    ],
+    "intel": [],
+    "suppressed": true,
+    "suppression": {
+      "id": "AL-003",
+      "reason": "Service accounts legitimately access Confidential file shares outside business hours for scheduled jobs.",
+      "owner": "it-ops",
+      "ticket": "CHG-2026-0091",
+      "expires": "2027-06-30"
+    },
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.0.70"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "svc_backup"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Off-hours access to sensitive file share: 2 matching event(s) for user.name=svc_backup between 2026-10-21T02:30:00Z and 2026-10-23T02:30:00Z",
+    "alert_id": "ALT-2026-0012",
+    "risk_score": 55,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "ANO-001",
+    "rule_name": "Outbound data volume anomaly",
+    "description": "Hourly outbound bytes for a host deviate more than five robust standard deviations from that host's seven day baseline.",
+    "type": "anomaly",
+    "feature": "outbound_bytes_per_host_hour",
+    "method": "robust_zscore",
+    "base_severity": "High",
+    "confidence": 0.6,
+    "incident_type": "Data Breach",
+    "playbook": "PB-DATA-BREACH",
+    "mitre": [
+      {
+        "id": "T1041",
+        "tactic": "Exfiltration",
+        "technique": "Exfiltration Over C2 Channel"
+      }
+    ],
+    "entity": {
+      "host.name": "backup-01.corp.local"
+    },
+    "group_key": "backup-01.corp.local",
+    "first_event_ts": "2026-10-21T01:05:00Z",
+    "last_event_ts": "2026-10-21T01:05:00Z",
+    "detected_at": "2026-10-21T01:05:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000529"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000529",
+        "ts": "2026-10-21T01:05:00Z",
+        "action": "firewall_allow",
+        "message": "allow tcp 10.10.0.70->192.0.2.150:443 rule=backup-replication"
+      }
+    ],
+    "intel": [],
+    "suppressed": true,
+    "suppression": {
+      "id": "AL-002",
+      "reason": "Nightly offsite replication of the backup catalogue (1.6-1.9 GB) to the contracted DR provider 192.0.2.150.",
+      "owner": "it-ops",
+      "ticket": "CHG-2026-0088",
+      "expires": "2027-06-30"
+    },
+    "summary": "Outbound volume anomaly on backup-01.corp.local: 6.3 GB in 2026-10-21T01:00 versus median 1.7 GB (robust z=34.6)",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [
+        "10.10.0.70"
+      ],
+      "destination_ips": [
+        "192.0.2.150"
+      ],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "backup-01.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 6815744000.0,
+    "observed_human": "6.3 GB",
+    "baseline_median": 1820327936.0,
+    "baseline_sigma": 144579546.32,
+    "baseline_basis": "host",
+    "anomaly_score": 34.55,
+    "bucket": "2026-10-21T01",
+    "risk_score": 69,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "backup-01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "asset": {
+      "hostname": "backup-01.corp.local",
+      "ip": "10.10.0.70",
+      "role": "Backup Server",
+      "criticality": "Medium",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Internal"
+    },
+    "intel_high_confidence": false,
+    "alert_id": "ALT-2026-0003"
+  }
+]

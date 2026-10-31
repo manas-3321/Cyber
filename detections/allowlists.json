@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "description": "Suppression / tuning layer. Every entry documents WHY an alert class is suppressed, WHO owns the exception and WHEN it expires, so that tuning never becomes invisible risk.",
+  "allowlists": [
+    {
+      "id": "AL-001",
+      "rule_ids": ["DET-010"],
+      "match": {"source.ip": ["10.10.5.20"]},
+      "reason": "Authorised Nessus / OpenVAS scanner (vuln-scanner-01). Authenticated scans run every Wednesday 02:00-04:00 UTC.",
+      "owner": "secops",
+      "ticket": "CHG-2026-0412",
+      "expires": "2027-01-31"
+    },
+    {
+      "id": "AL-002",
+      "rule_ids": ["ANO-001", "DET-037"],
+      "match": {"host.name": ["backup-01"]},
+      "reason": "Nightly offsite replication of the backup catalogue (1.6-1.9 GB) to the contracted DR provider 192.0.2.150.",
+      "owner": "it-ops",
+      "ticket": "CHG-2026-0088",
+      "expires": "2027-06-30"
+    },
+    {
+      "id": "AL-003",
+      "rule_ids": ["DET-034"],
+      "match": {"user.name": ["svc_backup", "svc_sql", "svc_sccm"]},
+      "reason": "Service accounts legitimately access Confidential file shares outside business hours for scheduled jobs.",
+      "owner": "it-ops",
+      "ticket": "CHG-2026-0091",
+      "expires": "2027-06-30"
+    },
+    {
+      "id": "AL-004",
+      "rule_ids": ["ANO-003"],
+      "match": {"host.name": ["ws-dev-03"]},
+      "reason": "Developer workstation runs ad-hoc compilers and CLIs daily; novelty detection is too noisy on this host.",
+      "owner": "eng-platform",
+      "ticket": "CHG-2026-0345",
+      "expires": "2027-02-28"
+    }
+  ]
+}

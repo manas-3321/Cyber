@@ -1,0 +1,36 @@
+title: Office Application Spawns PowerShell or Command Shell
+id: 5c9d2e77-3b41-4a8c-8f62-2d7e1a9b4c03
+status: experimental
+description: >
+  Detects Microsoft Office applications creating a scripting interpreter child
+  process, the classic macro-based execution chain. Mirrors lab rule DET-021.
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://attack.mitre.org/techniques/T1059/001/
+author: Security Incident Detection and Analysis lab
+date: 2026/10/25
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_parent:
+    ParentImage|endswith:
+      - '\WINWORD.EXE'
+      - '\EXCEL.EXE'
+      - '\OUTLOOK.EXE'
+      - '\POWERPNT.EXE'
+  selection_child:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+      - '\cmd.exe'
+      - '\wscript.exe'
+      - '\mshta.exe'
+  condition: selection_parent and selection_child
+falsepositives:
+  - Signed Office add-ins or macros used by finance for ERP exports
+level: critical
+tags:
+  - attack.execution
+  - attack.t1204.002
+  - attack.t1059.001

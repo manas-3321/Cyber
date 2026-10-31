@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 256" width="560" height="256" role="img" aria-label="Incidents by type">
+<rect width="560" height="256" fill="#ffffff" rx="8"/>
+<text x="16" y="26" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#111827">Incidents by type</text>
+<text x="16" y="61.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">Brute Force</text>
+<rect x="170" y="44" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="44" width="310.0" height="26" fill="#2563eb" rx="4"/>
+<text x="490" y="61.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">3</text>
+<text x="16" y="95.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">DDoS</text>
+<rect x="170" y="78" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="78" width="103.3" height="26" fill="#7c3aed" rx="4"/>
+<text x="490" y="95.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">1</text>
+<text x="16" y="129.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">Reconnaissance</text>
+<rect x="170" y="112" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="112" width="103.3" height="26" fill="#0891b2" rx="4"/>
+<text x="490" y="129.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">1</text>
+<text x="16" y="163.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">Web Attack</text>
+<rect x="170" y="146" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="146" width="103.3" height="26" fill="#db2777" rx="4"/>
+<text x="490" y="163.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">1</text>
+<text x="16" y="197.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">Defense Evasion</text>
+<rect x="170" y="180" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="180" width="103.3" height="26" fill="#65a30d" rx="4"/>
+<text x="490" y="197.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">1</text>
+<text x="16" y="231.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#111827">Data Breach</text>
+<rect x="170" y="214" width="310" height="26" fill="#f3f4f6" rx="4"/>
+<rect x="170" y="214" width="103.3" height="26" fill="#0d9488" rx="4"/>
+<text x="490" y="231.0" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#6b7280">1</text>
+</svg>

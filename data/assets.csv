@@ -1,0 +1,13 @@
+hostname,ip,os,role,owner,business_unit,criticality,environment,data_classification,notes
+dc01.corp.local,10.10.0.10,Windows Server 2022,Domain Controller,it-ops,IT,Critical,production,Restricted,AD DS and DNS; tier-0 asset
+fs01.corp.local,10.10.0.20,Windows Server 2022,File Server,it-ops,IT,Critical,production,Confidential,Finance and HR shares; 4 TB
+db01.corp.local,10.10.0.30,Ubuntu 22.04,Database Server,dba,IT,High,production,Confidential,PostgreSQL customer database
+web-srv-02.corp.local,10.10.0.40,Ubuntu 22.04,Web / Reverse Proxy,cloud-eng,Engineering,High,production,Public,Internet facing nginx; SSH exposed
+jump-01.corp.local,10.10.0.50,Windows Server 2022,Jump Host,it-ops,IT,High,production,Restricted,RDP bastion for administrators
+siem-01.corp.local,10.10.0.60,Ubuntu 22.04,SIEM Collector,soc,Security,High,production,Internal,Splunk / ELK indexer and search head
+backup-01.corp.local,10.10.0.70,Ubuntu 22.04,Backup Server,it-ops,IT,Medium,production,Internal,Nightly replication to 192.0.2.150 (allowlisted destination)
+vuln-scanner-01.corp.local,10.10.5.20,Ubuntu 22.04,Vulnerability Scanner,secops,Security,Medium,production,Internal,Authorised Nessus / OpenVAS scanner
+ws-fin-14.corp.local,10.10.2.14,Windows 11,Finance Workstation,j.patel,Finance,Critical,production,Confidential,Payables and ERP access
+ws-hr-07.corp.local,10.10.2.7,Windows 11,HR Workstation,m.singh,HR,Medium,production,Confidential,HRIS and payroll records
+ws-dev-03.corp.local,10.10.2.3,Ubuntu 22.04,Developer Workstation,a.khan,Engineering,Low,production,Internal,Build and release tooling
+ws-eng-21.corp.local,10.10.2.21,Windows 11,Engineering Workstation,r.verma,Engineering,Medium,production,Internal,CAD and source code access

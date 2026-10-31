@@ -1,0 +1,73 @@
+{
+  "outbound_bytes_per_host_hour": {
+    "feature": "outbound_bytes_per_host_hour",
+    "groups": {
+      "backup-01.corp.local": {
+        "buckets": 7,
+        "median_bytes": 1820327936.0,
+        "sigma_bytes": 144579546.32,
+        "basis": "host"
+      },
+      "ws-eng-21.corp.local": {
+        "buckets": 18,
+        "median_bytes": 333727.0,
+        "sigma_bytes": 93433.45,
+        "basis": "host"
+      },
+      "ws-fin-14.corp.local": {
+        "buckets": 14,
+        "median_bytes": 251783.0,
+        "sigma_bytes": 168807.35,
+        "basis": "host"
+      },
+      "ws-hr-07.corp.local": {
+        "buckets": 19,
+        "median_bytes": 318792.0,
+        "sigma_bytes": 168455.98,
+        "basis": "host"
+      }
+    },
+    "global_median_bytes": 334359.0,
+    "global_sigma_bytes": 204666.26,
+    "buckets_evaluated": 58
+  },
+  "auth_failures_per_source_ip_hour": {
+    "feature": "auth_failures_per_source_ip_hour",
+    "groups": {
+      "10.10.0.50": {
+        "buckets": 11,
+        "median_failures": 1.0,
+        "sigma": 1.0,
+        "basis": "source"
+      },
+      "198.51.100.23": {
+        "buckets": 1,
+        "median_failures": 1.0,
+        "sigma": 1.0,
+        "basis": "environment"
+      },
+      "203.0.113.44": {
+        "buckets": 2,
+        "median_failures": 1.0,
+        "sigma": 1.0,
+        "basis": "environment"
+      }
+    },
+    "global_median_failures": 1.0,
+    "global_sigma": 1.0,
+    "buckets_evaluated": 14
+  },
+  "first_seen_process": {
+    "feature": "first_seen_process",
+    "hosts_observed": 4,
+    "baseline_size": 56,
+    "novel_processes": {
+      "ws-fin-14.corp.local": [
+        "invoice_2026.exe"
+      ],
+      "fs01.corp.local": [
+        "svc.exe"
+      ]
+    }
+  }
+}

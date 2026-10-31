@@ -1,0 +1,13 @@
+TimeCreated,Computer,EventID,SubjectUserName,TargetUserName,IpAddress,LogonType,ProcessName,CommandLine,Status,Message
+2026-10-19T08:49:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,An account was successfully logged on (m.singh)
+2026-10-19T18:03:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,An account was logged off (m.singh)
+2026-10-20T08:30:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,An account was successfully logged on (m.singh)
+2026-10-20T18:18:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,An account was logged off (m.singh)
+2026-10-21T08:48:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,An account was successfully logged on (m.singh)
+2026-10-21T18:12:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,An account was logged off (m.singh)
+2026-10-22T08:17:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,An account was successfully logged on (m.singh)
+2026-10-22T18:18:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,An account was logged off (m.singh)
+2026-10-23T08:37:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,An account was successfully logged on (m.singh)
+2026-10-23T18:18:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,An account was logged off (m.singh)
+2026-10-25T00:40:00Z,ws-hr-07.corp.local,4624,,m.singh,,2,,,0x0,Interactive logon outside business hours
+2026-10-25T01:50:00Z,ws-hr-07.corp.local,4634,,m.singh,,2,,,0x0,Logoff after off-hours session

@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-10-31T12:15:51Z",
+  "capture_window": {
+    "start": "2026-10-19T01:05:00Z",
+    "end": "2026-10-25T20:48:10Z"
+  },
+  "events": 1092,
+  "alerts": 34,
+  "suppressed": 3,
+  "incidents": 8,
+  "artefacts": [
+    "EXECUTIVE_SUMMARY.md",
+    "alerts.json",
+    "anomaly_baselines.json",
+    "dashboard.html",
+    "events.jsonl",
+    "incidents/INC-2026-0001.md",
+    "incidents/INC-2026-0002.md",
+    "incidents/INC-2026-0003.md",
+    "incidents/INC-2026-0004.md",
+    "incidents/INC-2026-0005.md",
+    "incidents/INC-2026-0006.md",
+    "incidents/INC-2026-0007.md",
+    "incidents/INC-2026-0008.md",
+    "incidents/INDEX.md",
+    "ingest_stats.json",
+    "metrics.json",
+    "run_manifest.json",
+    "suppressed_alerts.json",
+    "thehive_cases.json",
+    "visuals/alerts-by-severity.svg",
+    "visuals/events-per-day.svg",
+    "visuals/incidents-by-type.svg",
+    "visuals/mitre-tactics.svg",
+    "visuals/top-detection-rules.svg"
+  ]
+}

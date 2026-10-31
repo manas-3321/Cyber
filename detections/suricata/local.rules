@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------------
+# Suricata / Snort rules for the Security Incident Detection and Analysis lab
+# Deploy to /etc/suricata/rules/local.rules and reload with:
+#   sudo suricatasc -c reload-rules
+# Every rule maps to a detection rule in detections/rules.json.
+# ---------------------------------------------------------------------------
+
+# DET-001 · SSH brute force (8 attempts in 15 minutes from one source)
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SOC SSH brute force - repeated failed logins (DET-001)"; flow:to_server,established; content:"SSH-"; depth:4; threshold: type both, track by_src, count 8, seconds 900; classtype:attempted-admin; sid:1000001; rev:2;)
+
+# DET-010 · Port scan / service discovery (20 SYN packets, 10+ ports, 5 min)
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"SOC port scan - SYN sweep (DET-010)"; flags:S; threshold: type both, track by_src, count 20, seconds 300; classtype:attempted-recon; sid:1000002; rev:2;)
+
+# DET-011 · Web path traversal in the URI
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SOC web attack - path traversal attempt (DET-011)"; flow:to_server,established; content:"../"; http_uri; nocase; classtype:web-application-attack; sid:1000003; rev:1;)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SOC web attack - encoded traversal (%2e%2e) (DET-011)"; flow:to_server,established; content:"%2e%2e"; http_uri; nocase; classtype:web-application-attack; sid:1000004; rev:1;)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SOC web attack - SQL injection UNION SELECT (DET-011)"; flow:to_server,established; content:"union"; http_uri; nocase; content:"select"; http_uri; nocase; distance:0; classtype:web-application-attack; sid:1000005; rev:1;)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SOC web attack - Log4Shell JNDI lookup (DET-011)"; flow:to_server,established; content:"${jndi:"; http_header; nocase; classtype:web-application-attack; sid:1000006; rev:1;)
+
+# DET-012 · HTTP flood (300 requests in 5 minutes from one client)
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SOC DDoS - HTTP request flood (DET-012)"; flow:to_server,established; threshold: type both, track by_src, count 300, seconds 300; classtype:attempted-dos; sid:1000007; rev:1;)
+
+# DET-026 · Known C2 destination (IOC 192.0.2.77:8443)
+alert tcp $HOME_NET any -> 192.0.2.77 8443 (msg:"SOC command and control - beacon to known C2 IP (DET-026)"; flow:to_server,established; classtype:trojan-activity; reference:url,attack.mitre.org/techniques/T1071/001; sid:1000008; rev:1;)
+
+# DET-026 · DNS lookup of a known malicious domain
+alert dns $HOME_NET any -> any any (msg:"SOC command and control - DNS query for malicious domain (DET-026)"; dns.query; content:"cdn-update-sync.com"; nocase; classtype:trojan-activity; sid:1000009; rev:1;)
+
+# DET-033 · SMB lateral movement (multiple admin-share sessions from one host)
+alert tcp $HOME_NET any -> $HOME_NET 445 (msg:"SOC lateral movement - SMB admin share access (DET-033)"; flow:to_server,established; content:"|ff|SMB"; depth:4; threshold: type both, track by_src, count 10, seconds 600; classtype:trojan-activity; sid:1000010; rev:1;)
+
+# DET-038 · Upload to a known exfiltration destination
+alert http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (msg:"SOC data exfiltration - upload to known exfil domain (DET-038)"; flow:established,to_server; content:"POST"; http_method; content:"data-share-cloud.net"; http_host; nocase; classtype:data-loss; sid:1000011; rev:1;)
+
+# DET-030 · Shadow copy deletion over SMB/RPC is not visible to Suricata;
+# that detection lives in the EDR/Sysmon pipeline. The rule below catches the
+# outbound download of the encryptor from a malicious host instead.
+alert http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (msg:"SOC malware - payload download from malicious CDN (DET-027)"; flow:established,to_server; content:"cdn-update-sync.com"; http_host; nocase; classtype:trojan-activity; sid:1000012; rev:1;)

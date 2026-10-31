@@ -1,0 +1,35 @@
+title: Suspicious LSASS Process Access
+id: 1f6b8c33-7a5e-42d9-9f10-4c3b8e1d2a07
+status: stable
+description: >
+  Detects a non-endorsed process requesting read access to LSASS memory, which
+  is how credential dumping tools such as Mimikatz extract secrets.
+  Mirrors DET-023.
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+author: Security Incident Detection and Analysis lab
+date: 2026/10/25
+logsource:
+  category: process_access
+  product: windows
+detection:
+  selection_target:
+    TargetImage|endswith: '\lsass.exe'
+  selection_mask:
+    GrantedAccess|contains:
+      - '0x1010'
+      - '0x1410'
+      - '0x1438'
+      - '0x40'
+  filter_signed_av:
+    SourceImage|endswith:
+      - '\MsMpEng.exe'
+      - '\CSFalconService.exe'
+      - '\SentinelAgent.exe'
+  condition: selection_target and selection_mask and not filter_signed_av
+falsepositives:
+  - Endpoint agents and backup software that inspect process memory
+level: critical
+tags:
+  - attack.credential_access
+  - attack.t1003.001

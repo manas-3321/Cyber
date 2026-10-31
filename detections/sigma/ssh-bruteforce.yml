@@ -1,0 +1,30 @@
+title: SSH Brute Force Followed by Successful Login
+id: 8f2b1c4e-1a6d-4f0e-9a3d-6c1b7e2f9d01
+status: experimental
+description: >
+  Detects repeated failed SSH authentications from a single source followed by a
+  successful login, the signature of a successful password-guessing attack.
+  Mirrors lab rule DET-001 and sequence rule DET-002.
+references:
+  - https://attack.mitre.org/techniques/T1110/001/
+author: Security Incident Detection and Analysis lab
+date: 2026/10/25
+logsource:
+  product: linux
+  service: sshd
+detection:
+  selection_failure:
+    message|contains: 'Failed password'
+  selection_success:
+    message|contains: 'Accepted'
+  timeframe: 30m
+  condition: selection_failure | count(src_ip) by src_ip >= 5 and selection_success
+falsepositives:
+  - Administrators mistyping passwords more than five times
+  - Configuration-management automation with stale credentials
+level: high
+tags:
+  - attack.credential_access
+  - attack.t1110.001
+  - attack.persistence
+  - attack.t1078.003

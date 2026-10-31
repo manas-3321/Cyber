@@ -1,0 +1,10 @@
+type,value,threat_type,confidence,source,first_seen,last_seen,tags,description
+ip,203.0.113.44,Brute Force,high,AbuseIPDB,2026-10-14,2026-10-25,"ssh,credential-attack",Host reported for repeated SSH password spraying against internet-facing servers
+ip,198.51.100.23,Reconnaissance,high,OTX AlienVault,2026-10-10,2026-10-26,"scanner,exploit,log4shell",Automated mass scanner probing web and SSH services
+ip,192.0.2.77,Command and Control,high,MISP,2026-10-12,2026-10-26,"c2,cobalt-strike",Cobalt Strike team server beacon endpoint
+ip,203.0.113.199,Denial of Service,medium,Anomali,2026-10-18,2026-10-25,"ddos,http-flood",Source of volumetric HTTP floods against retail portals
+domain,cdn-update-sync.com,Malware,high,URLhaus,2026-10-11,2026-10-26,"loader,payload",Fake CDN used by a PowerShell downloader to stage second-stage payloads
+domain,data-share-cloud.net,Data Exfiltration,high,MISP,2026-10-09,2026-10-26,"exfil,file-sharing",Look-alike file sharing portal used to stage stolen data
+domain,secure-auth-portal.com,Phishing,high,PhishTank,2026-10-15,2026-10-26,"phishing,credential-harvesting",Credential harvesting page impersonating the corporate SSO portal
+sha256,8f14e45fceea167a5a36dedd4bea2543c0f4a1d3c3c2d5b8f1a7e9d2c4b6a8f0,Ransomware,critical,ThreatConnect,2026-10-13,2026-10-26,"ransomware,lockbit,encryptor",LockBit-family encryptor observed in the finance sector
+sha256,4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00,Malware,high,ThreatConnect,2026-10-16,2026-10-26,"loader,powershell",Signed-loLBin PowerShell loader used for initial execution

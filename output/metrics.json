@@ -1,0 +1,935 @@
+{
+  "generated_at": "2026-10-31T12:15:51Z",
+  "window": {
+    "start": "2026-10-19T01:05:00Z",
+    "end": "2026-10-25T20:48:10Z"
+  },
+  "events": {
+    "total": 1092,
+    "raw_lines": 1092,
+    "by_source": {
+      "firewall": 191,
+      "web": 456,
+      "windows": 52,
+      "edr": 203,
+      "auth": 71,
+      "proxy": 118,
+      "mail": 1
+    },
+    "by_category": {
+      "network": 202,
+      "web": 574,
+      "authentication": 99,
+      "process": 90,
+      "iam": 1,
+      "email": 1,
+      "file": 123,
+      "registry": 1,
+      "configuration": 1
+    },
+    "by_day": {
+      "2026-10-19": 64,
+      "2026-10-20": 463,
+      "2026-10-21": 139,
+      "2026-10-22": 125,
+      "2026-10-23": 139,
+      "2026-10-24": 134,
+      "2026-10-25": 28
+    },
+    "ingest_files": [
+      {
+        "file": "data/logs/auth/auth.log",
+        "parser": "auth",
+        "raw_lines": 71,
+        "events": 71,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/edr/sysmon.jsonl",
+        "parser": "edr",
+        "raw_lines": 203,
+        "events": 203,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/firewall/fw-core-01.csv",
+        "parser": "firewall",
+        "raw_lines": 191,
+        "events": 191,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/mail/mail_gateway.jsonl",
+        "parser": "mail",
+        "raw_lines": 1,
+        "events": 1,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/proxy/squid_access.log",
+        "parser": "proxy",
+        "raw_lines": 118,
+        "events": 118,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/web/web-srv-02_access.log",
+        "parser": "web",
+        "raw_lines": 456,
+        "events": 456,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/db01_security.csv",
+        "parser": "windows",
+        "raw_lines": 1,
+        "events": 1,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/dc01_security.csv",
+        "parser": "windows",
+        "raw_lines": 1,
+        "events": 1,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/fs01_security.csv",
+        "parser": "windows",
+        "raw_lines": 6,
+        "events": 6,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/jump-01_security.csv",
+        "parser": "windows",
+        "raw_lines": 12,
+        "events": 12,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/ws-eng-21_security.csv",
+        "parser": "windows",
+        "raw_lines": 10,
+        "events": 10,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/ws-fin-14_security.csv",
+        "parser": "windows",
+        "raw_lines": 10,
+        "events": 10,
+        "parse_rate": 100.0
+      },
+      {
+        "file": "data/logs/windows/ws-hr-07_security.csv",
+        "parser": "windows",
+        "raw_lines": 12,
+        "events": 12,
+        "parse_rate": 100.0
+      }
+    ],
+    "mean_parse_rate": 100.0
+  },
+  "detections": {
+    "candidate_alerts": 37,
+    "actionable_alerts": 34,
+    "suppressed_alerts": 3,
+    "suppression_rate": 8.1,
+    "by_severity": {
+      "Low": 0,
+      "Medium": 7,
+      "High": 16,
+      "Critical": 11
+    },
+    "by_type": {
+      "Malware": 13,
+      "Brute Force": 6,
+      "Data Breach": 4,
+      "Ransomware": 2,
+      "Insider Threat": 2,
+      "Reconnaissance": 1,
+      "Web Attack": 1,
+      "DDoS": 1,
+      "Phishing": 1,
+      "Lateral Movement": 1,
+      "Persistence": 1,
+      "Defense Evasion": 1
+    },
+    "by_rule": {
+      "DET-027": 2,
+      "DET-034": 2,
+      "ANO-001": 2,
+      "ANO-002": 2,
+      "ANO-003": 2,
+      "DET-001": 1,
+      "DET-002": 1,
+      "DET-003": 1,
+      "DET-010": 1,
+      "DET-011": 1,
+      "DET-012": 1,
+      "DET-013": 1,
+      "DET-020": 1,
+      "DET-021": 1,
+      "DET-022": 1,
+      "DET-023": 1,
+      "DET-024": 1,
+      "DET-025": 1,
+      "DET-026": 1,
+      "DET-030": 1,
+      "DET-031": 1,
+      "DET-032": 1,
+      "DET-033": 1,
+      "DET-035": 1,
+      "DET-036": 1,
+      "DET-037": 1,
+      "DET-038": 1,
+      "DET-039": 1,
+      "DET-040": 1
+    },
+    "top_rules": [
+      {
+        "rule_id": "DET-027",
+        "name": "Known malware hash on endpoint",
+        "alerts": 2
+      },
+      {
+        "rule_id": "DET-034",
+        "name": "Off-hours access to sensitive file share",
+        "alerts": 2
+      },
+      {
+        "rule_id": "ANO-001",
+        "name": "Outbound data volume anomaly",
+        "alerts": 2
+      },
+      {
+        "rule_id": "ANO-002",
+        "name": "Authentication failure spike",
+        "alerts": 2
+      },
+      {
+        "rule_id": "ANO-003",
+        "name": "First-seen process on endpoint",
+        "alerts": 2
+      },
+      {
+        "rule_id": "DET-001",
+        "name": "SSH brute force against Linux host",
+        "alerts": 1
+      },
+      {
+        "rule_id": "DET-002",
+        "name": "Successful SSH login following brute force",
+        "alerts": 1
+      },
+      {
+        "rule_id": "DET-003",
+        "name": "Windows logon failure burst",
+        "alerts": 1
+      },
+      {
+        "rule_id": "DET-010",
+        "name": "Network port scan",
+        "alerts": 1
+      },
+      {
+        "rule_id": "DET-011",
+        "name": "Web exploitation attempt",
+        "alerts": 1
+      }
+    ],
+    "alerts_per_day": 4.9
+  },
+  "incidents": {
+    "total": 8,
+    "by_severity": {
+      "Low": 0,
+      "Medium": 2,
+      "High": 2,
+      "Critical": 4
+    },
+    "by_type": {
+      "Brute Force": 3,
+      "DDoS": 1,
+      "Reconnaissance": 1,
+      "Web Attack": 1,
+      "Defense Evasion": 1,
+      "Data Breach": 1
+    },
+    "by_day": {
+      "2026-10-20": 2,
+      "2026-10-21": 2,
+      "2026-10-22": 1,
+      "2026-10-23": 1,
+      "2026-10-25": 2
+    },
+    "campaigns": [
+      "INC-2026-0005",
+      "INC-2026-0006",
+      "INC-2026-0007"
+    ],
+    "mttd_minutes": {
+      "mean": 3.3,
+      "median": 2.8,
+      "max": 9.0
+    },
+    "mtta_minutes": {
+      "mean": 2.0,
+      "median": 2.0,
+      "max": 2.0
+    },
+    "mttr_minutes": {
+      "mean": 455.1,
+      "median": 276.1,
+      "max": 1528.0
+    },
+    "mttr_hours": {
+      "mean": 7.6,
+      "median": 4.6
+    },
+    "per_severity": {
+      "Low": 0,
+      "Medium": 2,
+      "High": 2,
+      "Critical": 4
+    }
+  },
+  "coverage": {
+    "rules_defined": 29,
+    "rules_triggered": 29,
+    "rule_utilisation_pct": 100.0,
+    "techniques_defined": 27,
+    "techniques_detected": 27,
+    "techniques_missed": [],
+    "tactics_detected": [
+      "Initial Access",
+      "Execution",
+      "Persistence",
+      "Defense Evasion",
+      "Credential Access",
+      "Discovery",
+      "Lateral Movement",
+      "Collection",
+      "Command and Control",
+      "Exfiltration",
+      "Impact"
+    ],
+    "rule_detail": [
+      {
+        "rule_id": "ANO-001",
+        "name": "Outbound data volume anomaly",
+        "type": "anomaly",
+        "severity": "High",
+        "incident_type": "Data Breach",
+        "tactics": [
+          "Exfiltration"
+        ],
+        "techniques": [
+          "T1041"
+        ],
+        "alerts": 2,
+        "suppressed": 1,
+        "triggered": true
+      },
+      {
+        "rule_id": "ANO-002",
+        "name": "Authentication failure spike",
+        "type": "anomaly",
+        "severity": "High",
+        "incident_type": "Brute Force",
+        "tactics": [
+          "Credential Access"
+        ],
+        "techniques": [
+          "T1110"
+        ],
+        "alerts": 2,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "ANO-003",
+        "name": "First-seen process on endpoint",
+        "type": "anomaly",
+        "severity": "Medium",
+        "incident_type": "Malware",
+        "tactics": [
+          "Execution"
+        ],
+        "techniques": [
+          "T1204"
+        ],
+        "alerts": 2,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-027",
+        "name": "Known malware hash on endpoint",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Malware",
+        "tactics": [
+          "Execution"
+        ],
+        "techniques": [
+          "T1204.002"
+        ],
+        "alerts": 2,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-034",
+        "name": "Off-hours access to sensitive file share",
+        "type": "match",
+        "severity": "Medium",
+        "incident_type": "Insider Threat",
+        "tactics": [
+          "Collection",
+          "Defense Evasion"
+        ],
+        "techniques": [
+          "T1039",
+          "T1078"
+        ],
+        "alerts": 2,
+        "suppressed": 1,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-001",
+        "name": "SSH brute force against Linux host",
+        "type": "threshold",
+        "severity": "High",
+        "incident_type": "Brute Force",
+        "tactics": [
+          "Credential Access"
+        ],
+        "techniques": [
+          "T1110.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-002",
+        "name": "Successful SSH login following brute force",
+        "type": "sequence",
+        "severity": "Critical",
+        "incident_type": "Brute Force",
+        "tactics": [
+          "Credential Access",
+          "Defense Evasion"
+        ],
+        "techniques": [
+          "T1078.003",
+          "T1110.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-003",
+        "name": "Windows logon failure burst",
+        "type": "threshold",
+        "severity": "High",
+        "incident_type": "Brute Force",
+        "tactics": [
+          "Credential Access"
+        ],
+        "techniques": [
+          "T1110.003"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-010",
+        "name": "Network port scan",
+        "type": "threshold",
+        "severity": "Medium",
+        "incident_type": "Reconnaissance",
+        "tactics": [
+          "Discovery"
+        ],
+        "techniques": [
+          "T1046"
+        ],
+        "alerts": 1,
+        "suppressed": 1,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-011",
+        "name": "Web exploitation attempt",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Web Attack",
+        "tactics": [
+          "Initial Access"
+        ],
+        "techniques": [
+          "T1190"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-012",
+        "name": "HTTP flood / denial of service",
+        "type": "threshold",
+        "severity": "High",
+        "incident_type": "DDoS",
+        "tactics": [
+          "Impact"
+        ],
+        "techniques": [
+          "T1498.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-013",
+        "name": "Web credential stuffing",
+        "type": "threshold",
+        "severity": "Medium",
+        "incident_type": "Brute Force",
+        "tactics": [
+          "Credential Access"
+        ],
+        "techniques": [
+          "T1110.004"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-020",
+        "name": "Phishing email from known malicious domain",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Phishing",
+        "tactics": [
+          "Initial Access"
+        ],
+        "techniques": [
+          "T1566.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-021",
+        "name": "Office application spawns PowerShell",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Malware",
+        "tactics": [
+          "Execution"
+        ],
+        "techniques": [
+          "T1059.001",
+          "T1204.002"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-022",
+        "name": "Encoded PowerShell command",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Malware",
+        "tactics": [
+          "Execution"
+        ],
+        "techniques": [
+          "T1059.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-023",
+        "name": "LSASS credential access",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Malware",
+        "tactics": [
+          "Credential Access"
+        ],
+        "techniques": [
+          "T1003.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-024",
+        "name": "Scheduled task persistence",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Malware",
+        "tactics": [
+          "Persistence"
+        ],
+        "techniques": [
+          "T1053.005"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-025",
+        "name": "Registry run key autorun",
+        "type": "match",
+        "severity": "Medium",
+        "incident_type": "Malware",
+        "tactics": [
+          "Persistence"
+        ],
+        "techniques": [
+          "T1547.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-026",
+        "name": "Communication with known malicious infrastructure",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Malware",
+        "tactics": [
+          "Command and Control"
+        ],
+        "techniques": [
+          "T1071.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-030",
+        "name": "Shadow copy deletion",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Ransomware",
+        "tactics": [
+          "Impact"
+        ],
+        "techniques": [
+          "T1490"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-031",
+        "name": "Mass file encryption",
+        "type": "threshold",
+        "severity": "Critical",
+        "incident_type": "Ransomware",
+        "tactics": [
+          "Impact"
+        ],
+        "techniques": [
+          "T1486"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-032",
+        "name": "Suspicious service installation",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Malware",
+        "tactics": [
+          "Persistence"
+        ],
+        "techniques": [
+          "T1543.003"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-033",
+        "name": "SMB lateral movement",
+        "type": "threshold",
+        "severity": "High",
+        "incident_type": "Lateral Movement",
+        "tactics": [
+          "Lateral Movement"
+        ],
+        "techniques": [
+          "T1021.002"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-035",
+        "name": "New local account created on server",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Persistence",
+        "tactics": [
+          "Persistence"
+        ],
+        "techniques": [
+          "T1136.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-036",
+        "name": "Suspicious download or execution via sudo",
+        "type": "match",
+        "severity": "High",
+        "incident_type": "Malware",
+        "tactics": [
+          "Command and Control"
+        ],
+        "techniques": [
+          "T1105"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-037",
+        "name": "Bulk data upload to external destination",
+        "type": "threshold",
+        "severity": "High",
+        "incident_type": "Data Breach",
+        "tactics": [
+          "Exfiltration"
+        ],
+        "techniques": [
+          "T1041"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-038",
+        "name": "Upload to known exfiltration destination",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Data Breach",
+        "tactics": [
+          "Exfiltration"
+        ],
+        "techniques": [
+          "T1567"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-039",
+        "name": "Audit log cleared",
+        "type": "match",
+        "severity": "Critical",
+        "incident_type": "Defense Evasion",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "techniques": [
+          "T1070.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      },
+      {
+        "rule_id": "DET-040",
+        "name": "Proxy denial burst",
+        "type": "threshold",
+        "severity": "Medium",
+        "incident_type": "Malware",
+        "tactics": [
+          "Command and Control"
+        ],
+        "techniques": [
+          "T1071.001"
+        ],
+        "alerts": 1,
+        "suppressed": 0,
+        "triggered": true
+      }
+    ]
+  },
+  "threat_intel": {
+    "indicators": 9,
+    "matched_indicators": 9,
+    "top_matches": [
+      {
+        "indicator": "203.0.113.44",
+        "threat_type": "Brute Force",
+        "alerts": 5
+      },
+      {
+        "indicator": "203.0.113.199",
+        "threat_type": "Denial of Service",
+        "alerts": 3
+      },
+      {
+        "indicator": "4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90112233445566778899aabbccddeeff00",
+        "threat_type": "Malware",
+        "alerts": 3
+      },
+      {
+        "indicator": "cdn-update-sync.com",
+        "threat_type": "Malware",
+        "alerts": 3
+      },
+      {
+        "indicator": "198.51.100.23",
+        "threat_type": "Reconnaissance",
+        "alerts": 2
+      },
+      {
+        "indicator": "8f14e45fceea167a5a36dedd4bea2543c0f4a1d3c3c2d5b8f1a7e9d2c4b6a8f0",
+        "threat_type": "Ransomware",
+        "alerts": 2
+      },
+      {
+        "indicator": "data-share-cloud.net",
+        "threat_type": "Data Exfiltration",
+        "alerts": 2
+      },
+      {
+        "indicator": "secure-auth-portal.com",
+        "threat_type": "Phishing",
+        "alerts": 1
+      },
+      {
+        "indicator": "192.0.2.77",
+        "threat_type": "Command and Control",
+        "alerts": 1
+      }
+    ]
+  },
+  "tuning": {
+    "suppressed": 3,
+    "by_reason": [
+      {
+        "allowlist": "AL-001",
+        "reason": "Authorised Nessus / OpenVAS scanner (vuln-scanner-01). Authenticated scans run every Wednesday 02:00-04:00 UTC.",
+        "alerts": 1
+      },
+      {
+        "allowlist": "AL-003",
+        "reason": "Service accounts legitimately access Confidential file shares outside business hours for scheduled jobs.",
+        "alerts": 1
+      },
+      {
+        "allowlist": "AL-002",
+        "reason": "Nightly offsite replication of the backup catalogue (1.6-1.9 GB) to the contracted DR provider 192.0.2.150.",
+        "alerts": 1
+      }
+    ],
+    "anomaly_models": {
+      "outbound_bytes_per_host_hour": {
+        "feature": "outbound_bytes_per_host_hour",
+        "groups": {
+          "backup-01.corp.local": {
+            "buckets": 7,
+            "median_bytes": 1820327936.0,
+            "sigma_bytes": 144579546.32,
+            "basis": "host"
+          },
+          "ws-eng-21.corp.local": {
+            "buckets": 18,
+            "median_bytes": 333727.0,
+            "sigma_bytes": 93433.45,
+            "basis": "host"
+          },
+          "ws-fin-14.corp.local": {
+            "buckets": 14,
+            "median_bytes": 251783.0,
+            "sigma_bytes": 168807.35,
+            "basis": "host"
+          },
+          "ws-hr-07.corp.local": {
+            "buckets": 19,
+            "median_bytes": 318792.0,
+            "sigma_bytes": 168455.98,
+            "basis": "host"
+          }
+        },
+        "global_median_bytes": 334359.0,
+        "global_sigma_bytes": 204666.26,
+        "buckets_evaluated": 58
+      },
+      "auth_failures_per_source_ip_hour": {
+        "feature": "auth_failures_per_source_ip_hour",
+        "groups": {
+          "10.10.0.50": {
+            "buckets": 11,
+            "median_failures": 1.0,
+            "sigma": 1.0,
+            "basis": "source"
+          },
+          "198.51.100.23": {
+            "buckets": 1,
+            "median_failures": 1.0,
+            "sigma": 1.0,
+            "basis": "environment"
+          },
+          "203.0.113.44": {
+            "buckets": 2,
+            "median_failures": 1.0,
+            "sigma": 1.0,
+            "basis": "environment"
+          }
+        },
+        "global_median_failures": 1.0,
+        "global_sigma": 1.0,
+        "buckets_evaluated": 14
+      },
+      "first_seen_process": {
+        "feature": "first_seen_process",
+        "hosts_observed": 4,
+        "baseline_size": 56,
+        "novel_processes": {
+          "ws-fin-14.corp.local": [
+            "invoice_2026.exe"
+          ],
+          "fs01.corp.local": [
+            "svc.exe"
+          ]
+        }
+      }
+    },
+    "noise_reduction_pct": 8.1
+  }
+}

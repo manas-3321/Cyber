@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" width="640" height="260" role="img" aria-label="Event volume per day (all sources)">
+<rect width="640" height="260" fill="#ffffff" rx="8"/>
+<text x="16" y="26" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#111827">Event volume per day (all sources)</text>
+<line x1="56" y1="216.0" x2="616" y2="216.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="48" y="220.0" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">0</text>
+<line x1="56" y1="173.0" x2="616" y2="173.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="48" y="177.0" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">133</text>
+<line x1="56" y1="130.0" x2="616" y2="130.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="48" y="134.0" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">266</text>
+<line x1="56" y1="87.0" x2="616" y2="87.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="48" y="91.0" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">399</text>
+<line x1="56" y1="44.0" x2="616" y2="44.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="48" y="48.0" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">532</text>
+<text x="16" y="32" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">events</text>
+<circle cx="56.0" cy="195.3" r="3.5" fill="#4d8dff"/>
+<text x="54.0" y="240" text-anchor="start" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-19</text>
+<circle cx="149.3" cy="66.4" r="3.5" fill="#4d8dff"/>
+<text x="149.3" y="240" text-anchor="middle" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-20</text>
+<circle cx="242.7" cy="171.1" r="3.5" fill="#4d8dff"/>
+<text x="242.7" y="240" text-anchor="middle" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-21</text>
+<circle cx="336.0" cy="175.6" r="3.5" fill="#4d8dff"/>
+<text x="336.0" y="240" text-anchor="middle" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-22</text>
+<circle cx="429.3" cy="171.1" r="3.5" fill="#4d8dff"/>
+<text x="429.3" y="240" text-anchor="middle" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-23</text>
+<circle cx="522.7" cy="172.7" r="3.5" fill="#4d8dff"/>
+<text x="522.7" y="240" text-anchor="middle" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-24</text>
+<circle cx="616.0" cy="207.0" r="3.5" fill="#4d8dff"/>
+<text x="618.0" y="240" text-anchor="end" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="10" fill="#6b7280">10-25</text>
+<polygon points="56,216 56.0,195.3 149.3,66.4 242.7,171.1 336.0,175.6 429.3,171.1 522.7,172.7 616.0,207.0 616.0,216" fill="#4d8dff" opacity="0.12"/>
+<polyline points="56.0,195.3 149.3,66.4 242.7,171.1 336.0,175.6 429.3,171.1 522.7,172.7 616.0,207.0" fill="none" stroke="#4d8dff" stroke-width="2.5"/>
+</svg>

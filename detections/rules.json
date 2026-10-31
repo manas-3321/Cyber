@@ -1,0 +1,905 @@
+{
+  "version": 3,
+  "description": "Correlation rule pack for the Security Incident Detection and Analysis lab. Rules are portable JSON so they can be reviewed in Git, unit tested, and translated to Splunk/Elastic/Sigma equivalents.",
+  "rules": [
+    {
+      "id": "DET-001",
+      "name": "SSH brute force against Linux host",
+      "description": "Eight or more failed SSH authentications from one source IP against one host inside fifteen minutes indicates password guessing or spraying.",
+      "type": "threshold",
+      "severity": "High",
+      "confidence": 0.85,
+      "incident_type": "Brute Force",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1110.001",
+          "tactic": "Credential Access",
+          "technique": "Brute Force: Password Guessing"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "ssh_login_failed"
+        ]
+      },
+      "group_by": [
+        "source.ip",
+        "host.name"
+      ],
+      "count": 8,
+      "window_seconds": 900,
+      "false_positive_notes": "Administrator typos and misconfigured automation normally stay below the threshold; authorised scanners are allowlisted.",
+      "references": [
+        "https://attack.mitre.org/techniques/T1110/001/"
+      ]
+    },
+    {
+      "id": "DET-002",
+      "name": "Successful SSH login following brute force",
+      "description": "A successful SSH session is established from an IP that produced at least five failures in the previous 30 minutes. Indicates probable account compromise.",
+      "type": "sequence",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Brute Force",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1110.001",
+          "tactic": "Credential Access",
+          "technique": "Brute Force: Password Guessing"
+        },
+        {
+          "id": "T1078.003",
+          "tactic": "Defense Evasion",
+          "technique": "Valid Accounts: Local Accounts"
+        }
+      ],
+      "group_by": [
+        "source.ip"
+      ],
+      "window_seconds": 1800,
+      "steps": [
+        {
+          "match": {
+            "event.action": [
+              "ssh_login_failed"
+            ]
+          },
+          "count": 5,
+          "label": "Repeated SSH authentication failures"
+        },
+        {
+          "match": {
+            "event.action": [
+              "ssh_login_success"
+            ]
+          },
+          "count": 1,
+          "label": "Successful SSH authentication"
+        }
+      ],
+      "false_positive_notes": "Users who fat-finger a password five or more times then succeed will match; correlate with source IP reputation and geo-velocity."
+    },
+    {
+      "id": "DET-003",
+      "name": "Windows logon failure burst",
+      "description": "Ten or more Windows logon failures (4625) from one source IP against one host within ten minutes.",
+      "type": "threshold",
+      "severity": "High",
+      "confidence": 0.8,
+      "incident_type": "Brute Force",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1110.003",
+          "tactic": "Credential Access",
+          "technique": "Brute Force: Password Spraying"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "windows_logon_failed"
+        ]
+      },
+      "group_by": [
+        "source.ip",
+        "host.name"
+      ],
+      "count": 10,
+      "window_seconds": 600
+    },
+    {
+      "id": "DET-010",
+      "name": "Network port scan",
+      "description": "Twenty or more firewall denials from a single source across at least ten distinct destination ports within five minutes indicates service discovery, whether the source is external or an unauthorised internal host.",
+      "type": "threshold",
+      "severity": "Medium",
+      "confidence": 0.8,
+      "incident_type": "Reconnaissance",
+      "playbook": "PB-RECON",
+      "mitre": [
+        {
+          "id": "T1046",
+          "tactic": "Discovery",
+          "technique": "Network Service Discovery"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "firewall_deny"
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "count": 20,
+      "window_seconds": 300,
+      "distinct": {
+        "field": "destination.port",
+        "min": 10
+      },
+      "false_positive_notes": "Authorised vulnerability scanners are suppressed through detections/allowlists.json."
+    },
+    {
+      "id": "DET-011",
+      "name": "Web exploitation attempt",
+      "description": "Request path or query string contains signatures for path traversal, SQL injection, command injection or known vulnerable application probes.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.75,
+      "incident_type": "Web Attack",
+      "playbook": "PB-WEB-ATTACK",
+      "mitre": [
+        {
+          "id": "T1190",
+          "tactic": "Initial Access",
+          "technique": "Exploit Public-Facing Application"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "http_request"
+        ]
+      },
+      "match_regex": {
+        "url.full": "(?i)(\\.\\./|\\.\\.%2f|%2e%2e|union(\\s|%20)+select|'\\s*or\\s*'1'='1|<script|/wp-admin|/cgi-bin/|/etc/passwd|/actuator/env|\\$\\{jndi:)"
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "window_seconds": 600,
+      "false_positive_notes": "Web application firewalls and QA penetration tests generate identical signatures; allowlist the testing window."
+    },
+    {
+      "id": "DET-012",
+      "name": "HTTP flood / denial of service",
+      "description": "Three hundred or more HTTP requests from one external source inside five minutes against the public web tier.",
+      "type": "threshold",
+      "severity": "High",
+      "confidence": 0.8,
+      "incident_type": "DDoS",
+      "playbook": "PB-DDOS",
+      "mitre": [
+        {
+          "id": "T1498.001",
+          "tactic": "Impact",
+          "technique": "Network Denial of Service: Direct Network Flood"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "http_request"
+        ],
+        "source.internal": [
+          false
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "count": 300,
+      "window_seconds": 300
+    },
+    {
+      "id": "DET-013",
+      "name": "Web credential stuffing",
+      "description": "Forty or more failed authentication responses (401/403) from one IP against the login endpoint within ten minutes.",
+      "type": "threshold",
+      "severity": "Medium",
+      "confidence": 0.75,
+      "incident_type": "Brute Force",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1110.004",
+          "tactic": "Credential Access",
+          "technique": "Brute Force: Credential Stuffing"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "http_request"
+        ],
+        "http.status": [
+          401,
+          403
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "count": 40,
+      "window_seconds": 600
+    },
+    {
+      "id": "DET-020",
+      "name": "Phishing email from known malicious domain",
+      "description": "Inbound email originating from an IOC-listed domain or carrying an IOC-listed attachment hash.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.9,
+      "incident_type": "Phishing",
+      "playbook": "PB-PHISHING",
+      "mitre": [
+        {
+          "id": "T1566.001",
+          "tactic": "Initial Access",
+          "technique": "Phishing: Spearphishing Attachment"
+        }
+      ],
+      "match": {
+        "event.category": [
+          "email"
+        ],
+        "intel.hit": [
+          true
+        ]
+      },
+      "intel_threat_types": [
+        "Phishing",
+        "Malware"
+      ],
+      "group_by": [
+        "email.recipient"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-021",
+      "name": "Office application spawns PowerShell",
+      "description": "A Microsoft Office process creates a PowerShell child process, the classic macro-based execution chain.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1204.002",
+          "tactic": "Execution",
+          "technique": "User Execution: Malicious File"
+        },
+        {
+          "id": "T1059.001",
+          "tactic": "Execution",
+          "technique": "Command and Scripting Interpreter: PowerShell"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "process_created"
+        ],
+        "process.name": [
+          "powershell.exe",
+          "pwsh.exe",
+          "cmd.exe",
+          "wscript.exe",
+          "mshta.exe"
+        ],
+        "process.parent_name": [
+          "WINWORD.EXE",
+          "EXCEL.EXE",
+          "OUTLOOK.EXE",
+          "POWERPNT.EXE"
+        ]
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 600
+    },
+    {
+      "id": "DET-022",
+      "name": "Encoded PowerShell command",
+      "description": "PowerShell executed with an encoded, hidden or download cradle argument set.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.85,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1059.001",
+          "tactic": "Execution",
+          "technique": "Command and Scripting Interpreter: PowerShell"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "process_created"
+        ],
+        "process.name": [
+          "powershell.exe",
+          "pwsh.exe"
+        ]
+      },
+      "match_regex": {
+        "process.command_line": "(?i)(-enc(odedcommand)?\\s|FromBase64String|DownloadString|IEX\\s*\\(|Invoke-Expression|hidden\\s+-nop|-nop\\b)"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-023",
+      "name": "LSASS credential access",
+      "description": "A process requests access to the LSASS process memory, consistent with credential dumping tooling such as Mimikatz.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1003.001",
+          "tactic": "Credential Access",
+          "technique": "OS Credential Dumping: LSASS Memory"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "process_access"
+        ],
+        "process.target_name": [
+          "lsass.exe"
+        ]
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 600
+    },
+    {
+      "id": "DET-024",
+      "name": "Scheduled task persistence",
+      "description": "Creation of a scheduled task through schtasks.exe or the Task Scheduler service.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.8,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1053.005",
+          "tactic": "Persistence",
+          "technique": "Scheduled Task/Job: Scheduled Task"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "process_created"
+        ],
+        "process.name": [
+          "schtasks.exe",
+          "taskschd.msc"
+        ]
+      },
+      "match_regex": {
+        "process.command_line": "(?i)(/create|/ru\\s+system|/sc\\s+onlogon|/sc\\s+minute)"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-025",
+      "name": "Registry run key autorun",
+      "description": "Persistence written to a Run or RunOnce registry key.",
+      "type": "match",
+      "severity": "Medium",
+      "confidence": 0.75,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1547.001",
+          "tactic": "Persistence",
+          "technique": "Boot or Logon Autostart Execution: Registry Run Keys"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "registry_value_set"
+        ]
+      },
+      "match_regex": {
+        "registry.key": "(?i)currentversion\\\\run"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-026",
+      "name": "Communication with known malicious infrastructure",
+      "description": "Network or DNS telemetry contacts an IP or domain listed in the threat-intelligence feed as command and control or malware distribution.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Malware",
+      "playbook": "PB-C2",
+      "mitre": [
+        {
+          "id": "T1071.001",
+          "tactic": "Command and Control",
+          "technique": "Application Layer Protocol: Web Protocols"
+        }
+      ],
+      "match": {
+        "event.category": [
+          "network",
+          "web"
+        ],
+        "intel.hit": [
+          true
+        ]
+      },
+      "intel_threat_types": [
+        "Command and Control",
+        "Malware"
+      ],
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-027",
+      "name": "Known malware hash on endpoint",
+      "description": "A file matching a threat-intelligence hash for malware or ransomware was created or executed on an endpoint.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.95,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1204.002",
+          "tactic": "Execution",
+          "technique": "User Execution: Malicious File"
+        }
+      ],
+      "match": {
+        "intel.hit": [
+          true
+        ],
+        "source": [
+          "edr",
+          "windows"
+        ]
+      },
+      "intel_threat_types": [
+        "Malware",
+        "Ransomware"
+      ],
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-030",
+      "name": "Shadow copy deletion",
+      "description": "vssadmin, wmic or PowerShell used to delete volume shadow copies, a hallmark of ransomware preparation.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Ransomware",
+      "playbook": "PB-RANSOMWARE",
+      "mitre": [
+        {
+          "id": "T1490",
+          "tactic": "Impact",
+          "technique": "Inhibit System Recovery"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "process_created"
+        ]
+      },
+      "match_regex": {
+        "process.command_line": "(?i)(vssadmin(\\.exe)?\\s+delete\\s+shadows|wmic\\s+shadowcopy\\s+delete|Get-WmiObject.*Win32_ShadowCopy.*Delete)"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-031",
+      "name": "Mass file encryption",
+      "description": "One hundred or more file write events on a server within ten minutes, consistent with bulk encryption.",
+      "type": "threshold",
+      "severity": "Critical",
+      "confidence": 0.85,
+      "incident_type": "Ransomware",
+      "playbook": "PB-RANSOMWARE",
+      "mitre": [
+        {
+          "id": "T1486",
+          "tactic": "Impact",
+          "technique": "Data Encrypted for Impact"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "file_created"
+        ]
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "count": 100,
+      "window_seconds": 600
+    },
+    {
+      "id": "DET-032",
+      "name": "Suspicious service installation",
+      "description": "A new Windows service was installed with an executable in a staging or temp path.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.8,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1543.003",
+          "tactic": "Persistence",
+          "technique": "Create or Modify System Process: Windows Service"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "service_installed"
+        ]
+      },
+      "match_regex": {
+        "process.command_line": "(?i)(temp|appdata|programdata|users\\\\public|perflogs)"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-033",
+      "name": "SMB lateral movement",
+      "description": "One internal host authenticates with network logons to three or more distinct hosts within ten minutes.",
+      "type": "threshold",
+      "severity": "High",
+      "confidence": 0.75,
+      "incident_type": "Lateral Movement",
+      "playbook": "PB-LATERAL-MOVEMENT",
+      "mitre": [
+        {
+          "id": "T1021.002",
+          "tactic": "Lateral Movement",
+          "technique": "Remote Services: SMB/Windows Admin Shares"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "windows_logon_success"
+        ],
+        "logon.type": [
+          "3",
+          "8"
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "count": 3,
+      "window_seconds": 600,
+      "distinct": {
+        "field": "host.name",
+        "min": 3
+      }
+    },
+    {
+      "id": "DET-034",
+      "name": "Off-hours access to sensitive file share",
+      "description": "Interactive or network logon to a Confidential/Restricted file server outside business hours.",
+      "type": "match",
+      "severity": "Medium",
+      "confidence": 0.7,
+      "incident_type": "Insider Threat",
+      "playbook": "PB-INSIDER",
+      "mitre": [
+        {
+          "id": "T1039",
+          "tactic": "Collection",
+          "technique": "Data from Network Shared Drive"
+        },
+        {
+          "id": "T1078",
+          "tactic": "Defense Evasion",
+          "technique": "Valid Accounts"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "windows_logon_success"
+        ],
+        "event.off_hours": [
+          true
+        ],
+        "logon.type": [
+          "3"
+        ],
+        "host.data_classification": [
+          "Confidential",
+          "Restricted"
+        ]
+      },
+      "group_by": [
+        "user.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-035",
+      "name": "New local account created on server",
+      "description": "A local user account was created on a Linux server, a common persistence technique after compromise.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.85,
+      "incident_type": "Persistence",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1136.001",
+          "tactic": "Persistence",
+          "technique": "Create Account: Local Account"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "account_created"
+        ],
+        "source": [
+          "auth"
+        ]
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-036",
+      "name": "Suspicious download or execution via sudo",
+      "description": "A privileged command downloads remote content, pipes it to a shell, or writes a cron job referencing external infrastructure.",
+      "type": "match",
+      "severity": "High",
+      "confidence": 0.8,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1105",
+          "tactic": "Command and Control",
+          "technique": "Ingress Tool Transfer"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "sudo_command"
+        ]
+      },
+      "match_regex": {
+        "process.command_line": "(?i)(wget|curl).*(http|ftp)|bash\\s+-c\\s+['\\\"]?\\$?\\(|echo.*(/etc/cron|crontab)"
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 900
+    },
+    {
+      "id": "DET-037",
+      "name": "Bulk data upload to external destination",
+      "description": "A single outbound HTTP session transfers more than 500 MB to an external host.",
+      "type": "threshold",
+      "severity": "High",
+      "confidence": 0.75,
+      "incident_type": "Data Breach",
+      "playbook": "PB-DATA-BREACH",
+      "mitre": [
+        {
+          "id": "T1041",
+          "tactic": "Exfiltration",
+          "technique": "Exfiltration Over C2 Channel"
+        }
+      ],
+      "match": {
+        "source": [
+          "proxy"
+        ],
+        "http.method": [
+          "POST",
+          "PUT"
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "threshold_field": "network.bytes",
+      "threshold_operator": ">=",
+      "threshold_value": 500000000
+    },
+    {
+      "id": "DET-038",
+      "name": "Upload to known exfiltration destination",
+      "description": "Outbound transfer to an IP or domain listed in threat intelligence as a data exfiltration destination.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Data Breach",
+      "playbook": "PB-DATA-BREACH",
+      "mitre": [
+        {
+          "id": "T1567",
+          "tactic": "Exfiltration",
+          "technique": "Exfiltration Over Web Service"
+        }
+      ],
+      "match": {
+        "event.category": [
+          "web"
+        ],
+        "intel.hit": [
+          true
+        ]
+      },
+      "intel_threat_types": [
+        "Data Exfiltration"
+      ],
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-039",
+      "name": "Audit log cleared",
+      "description": "The Windows security audit log was cleared, an anti-forensic action that frequently follows privilege escalation.",
+      "type": "match",
+      "severity": "Critical",
+      "confidence": 0.9,
+      "incident_type": "Defense Evasion",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1070.001",
+          "tactic": "Defense Evasion",
+          "technique": "Indicator Removal: Clear Windows Event Logs"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "audit_log_cleared"
+        ]
+      },
+      "group_by": [
+        "host.name"
+      ],
+      "window_seconds": 3600
+    },
+    {
+      "id": "DET-040",
+      "name": "Proxy denial burst",
+      "description": "Fifty or more denied web requests from one internal client within ten minutes, indicating beaconing or DNS tunnelling attempts.",
+      "type": "threshold",
+      "severity": "Medium",
+      "confidence": 0.7,
+      "incident_type": "Malware",
+      "playbook": "PB-C2",
+      "mitre": [
+        {
+          "id": "T1071.001",
+          "tactic": "Command and Control",
+          "technique": "Application Layer Protocol: Web Protocols"
+        }
+      ],
+      "match": {
+        "event.action": [
+          "proxy_denied"
+        ]
+      },
+      "group_by": [
+        "source.ip"
+      ],
+      "count": 50,
+      "window_seconds": 600
+    }
+  ],
+  "anomaly_rules": [
+    {
+      "id": "ANO-001",
+      "name": "Outbound data volume anomaly",
+      "description": "Hourly outbound bytes for a host deviate more than five robust standard deviations from that host's seven day baseline.",
+      "type": "anomaly",
+      "feature": "outbound_bytes_per_host_hour",
+      "method": "robust_zscore",
+      "threshold": 5.0,
+      "min_value": 200000000,
+      "severity": "High",
+      "confidence": 0.6,
+      "incident_type": "Data Breach",
+      "playbook": "PB-DATA-BREACH",
+      "mitre": [
+        {
+          "id": "T1041",
+          "tactic": "Exfiltration",
+          "technique": "Exfiltration Over C2 Channel"
+        }
+      ],
+      "full_sample": false
+    },
+    {
+      "id": "ANO-002",
+      "name": "Authentication failure spike",
+      "description": "Hourly failed authentications from a source IP exceed the ten week baseline by more than four robust standard deviations.",
+      "type": "anomaly",
+      "feature": "auth_failures_per_source_ip_hour",
+      "method": "robust_zscore",
+      "threshold": 4.0,
+      "min_value": 8,
+      "severity": "High",
+      "confidence": 0.6,
+      "incident_type": "Brute Force",
+      "playbook": "PB-BRUTE-FORCE",
+      "mitre": [
+        {
+          "id": "T1110",
+          "tactic": "Credential Access",
+          "technique": "Brute Force"
+        }
+      ]
+    },
+    {
+      "id": "ANO-003",
+      "name": "First-seen process on endpoint",
+      "description": "A process executes on an endpoint that has never been observed on that host and is absent from the approved software baseline.",
+      "type": "anomaly",
+      "feature": "first_seen_process",
+      "method": "novelty",
+      "severity": "Medium",
+      "confidence": 0.55,
+      "incident_type": "Malware",
+      "playbook": "PB-MALWARE",
+      "mitre": [
+        {
+          "id": "T1204",
+          "tactic": "Execution",
+          "technique": "User Execution"
+        }
+      ]
+    }
+  ]
+}

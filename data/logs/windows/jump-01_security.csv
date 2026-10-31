@@ -1,0 +1,13 @@
+TimeCreated,Computer,EventID,SubjectUserName,TargetUserName,IpAddress,LogonType,ProcessName,CommandLine,Status,Message
+2026-10-25T04:00:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:01:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:02:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:03:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:04:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:05:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:06:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:07:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:08:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:09:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:10:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)
+2026-10-25T04:11:00Z,jump-01.corp.local,4625,,administrator,203.0.113.44,3,,,0x0,An account failed to log on (RDP password spray)

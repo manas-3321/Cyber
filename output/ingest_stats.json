@@ -1,0 +1,109 @@
+{
+  "files": [
+    {
+      "file": "data/logs/auth/auth.log",
+      "parser": "auth",
+      "raw_lines": 71,
+      "events": 71,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/edr/sysmon.jsonl",
+      "parser": "edr",
+      "raw_lines": 203,
+      "events": 203,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/firewall/fw-core-01.csv",
+      "parser": "firewall",
+      "raw_lines": 191,
+      "events": 191,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/mail/mail_gateway.jsonl",
+      "parser": "mail",
+      "raw_lines": 1,
+      "events": 1,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/proxy/squid_access.log",
+      "parser": "proxy",
+      "raw_lines": 118,
+      "events": 118,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/web/web-srv-02_access.log",
+      "parser": "web",
+      "raw_lines": 456,
+      "events": 456,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/db01_security.csv",
+      "parser": "windows",
+      "raw_lines": 1,
+      "events": 1,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/dc01_security.csv",
+      "parser": "windows",
+      "raw_lines": 1,
+      "events": 1,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/fs01_security.csv",
+      "parser": "windows",
+      "raw_lines": 6,
+      "events": 6,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/jump-01_security.csv",
+      "parser": "windows",
+      "raw_lines": 12,
+      "events": 12,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/ws-eng-21_security.csv",
+      "parser": "windows",
+      "raw_lines": 10,
+      "events": 10,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/ws-fin-14_security.csv",
+      "parser": "windows",
+      "raw_lines": 10,
+      "events": 10,
+      "parse_rate": 100.0
+    },
+    {
+      "file": "data/logs/windows/ws-hr-07_security.csv",
+      "parser": "windows",
+      "raw_lines": 12,
+      "events": 12,
+      "parse_rate": 100.0
+    }
+  ],
+  "errors": [],
+  "totals": {
+    "raw_lines": 1092,
+    "events": 1092,
+    "by_source": {
+      "firewall": 191,
+      "web": 456,
+      "windows": 52,
+      "edr": 203,
+      "auth": 71,
+      "proxy": 118,
+      "mail": 1
+    }
+  }
+}

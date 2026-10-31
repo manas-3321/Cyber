@@ -1,0 +1,155 @@
+``` 
+=====================================================================
+ Splunk correlation searches — Security Incident Detection and Analysis
+ Indexes assumed: linux, winsec, firewall, proxy, web, edr, mailgw
+ Each search corresponds to a rule in detections/rules.json
+=====================================================================
+
+---------------------------------------------------------------------
+ DET-001 · SSH brute force (threshold 8 failures / 15 min / src+host)
+---------------------------------------------------------------------
+index=linux sourcetype=linux_secure "Failed password"
+| rex field=_raw "for (invalid user )?(?<user>\S+) from (?<src_ip>\d+\.\d+\.\d+\.\d+)"
+| bin _time span=15m
+| stats count AS failures dc(user) AS accounts values(user) AS targeted by src_ip, host
+| where failures >= 8
+| eval severity=if(failures>=20,"Critical","High"), rule_id="DET-001"
+
+---------------------------------------------------------------------
+ DET-002 · Successful login after brute force (sequence, 30 min)
+---------------------------------------------------------------------
+index=linux sourcetype=linux_secure ("Failed password" OR "Accepted password")
+| rex field=_raw "(?<outcome>Failed password|Accepted password) for (?:invalid user )?(?<user>\S+) from (?<src_ip>\d+\.\d+\.\d+\.\d+)"
+| bin _time span=30m
+| stats count(eval(outcome="Failed password")) AS failures
+        count(eval(outcome="Accepted password")) AS successes
+        values(user) AS users BY src_ip, host
+| where failures >= 5 AND successes >= 1
+| eval severity="Critical", rule_id="DET-002"
+
+---------------------------------------------------------------------
+ DET-003 · Windows logon failure burst (4625, 10 per 10 min)
+---------------------------------------------------------------------
+index=winsec EventCode=4625
+| bin _time span=10m
+| stats count AS failures values(TargetUserName) AS targeted by IpAddress, Computer
+| where failures >= 10
+| eval severity="High", rule_id="DET-003"
+
+---------------------------------------------------------------------
+ DET-010 · Port scan (20 denies, >= 10 distinct ports, 5 min)
+---------------------------------------------------------------------
+index=firewall action=deny
+| bin _time span=5m
+| stats count AS hits dc(dst_port) AS ports values(dst_port) AS port_list by src_ip
+| where hits >= 20 AND ports >= 10
+| eval severity="Medium", rule_id="DET-010"
+| lookup authorised_scanners.csv src_ip OUTPUT authorised
+| where isnull(authorised)
+
+---------------------------------------------------------------------
+ DET-011 · Web exploitation signatures
+---------------------------------------------------------------------
+index=web sourcetype=nginx
+| regex request_path="(?i)(\.\./|%2e%2e|union(\s|%20)+select|'\s*or\s*'1'='1|<script|/wp-admin|/cgi-bin/|/etc/passwd|\$\{jndi:)"
+| stats count AS attempts values(request_path) AS payloads by src_ip
+| where attempts >= 1
+| eval severity="High", rule_id="DET-011"
+
+---------------------------------------------------------------------
+ DET-012 · HTTP flood (300 requests / 5 min / single source)
+---------------------------------------------------------------------
+index=web sourcetype=nginx
+| bin _time span=5m
+| stats count AS requests avg(bytes) AS avg_bytes by src_ip
+| where requests >= 300
+| eval severity="High", rule_id="DET-012"
+
+---------------------------------------------------------------------
+ DET-013 · Credential stuffing on /login
+---------------------------------------------------------------------
+index=web sourcetype=nginx method=POST uri_path="/login*" status IN (401,403)
+| bin _time span=10m
+| stats count AS failures dc(uri_query) AS usernames by src_ip
+| where failures >= 40
+| eval severity="Medium", rule_id="DET-013"
+
+---------------------------------------------------------------------
+ DET-020 · Phishing email from IOC domain
+---------------------------------------------------------------------
+| inputlookup threat_intel_indicators.csv
+| search type=domain threat_type IN ("Phishing","Malware")
+| rename value AS sender_domain
+| join sender_domain
+    [ search index=mailgw | eval sender_domain=lower(mvindex(split(sender,"@"),1)) ]
+| table _time sender recipient subject sender_domain threat_type
+| eval severity="High", rule_id="DET-020"
+
+---------------------------------------------------------------------
+ DET-021 / DET-022 · Office child process and encoded PowerShell
+---------------------------------------------------------------------
+index=edr EventID=1
+| eval parent=lower(replace(ParentImage,".*\\\\","")), child=lower(replace(Image,".*\\\\",""))
+| where (parent IN ("winword.exe","excel.exe","outlook.exe"))
+        OR (child IN ("powershell.exe","pwsh.exe")
+            AND match(CommandLine,"(?i)(-enc(odedcommand)?\s|FromBase64String|DownloadString|IEX)"))
+| table _time Computer User parent child CommandLine
+| eval rule_id=if(parent="winword.exe","DET-021","DET-022"), severity="Critical"
+
+---------------------------------------------------------------------
+ DET-026 · Communication with known C2 infrastructure
+---------------------------------------------------------------------
+| inputlookup threat_intel_indicators.csv
+| search type=ip threat_type IN ("Command and Control","Malware")
+| rename value AS dest_ip
+| join dest_ip
+    [ search index=edr EventID=3
+      | stats count AS connections earliest(_time) AS first_seen latest(_time) AS last_seen values(DestinationPort) AS ports by dest_ip=DestinationIp, Computer ]
+| eval severity="Critical", rule_id="DET-026"
+
+---------------------------------------------------------------------
+ DET-030 / DET-031 · Ransomware precursors
+---------------------------------------------------------------------
+index=edr EventID=1 (CommandLine="*vssadmin*delete*shadows*" OR CommandLine="*shadowcopy*delete*")
+| table _time Computer User Image CommandLine
+| eval rule_id="DET-030", severity="Critical"
+
+index=edr EventID=11 TargetFilename="*.locked"
+| bin _time span=10m
+| stats count AS files dc(TargetFilename) AS distinct_files by Computer
+| where files >= 100
+| eval rule_id="DET-031", severity="Critical"
+
+---------------------------------------------------------------------
+ DET-033 · SMB lateral movement (3+ hosts / 10 min from one source)
+---------------------------------------------------------------------
+index=winsec EventCode=4624 LogonType IN (3,8)
+| bin _time span=10m
+| stats dc(Computer) AS targets values(Computer) AS hosts by IpAddress
+| where targets >= 3
+| eval severity="High", rule_id="DET-033"
+
+---------------------------------------------------------------------
+ DET-038 · Upload to known exfiltration destination
+---------------------------------------------------------------------
+| inputlookup threat_intel_indicators.csv
+| search type=domain threat_type="Data Exfiltration"
+| rename value AS dest_domain
+| join dest_domain
+    [ search index=proxy method=POST
+      | eval dest_domain=lower(replace(url,"https?://([^/:]+).*","\1"))
+      | stats sum(bytes) AS uploaded_bytes count AS sessions by src_ip, dest_domain, user ]
+| eval uploaded_mb=round(uploaded_bytes/1024/1024,1)
+| eval severity="Critical", rule_id="DET-038"
+
+---------------------------------------------------------------------
+ ANO-001 · Outbound volume anomaly (hourly, per host)
+---------------------------------------------------------------------
+index=firewall OR index=proxy direction=outbound
+| bin _time span=1h
+| stats sum(bytes) AS hourly_bytes by host
+| eventstats median(hourly_bytes) AS median_bytes, stdev(hourly_bytes) AS sd BY host
+| eval z_score=(hourly_bytes-median_bytes)/sd
+| where z_score >= 5 AND hourly_bytes >= 200000000
+| eval severity="High", rule_id="ANO-001"
+```

@@ -1,0 +1,3 @@
+# No third-party dependencies: this project targets the Python 3.10+ standard library.
+# Optional development extras (none required to run or test):
+# pytest>=8.0
