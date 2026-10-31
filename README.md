@@ -18,6 +18,10 @@ python3 -m siem serve        # http://localhost:8000 — open the SOC dashboard
 python3 -m unittest discover -s tests
 ```
 
+New here? Read **[docs/00-how-to-use.md](docs/00-how-to-use.md)** — a guided tour of the
+dashboard, analyst queries, and how to add a rule, tune a false positive or deploy the
+detections to Splunk/Elastic/Suricata.
+
 ---
 
 ## Results at a glance (capture window 19–25 October 2026)
@@ -214,6 +218,7 @@ tests/               42 automated tests
 
 | Document | Contents |
 |---|---|
+| [00 How to use](docs/00-how-to-use.md) | Quickstart, dashboard tour, jq queries, adding rules, troubleshooting |
 | [01 Architecture](docs/01-architecture.md) | Components, data flow, event schema, design trade-offs |
 | [02 Lab environment](docs/02-lab-environment.md) | VirtualBox network, VMs, log forwarding, Suricata, TheHive/MISP |
 | [03 Log sources & ingestion](docs/03-log-sources-and-ingestion.md) | Source formats, parsing, field mapping, ingest evidence |
